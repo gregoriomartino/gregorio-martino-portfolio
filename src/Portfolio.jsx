@@ -43,6 +43,7 @@ const translations = {
 export default function Portfolio() {
   const [darkMode, setDarkMode] = useState(false)
   const [language, setLanguage] = useState('it')
+<<<<<<< HEAD
 
   const t = translations[language]
 
@@ -50,3 +51,7 @@ export default function Portfolio() {
     <div className={`${darkMode ? 'bg-slate-900 text-slate-100' : 'bg-slate-50 text-slate-800'} min-h-screen transition-colors flex flex-col`}>
       <header className="text-center py-10 relative">
         <motion.h1 initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-4xl font-bold
+=======
+
+  const t = translations[language]
+>>>>>>> 2aef9827d1dce63f1b75e4ee57f70b101aef0827
