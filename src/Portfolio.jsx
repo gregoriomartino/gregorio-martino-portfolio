@@ -45,7 +45,7 @@ export default function Portfolio() {
         <h2 className="text-2xl font-semibold mb-3">Profilo Professionale</h2>
         <p className="leading-relaxed">
           Sviluppatore software con oltre 5 anni di esperienza in ambienti enterprise (Agenzia delle Entrate, Autostrade per
-          l’Italia). Specializzato in Java e architetture full-stack, con competenze su Spring, JSF, React e MyBatis.
+          l’Italia). Specializzato in Java e architetture full-stack.
           Mi occupo di evoluzione, manutenzione e ottimizzazione di sistemi complessi, con attenzione alla qualità del
           codice e alla collaborazione in team.
         </p>
