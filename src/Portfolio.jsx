@@ -23,7 +23,8 @@ export default function Portfolio() {
 			<Button variant="outline">GitHub</Button>
 		  </a>
 
-          <a href="/cv_gregorio_martino.pdf" download>
+          <a href={`${import.meta.env.BASE_URL}cv_gregorio_martino.pdf`} download>
+
             <Button>Scarica CV</Button>
           </a>
         </div>
