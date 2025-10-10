@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Card, CardContent } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Sun, Moon, Mail, MapPin, Languages } from 'lucide-react'
 
@@ -43,8 +42,15 @@ const translations = {
 export default function Portfolio() {
   const [darkMode, setDarkMode] = useState(false)
   const [language, setLanguage] = useState('it')
-
   const t = translations[language]
+
+  // Determina la stagione
+  const month = new Date().getMonth() + 1
+  let mountainColor = 'bg-green-600'
+  if (month >= 9 && month <= 11) mountainColor = 'bg-orange-600' // Autunno
+  else if (month >= 12 || month <= 2) mountainColor = 'bg-white' // Inverno
+  else if (month >= 3 && month <= 5) mountainColor = 'bg-green-400' // Primavera
+  else mountainColor = 'bg-green-600' // Estate
 
   return (
     <div className={`${darkMode ? 'bg-slate-900 text-slate-100' : 'bg-slate-50 text-slate-800'} min-h-screen transition-colors flex flex-col`}>
@@ -57,15 +63,12 @@ export default function Portfolio() {
           <a href="https://www.linkedin.com/in/gregorio-martino-5a42a3171/" target="_blank" rel="noopener noreferrer">
             <Button variant="outline">{t.linkedin}</Button>
           </a>
-
           <a href="https://github.com/gregoriomartino" target="_blank" rel="noopener noreferrer">
             <Button variant="outline">{t.github}</Button>
           </a>
-
           <a href="https://gitlab.com/martinogregorio2-group" target="_blank" rel="noopener noreferrer">
             <Button variant="outline">{t.gitlab}</Button>
           </a>
-
           <a href={`${import.meta.env.BASE_URL}cv_gregorio_martino.pdf`} download>
             <Button>{t.downloadCV}</Button>
           </a>
@@ -100,18 +103,23 @@ export default function Portfolio() {
 
       <section className="max-w-4xl mx-auto p-6 flex-grow">
         <h2 className="text-2xl font-semibold mb-3">{t.profile}</h2>
-        <p className="leading-relaxed">
-          {t.profileText}
-        </p>
+        <p className="leading-relaxed">{t.profileText}</p>
 
         {/* Cycling Animation */}
         <div className="mt-12 relative h-64 overflow-hidden rounded-lg">
+          {/* Mountains */}
+          <motion.div className="absolute bottom-16 left-0 right-0 flex justify-center items-end gap-6">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className={`w-32 h-24 clip-path-triangle ${mountainColor}`}></div>
+            ))}
+          </motion.div>
+
           {/* Road */}
           <div className={`absolute bottom-0 left-0 right-0 h-20 ${darkMode ? 'bg-slate-700' : 'bg-slate-300'}`}>
             <motion.div
               className="absolute top-2 left-0 right-0 h-1 flex gap-8"
               animate={{ x: [0, -100] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
             >
               {[...Array(20)].map((_, i) => (
                 <div key={i} className={`w-16 h-1 ${darkMode ? 'bg-slate-600' : 'bg-slate-400'}`} />
@@ -119,71 +127,23 @@ export default function Portfolio() {
             </motion.div>
           </div>
 
-          {/* Background elements - Trees */}
-          <motion.div
-            className="absolute bottom-20 left-0 right-0 flex gap-32"
-            animate={{ x: [0, -200] }}
-            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-          >
-            {[...Array(10)].map((_, i) => (
-              <div key={i} className="flex-shrink-0">
-                <div className="relative">
-                  <div className={`w-2 h-16 ${darkMode ? 'bg-amber-900' : 'bg-amber-800'}`} />
-                  <div className={`absolute -top-8 -left-6 w-14 h-14 rounded-full ${darkMode ? 'bg-green-800' : 'bg-green-600'}`} />
-                </div>
-              </div>
-            ))}
-          </motion.div>
-
-          {/* Mountains - autumn style */}
-          <motion.div
-            className="absolute bottom-20 left-0 right-0 flex justify-center gap-4"
-            animate={{ x: [0, -50] }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          >
-            {[...Array(3)].map((_, i) => (
-              <div key={i} className="relative w-40 h-32">
-                <svg viewBox="0 0 100 80" className="w-full h-full">
-                  <polygon
-                    points="0,80 50,0 100,80"
-                    fill={darkMode ? "#334155" : "#a0522d"}
-                  />
-                  <polygon
-                    points="30,30 50,0 70,30"
-                    fill={darkMode ? "#64748b" : "#facc15"}
-                  />
-                </svg>
-              </div>
-            ))}
-          </motion.div>
-
           {/* Cyclist on Husqvarna HC5 */}
           <motion.div
             className="absolute bottom-20 left-1/3"
-            animate={{
-              y: [0, -10, 0, -8, 0],
-            }}
-            transition={{
-              duration: 1,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
+            animate={{ y: [0, -10, 0, -8, 0] }}
+            transition={{ duration: 1, repeat: Infinity, ease: 'easeInOut' }}
           >
-            {/* SVG del ciclista rimane invariato */}
-            {/* ... il resto del tuo SVG del ciclista ... */}
+            {/* SVG ciclista (stesso codice già presente nel tuo file) */}
+            <svg width="140" height="90" viewBox="0 0 140 90" className="relative">
+              {/* Inserisci qui tutto il tuo SVG del ciclista */}
+            </svg>
           </motion.div>
 
-          {/* Sun/Moon in sky */}
+          {/* Sun/Moon */}
           <motion.div
             className={`absolute top-8 right-12 w-12 h-12 rounded-full ${darkMode ? 'bg-slate-300' : 'bg-yellow-400'}`}
-            animate={{
-              scale: darkMode ? [1, 1.1, 1] : [1, 1.2, 1],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
+            animate={{ scale: darkMode ? [1, 1.1, 1] : [1, 1.2, 1] }}
+            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
           >
             {darkMode && (
               <>
@@ -192,18 +152,36 @@ export default function Portfolio() {
               </>
             )}
           </motion.div>
-
-          {/* Clouds */}
-          <motion.div
-            className="absolute top-12 left-0 right-0 flex gap-32"
-            animate={{ x: [0, -150] }}
-            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-          >
-            {[...Array(6)].map((_, i) => (
-              <div key={i} className="flex gap-2">
-                <div className={`w-12 h-6 rounded-full ${darkMode ? 'bg-slate-600' : 'bg-white'} opacity-70`} />
-                <div className={`w-10 h-5 rounded-full ${darkMode ? 'bg-slate-600' : 'bg-white'} opacity-70 -ml-6 mt-1`} />
-              </div>
-            ))}
-          </motion.div>
         </div>
+      </section>
+
+      <footer className={`${darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'} border-t mt-auto`}>
+        <div className="max-w-4xl mx-auto px-6 py-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="text-center md:text-left">
+              <h3 className="font-semibold text-lg mb-1">Gregorio Martino</h3>
+              <p className={`text-sm ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>{t.role}</p>
+            </div>
+
+            <div className="flex flex-col gap-2 text-sm">
+              <div className="flex items-center gap-2">
+                <Mail size={16} className={darkMode ? 'text-slate-400' : 'text-slate-600'} />
+                <a href="mailto:martinogregorio2@gmail.com" className="hover:underline">
+                  martinogregorio2@gmail.com
+                </a>
+              </div>
+              <div className="flex items-center gap-2">
+                <MapPin size={16} className={darkMode ? 'text-slate-400' : 'text-slate-600'} />
+                <span>{t.location}</span>
+              </div>
+            </div>
+          </div>
+
+          <div className={`mt-6 pt-6 border-t ${darkMode ? 'border-slate-700' : 'border-slate-200'} text-center text-sm ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
+            <p>© {new Date().getFullYear()} Gregorio Martino. {t.rights}</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  )
+}
