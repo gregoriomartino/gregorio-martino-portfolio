@@ -22,6 +22,10 @@ export default function Portfolio() {
 		  <a href="https://github.com/gregoriomartino" target="_blank" rel="noopener noreferrer">
 			<Button variant="outline">GitHub</Button>
 		  </a>
+		  
+		  <a href="https://gitlab.com/martinogregorio2-group" target="_blank" rel="noopener noreferrer">
+			<Button variant="outline">GitLab</Button>
+		  </a>
 
           <a href={`${import.meta.env.BASE_URL}cv_gregorio_martino.pdf`} download>
 
