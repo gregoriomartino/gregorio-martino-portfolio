@@ -48,6 +48,9 @@ export default function Portfolio() {
           l’Italia). Specializzato in Java e architetture full-stack.
           Mi occupo di evoluzione, manutenzione e ottimizzazione di sistemi complessi, con attenzione alla qualità del
           codice e alla collaborazione in team.
+
+
+          
         </p>
       </section>
     </div>
