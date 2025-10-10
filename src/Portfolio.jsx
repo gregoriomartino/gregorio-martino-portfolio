@@ -12,28 +12,33 @@ export default function Portfolio() {
   const [language, setLanguage] = useState('it')
 
   const t = translations[language]
-
   const season = getSeason() // funzione helper che determina la stagione
 
   return (
     <div className={`${darkMode ? 'bg-slate-900 text-slate-100' : 'bg-slate-50 text-slate-800'} min-h-screen transition-colors flex flex-col`}>
+      {/* Header */}
       <Header darkMode={darkMode} setDarkMode={setDarkMode} language={language} setLanguage={setLanguage} t={t} />
 
-      <section className="max-w-4xl mx-auto p-6 flex-grow">
-        <Profile t={t} />
+      {/* Sezione centrale */}
+      <main className="max-w-4xl mx-auto p-6 flex-grow">
+        {/* Profilo */}
+        <Profile t={t} darkMode={darkMode} />
+
+        {/* Animazioni extra opzionali (se vuoi tenerle fuori da Profile) */}
         <div className="mt-12 relative h-64 overflow-hidden rounded-lg">
           <Road darkMode={darkMode} />
           <Mountains darkMode={darkMode} season={season} />
           <CyclistAnimation darkMode={darkMode} />
         </div>
-      </section>
+      </main>
 
+      {/* Footer */}
       <Footer t={t} darkMode={darkMode} />
     </div>
   )
 }
 
-// Helper
+// Helper per la stagione
 function getSeason() {
   const month = new Date().getMonth() + 1
   if (month >= 3 && month <= 5) return 'spring'
