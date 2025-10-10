@@ -1,4 +1,3 @@
-// src/translation.js
 const translations = {
   it: {
     role: 'Software Developer',
@@ -33,6 +32,6 @@ const translations = {
     location: 'San Giovanni Rotondo, Italia',
     rights: 'Todos los derechos reservados.'
   }
-};
+}
 
 export default translations;

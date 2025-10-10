@@ -5,7 +5,7 @@ import Profile from './components/Profile'
 import CyclistAnimation from './components/CyclistAnimation'
 import Mountains from './components/Mountains'
 import Road from './components/Road'
-import translations from './translations'
+import translation from './translation'
 
 export default function Portfolio() {
   const [darkMode, setDarkMode] = useState(false)
