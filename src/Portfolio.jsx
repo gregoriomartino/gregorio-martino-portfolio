@@ -50,7 +50,7 @@ export default function Portfolio() {
           codice e alla collaborazione in team.
 
 
-          
+
         </p>
       </section>
     </div>
