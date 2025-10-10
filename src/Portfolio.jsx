@@ -6,7 +6,7 @@ import { Sun, Moon, Mail, MapPin, Languages } from 'lucide-react'
 
 const translations = {
   it: {
-    role: 'Full-Stack Java Developer',
+    role: 'Software Developer',
     linkedin: 'LinkedIn',
     github: 'GitHub',
     gitlab: 'GitLab',
@@ -17,7 +17,7 @@ const translations = {
     rights: 'Tutti i diritti riservati.'
   },
   en: {
-    role: 'Full-Stack Java Developer',
+    role: 'Software Developer',
     linkedin: 'LinkedIn',
     github: 'GitHub',
     gitlab: 'GitLab',
@@ -28,7 +28,7 @@ const translations = {
     rights: 'All rights reserved.'
   },
   es: {
-    role: 'Desarrollador Full-Stack Java',
+    role: 'Software Developer',
     linkedin: 'LinkedIn',
     github: 'GitHub',
     gitlab: 'GitLab',
