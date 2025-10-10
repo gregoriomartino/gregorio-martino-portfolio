@@ -4,14 +4,19 @@ import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
-  base: '/gregorio-martino-portfolio/', // nome del repo GitHub
+  base: '/', // obbligatorio per Vercel
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'src'),
+      '@': path.resolve(__dirname, 'src'), // '@' punta a 'src'
     },
   },
   build: {
-    sourcemap: false,     // disabilita sourcemap → CSP ok
-    minify: 'esbuild',    // minimizza senza eval
+    sourcemap: false, // evita problemi con CSP
+    minify: 'esbuild', // minimizza il JS in produzione
+    target: 'esnext', // compatibile con modern browser
+  },
+  server: {
+    port: 5173,
+    open: true,
   },
 });
