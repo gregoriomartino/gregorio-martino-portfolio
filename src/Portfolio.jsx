@@ -24,7 +24,7 @@ export default function Portfolio() {
 		  </a>
 		  
 		  <a href="https://gitlab.com/martinogregorio2-group" target="_blank" rel="noopener noreferrer">
-			<Button variant="outline">GitLabss</Button>
+			<Button variant="outline">GitLab</Button>
 		  </a>
 
 
