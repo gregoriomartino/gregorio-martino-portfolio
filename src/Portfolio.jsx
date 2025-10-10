@@ -344,7 +344,7 @@ export default function Portfolio() {
               <div className="flex items-center gap-2">
                 <Mail size={16} className={darkMode ? 'text-slate-400' : 'text-slate-600'} />
                 <a href="mailto:martinogregorio2@gmail.com" className="hover:underline">
-                  gregorio@example.com
+                  martinogregorio2@gmail.com
                 </a>
               </div>
               <div className="flex items-center gap-2">
