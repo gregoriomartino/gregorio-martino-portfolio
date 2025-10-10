@@ -4,16 +4,17 @@ import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
-  base: '/', // obbligatorio per Vercel
+  // Usa '/' per Vercel, '/gregorio-martino-portfolio/' per GitHub Pages
+  base: process.env.VERCEL ? '/' : '/gregorio-martino-portfolio/',
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'src'), // '@' punta a 'src'
+      '@': path.resolve(__dirname, 'src'),
     },
   },
   build: {
-    sourcemap: false, // evita problemi con CSP
-    minify: 'esbuild', // minimizza il JS in produzione
-    target: 'esnext', // compatibile con modern browser
+    sourcemap: false,
+    minify: 'esbuild',
+    target: 'esnext',
   },
   server: {
     port: 5173,
