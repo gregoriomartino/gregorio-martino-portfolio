@@ -70,9 +70,9 @@ export default function ChatbotWidget() {
       {!chatOpen && (
         <button
           onClick={() => setChatOpen(true)}
-          className="fixed bottom-6 right-6 bg-gradient-to-r from-purple-600 to-pink-600 p-4 rounded-full shadow-2xl hover:scale-110 transition-transform z-50"
+          className="fixed bottom-6 right-6 bg-slate-800 p-4 rounded-full shadow-2xl hover:scale-110 transition-transform z-50 border border-slate-700"
         >
-          <MessageCircle className="w-6 h-6 text-white" />
+          <MessageCircle className="w-6 h-6 text-slate-100" />
         </button>
       )}
 
@@ -81,32 +81,34 @@ export default function ChatbotWidget() {
         <div className="fixed bottom-6 right-6 w-96 h-[500px] bg-slate-800 rounded-2xl shadow-2xl flex flex-col z-50 border border-purple-500/30">
 
           {/* Header */}
-          <div className="bg-gradient-to-r from-purple-600 to-pink-600 p-4 rounded-t-2xl flex justify-between items-center">
+          <div className="bg-slate-900 p-4 rounded-t-2xl flex justify-between items-center border-b border-slate-700">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-xl">
-                🤖
-              </div>
+              <img
+                src="favicon.png"
+                alt="Profile"
+                className="w-10 h-10 rounded-full object-cover border-2 border-slate-600"
+              />
               <div>
-                <h3 className="font-bold">Assistente AI</h3>
-                <p className="text-xs text-purple-100">Online</p>
+                <h3 className="font-bold text-slate-100">Assistente AI</h3>
+                <p className="text-xs text-slate-400">Online</p>
               </div>
             </div>
             <button
               onClick={() => setChatOpen(false)}
-              className="hover:bg-white/20 p-2 rounded-lg transition"
+              className="hover:bg-slate-700 p-2 rounded-lg transition text-slate-100"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-800">
             {messages.map((msg, idx) => (
               <div key={idx} className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
                 <div className={`max-w-[80%] p-3 rounded-2xl whitespace-pre-line ${
                   msg.type === 'user'
-                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-br-none'
-                    : 'bg-slate-700 text-gray-100 rounded-bl-none'
+                    ? 'bg-slate-700 text-slate-100 rounded-br-none border border-slate-600'
+                    : 'bg-slate-900 text-slate-100 rounded-bl-none border border-slate-700'
                 }`}>
                   {msg.text}
                 </div>
@@ -124,13 +126,13 @@ export default function ChatbotWidget() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Scrivi un messaggio..."
-                className="flex-1 bg-slate-700 text-white px-4 py-2 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="flex-1 bg-slate-700 text-slate-100 px-4 py-2 rounded-full focus:outline-none focus:ring-2 focus:ring-slate-500"
               />
               <button
                 onClick={handleSend}
-                className="bg-gradient-to-r from-purple-600 to-pink-600 p-2 rounded-full hover:scale-110 transition-transform"
+                className="bg-slate-800 p-2 rounded-full hover:scale-110 transition-transform border border-slate-700"
               >
-                <Send className="w-5 h-5" />
+                <Send className="w-5 h-5 text-slate-100" />
               </button>
             </div>
           </div>
