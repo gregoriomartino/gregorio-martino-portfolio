@@ -84,7 +84,7 @@ export default function ChatbotWidget() {
           <div className="bg-slate-900 p-4 rounded-t-2xl flex justify-between items-center border-b border-slate-700">
             <div className="flex items-center gap-3">
               <img
-                src="favicon.png"
+                src="foto.png"
                 alt="Profile"
                 className="w-10 h-10 rounded-full object-cover border-2 border-slate-600"
               />
