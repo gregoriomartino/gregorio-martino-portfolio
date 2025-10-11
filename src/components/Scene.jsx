@@ -4,7 +4,7 @@ import CyclistAnimation from './CyclistAnimation'
 
 export default function Scene({ darkMode, season }) {
   return (
-    <div className="mt-12 relative h-64 overflow-hidden rounded-lg">
+    <div className="mt-12 relative h-96 overflow-hidden rounded-lg">
       <Road darkMode={darkMode} />
       <Mountains darkMode={darkMode} season={season} />
       <CyclistAnimation darkMode={darkMode} />
