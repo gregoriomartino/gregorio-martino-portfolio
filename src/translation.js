@@ -5,8 +5,8 @@ const translations = {
     github: 'GitHub',
     gitlab: 'GitLab',
     downloadCV: 'Scarica CV',
-    profile: 'Profilo Professionale',
-    profileText: 'Sviluppatore Java con oltre 5 anni di esperienza, appassionato di architetture pulite e scalabili. Mi piace trasformare codice legacy in sistemi moderni, curando qualità e performance. Fuori dal codice, pratico ciclismo enduro: mi allena alla perseveranza e alla gestione delle difficoltà, qualità che porto anche nei progetti software.',
+    profile: 'Ciao',
+    profileText: 'Da oltre 5 anni scrivo codice in Java, costruendo soluzioni scalabili e trasformando codice legacy in sistemi moderni e puliti. Credo nei progetti che evolvono, si adattano e migliorano nel tempo. Lontano dallo schermo, mi trovi spesso su un sentiero: il ciclismo enduro mi allena alla costanza e alla gestione degli imprevisti — qualità preziose anche nello sviluppo software. Ti va una pausa? Prova a battermi a tris, proprio qui sotto. 😉',
     location: 'San Giovanni Rotondo, Italia',
     rights: 'Tutti i diritti riservati.'
   },
@@ -17,7 +17,7 @@ const translations = {
     gitlab: 'GitLab',
     downloadCV: 'Download CV',
     profile: 'Professional Profile',
-    profileText: 'I am a Java developer with over 5 years of experience in enterprise environments. I love building clean and reliable solutions, transforming legacy code into modern architectures. I believe in collaboration, technical curiosity, and continuous improvement.',
+    profileText: 'For over 5 years, I’ve been writing code in Java, building scalable solutions and transforming legacy systems into modern, clean architectures. I believe in projects that evolve, adapt, and improve over time. When I’m away from the screen, you’ll often find me on a trail: enduro cycling trains my perseverance and ability to handle the unexpected — qualities I bring into software development as well. Need a break? Try to beat me at tic-tac-toe, right below. 😉',
     location: 'San Giovanni Rotondo, Italy',
     rights: 'All rights reserved.'
   },
@@ -28,7 +28,7 @@ const translations = {
     gitlab: 'GitLab',
     downloadCV: 'Descargar CV',
     profile: 'Perfil Profesional',
-    profileText: 'Soy un desarrollador Java con más de 5 años de experiencia en entornos empresariales. Me encanta construir soluciones limpias y confiables, transformando código legacy en arquitecturas modernas. Creo en la colaboración, la curiosidad técnica y la mejora continua.',
+    profileText: 'Desde hace más de 5 años escribo código en Java, creando soluciones escalables y transformando sistemas heredados en arquitecturas modernas y limpias. Creo en los proyectos que evolucionan, se adaptan y mejoran con el tiempo. Lejos de la pantalla, a menudo me encontrarás en un sendero: el ciclismo enduro me entrena en la constancia y en la gestión de los imprevistos, cualidades que también llevo al desarrollo de software. ¿Te apetece una pausa? Intenta ganarme al tres en raya, justo aquí abajo. 😉',
     location: 'San Giovanni Rotondo, Italia',
     rights: 'Todos los derechos reservados.'
   }
