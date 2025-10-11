@@ -18,7 +18,8 @@ export default function Portfolio() {
 
       <main className="max-w-4xl mx-auto p-6 flex-grow">
         <Profile t={t} />
-        <GameScene darkMode={darkMode} season={season} />
+        <Scene darkMode={darkMode} season={season} />
+        <GameScene darkMode={darkMode} className="absolute top-0 left-0 w-full h-full" />
       </main>
 
       <Footer t={t} darkMode={darkMode} />
