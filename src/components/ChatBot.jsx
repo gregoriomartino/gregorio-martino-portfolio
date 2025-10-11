@@ -21,19 +21,19 @@ export default function ChatbotWidget() {
     const msg = userMessage.toLowerCase();
 
     if (msg.includes('progetti') || msg.includes('lavori')) {
-      return 'Ho lavorato su diversi progetti interessanti! Tra cui:\n\n• E-commerce Platform con React e Node.js\n• Task Management App con Vue.js\n• AI Chat Interface con integrazione OpenAI\n\nVuoi saperne di più? 🚀';
+      return 'Ho lavorato su diversi progetti interessanti! Tra cui:\n\n• E-commerce Platform con React e Node.js\n• AI Chat Interface con integrazione OpenAI\n\nVuoi saperne di più? 🚀';
     }
 
     if (msg.includes('skill') || msg.includes('tecnologie') || msg.includes('competenze')) {
-      return 'Le mie competenze principali includono:\n\n• Frontend: React, Vue.js, TypeScript\n• Backend: Node.js, Python\n• Database: MongoDB, PostgreSQL\n• Cloud: AWS, Docker\n\nE molto altro! 💻';
+      return 'Le mie competenze principali includono:\n\n• Frontend: React, JavaScripit, TypeScript\n• Backend: Java, Node.js, Python\n• Database: Oracle, MongoDB, PostgreSQL\n• Cloud: AWS, Docker\n\nE molto altro! 💻';
     }
 
     if (msg.includes('contatto') || msg.includes('email') || msg.includes('contattare')) {
-      return 'Puoi contattarmi tramite:\n\n📧 Email: tuo@email.com\n💼 LinkedIn: linkedin.com/in/tuoprofilo\n💻 GitHub: github.com/tuoprofilo\n\nSono sempre aperto a nuove opportunità! 😊';
+      return 'Puoi contattarmi tramite:\n\n📧 Email: martinogregorio2@gmail.com\n💼 LinkedIn: linkedin.com/in/gregorio-martino-5a42a3171/ \n💻 GitHub: github.com/martinogregorio2-group \n\nSono sempre aperto a nuove opportunità! 😊';
     }
 
     if (msg.includes('esperienza') || msg.includes('lavoro')) {
-      return 'Ho 5+ anni di esperienza nello sviluppo web full-stack. Ho lavorato sia come freelance che in team per progetti enterprise. 💼';
+      return 'Ho 5+ anni di esperienza nello sviluppo prevaentemente beckend ma ho dimestichezza anche nel frontend Ho lavorato prevalentemente per progetti enterprise. 💼';
     }
 
     if (msg.includes('ciao') || msg.includes('hey') || msg.includes('salve')) {
