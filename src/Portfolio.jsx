@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Profile from './components/Profile'
-import GameScene from './components/GameScene'
+import Scene from './components/Scene'
 import translations from './translation'
 
 export default function Portfolio() {
@@ -19,7 +19,6 @@ export default function Portfolio() {
       <main className="max-w-4xl mx-auto p-6 flex-grow">
         <Profile t={t} />
         <Scene darkMode={darkMode} season={season} />
-        <GameScene darkMode={darkMode} className="absolute top-0 left-0 w-full h-full" />
       </main>
 
       <Footer t={t} darkMode={darkMode} />
