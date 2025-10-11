@@ -2,8 +2,7 @@ import { useState } from 'react'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Profile from './components/Profile'
-import Scene from './components/Scene'
-import ChatBot from './components/ChatBot'
+import TrisGame from './components/TrisGame'
 import translations from './translation'
 
 export default function Portfolio() {
@@ -19,8 +18,7 @@ export default function Portfolio() {
 
       <main className="max-w-4xl mx-auto p-6 flex-grow">
         <Profile t={t} />
-{/*     <Scene darkMode={darkMode} season={season} /> */}
-<ChatBot darkMode={darkMode} season={season} />
+        <TrisGame darkMode={darkMode} season={season} />
       </main>
 
       <Footer t={t} darkMode={darkMode} />

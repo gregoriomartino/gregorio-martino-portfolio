@@ -1,13 +1,17 @@
 import { Mail, MapPin } from 'lucide-react'
+import ChatBot from './ChatBot'
 
-export default function Footer({ t, darkMode }) {
+export default function Footer({ t, darkMode, season }) {
   return (
     <footer className={`${darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'} border-t mt-auto`}>
       <div className="max-w-4xl mx-auto px-6 py-8">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+
           <div className="text-center md:text-left">
             <h3 className="font-semibold text-lg mb-1">Gregorio Martino</h3>
-            <p className={`text-sm ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>{t.role}</p>
+            <p className={`text-sm ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
+              {t.role}
+            </p>
           </div>
 
           <div className="flex flex-col gap-2 text-sm">
@@ -24,7 +28,15 @@ export default function Footer({ t, darkMode }) {
           </div>
         </div>
 
-        <div className={`mt-6 pt-6 border-t ${darkMode ? 'border-slate-700' : 'border-slate-200'} text-center text-sm ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
+        <div className="mt-8">
+          <ChatBot darkMode={darkMode} season={season} />
+        </div>
+
+        <div
+          className={`mt-6 pt-6 border-t ${
+            darkMode ? 'border-slate-700' : 'border-slate-200'
+          } text-center text-sm ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}
+        >
           <p>© {new Date().getFullYear()} Gregorio Martino. {t.rights}</p>
         </div>
       </div>
