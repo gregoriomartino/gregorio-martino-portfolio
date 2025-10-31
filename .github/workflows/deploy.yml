@@ -63,11 +63,25 @@ jobs:
             node node_modules/vite/bin/vite.js build
           fi
 
+      - name: Verify build output
+        run: |
+          echo "Verifica esistenza dist..."
+          if [ ! -d dist ]; then
+            echo "::error::Directory 'dist' non trovata. La build non ha prodotto output."
+            echo "Lista file repo (ultimo stato):"
+            ls -la
+            echo "Contenuto della cartella di build (se esiste):"
+            ls -la dist || true
+            exit 1
+          fi
+          echo "Contenuto dist:"
+          ls -la dist
+
       # Upload artifact per GitHub Pages
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: ./dist
 
   deploy:
     needs: build
@@ -76,5 +90,19 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Check GitHub Pages enabled
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Controllo se GitHub Pages è abilitato..."
+          resp=$(curl -s -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $GITHUB_TOKEN" "https://api.github.com/repos/${{ github.repository }}/pages" || true)
+          if echo "$resp" | grep -q \"Not Found\"; then
+            echo "::error::GitHub Pages non abilitato per questo repository. Abilitalo in: https://github.com/${{ github.repository }}/settings/pages"
+            echo "Risposta API:"
+            echo "$resp"
+            exit 1
+          fi
+          echo "GitHub Pages sembra abilitato."
+
       - id: deployment
         uses: actions/deploy-pages@v3
