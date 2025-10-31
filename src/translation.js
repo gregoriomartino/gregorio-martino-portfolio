@@ -17,7 +17,7 @@ const translations = {
     gitlab: 'GitLab',
     downloadCV: 'Download CV',
     profile: 'Hello',
-    profileText: 'I’m a software developer, building scalable solutions and transforming legacy systems into modern, clean architectures. I believe in projects that evolve, adapt, and improve over time. When I’m away from the screen, you’ll often find me on a trail: enduro cycling trains my perseverance and ability to handle the unexpected — qualities I bring into software development as well. Need a break? Try to beat me at tic-tac-toe. 😉',
+    profileText: 'I’m a software developer, building scalable solutions and transforming legacy systems into modern, clean architectures. I believe in projects that evolve, adapt, and improve over time. When I’m away from the screen, you’ll often find me on a trail: enduro cycling trains my perseverance and ability to handle the unexpected — qualities I bring into software development as well. Need a break? Try to beat me at tic-tac-toe.  😉',
     location: 'San Giovanni Rotondo, Italy',
     rights: 'All rights reserved.'
   },
