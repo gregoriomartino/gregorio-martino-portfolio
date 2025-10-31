@@ -18,15 +18,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # Checkout repository
       - uses: actions/checkout@v4
 
-      # Setup Node.js
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      # Cache npm
       - uses: actions/cache@v3
         with:
           path: |
@@ -36,26 +33,20 @@ jobs:
           restore-keys: |
             npm-cache-${{ runner.os }}-node-
 
-      # Install dependencies
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit --progress=false
 
-      # Build project
       - name: Build project
-        run: |
-          npm run build || node node_modules/vite/bin/vite.js build
+        run: npm run build || node node_modules/vite/bin/vite.js build
 
-      # Verify build output
       - name: Verify dist folder
         run: |
           if [ ! -d dist ]; then
-            echo "::error::Directory 'dist' non trovata. La build non ha prodotto output."
+            echo "::error::Directory 'dist' non trovata"
             exit 1
           fi
-          echo "Build completata, contenuto di dist:"
           ls -la dist
 
-      # Upload artifact per GitHub Pages
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -66,22 +57,6 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      # Controlla che GitHub Pages sia abilitato
-      - name: Check GitHub Pages enabled
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          resp=$(curl -s -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer $GITHUB_TOKEN" \
-            "https://api.github.com/repos/${{ github.repository }}/pages" || true)
-          if echo "$resp" | grep -q \"Not Found\"; then
-            echo "::error::GitHub Pages non abilitato. Abilitalo in https://github.com/${{ github.repository }}/settings/pages"
-            exit 1
-          fi
-          echo "GitHub Pages abilitato."
-
-      # Deploy su GitHub Pages
       - id: deployment
         uses: actions/deploy-pages@v3
