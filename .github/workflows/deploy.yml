@@ -37,13 +37,31 @@ jobs:
           restore-keys: |
             npm-cache-${{ runner.os }}-node-
 
-      # Installazione dipendenze (esclude opzionali)
-      - name: Install dependencies
-        run: npm install --omit=optional
+      - name: Install dependencies (CI)
+        run: npm ci --prefer-offline --no-audit --progress=false
 
-      # Build del progetto React/Vite
+      - name: Debug node modules (optional)
+        run: |
+          echo "Node/npm versions:"
+          node -v && npm -v
+          echo "Lista node_modules/.bin:"
+          ls -la node_modules/.bin || true
+
+      - name: Fix node_modules/.bin permissions
+        run: |
+          if [ -d node_modules/.bin ]; then
+            chmod -R u+rx node_modules/.bin || true
+          fi
+
       - name: Build project
-        run: npm run build
+        run: |
+          # Preferisci lo script npm; se fallisce, prova il fallback diretto a vite via node
+          if npm run build; then
+            echo "Build eseguita con successo"
+          else
+            echo "npm run build fallito — tentativo fallback con node node_modules/vite/bin/vite.js"
+            node node_modules/vite/bin/vite.js build
+          fi
 
       # Upload artifact per GitHub Pages
       - name: Upload Pages artifact
