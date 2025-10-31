@@ -18,16 +18,34 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # Checkout del repository
       - uses: actions/checkout@v4
+
+      # Setup Node.js
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
-      - name: Pulizia e reinstallazione dipendenze (workaround)
-        run: |
-          rm -rf node_modules package-lock.json || true
-          npm ci --no-optional
-      - run: npm run build
+
+      # Cache intelligente per npm
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.npm
+            node_modules
+          key: npm-cache-${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}-v20
+          restore-keys: |
+            npm-cache-${{ runner.os }}-node-
+
+      # Installazione dipendenze (esclude opzionali)
+      - name: Install dependencies
+        run: npm install --omit=optional
+
+      # Build del progetto React/Vite
+      - name: Build project
+        run: npm run build
+
+      # Upload artifact per GitHub Pages
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
