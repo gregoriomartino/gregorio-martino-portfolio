@@ -58,7 +58,7 @@ jobs:
 
       # Upload artifact per GitHub Pages
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
 
@@ -72,4 +72,4 @@ jobs:
       # Deploy su GitHub Pages
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
