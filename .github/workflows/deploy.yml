@@ -18,7 +18,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # Checkout del repository
+      # Checkout repository
       - uses: actions/checkout@v4
 
       # Setup Node.js
@@ -26,55 +26,33 @@ jobs:
         with:
           node-version: '20'
 
-      # Cache intelligente per npm
-      - name: Cache node modules
-        uses: actions/cache@v3
+      # Cache npm
+      - uses: actions/cache@v3
         with:
           path: |
             ~/.npm
             node_modules
-          key: npm-cache-${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}-v20
+          key: npm-cache-${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             npm-cache-${{ runner.os }}-node-
 
-      - name: Install dependencies (CI)
+      # Install dependencies
+      - name: Install dependencies
         run: npm ci --prefer-offline --no-audit --progress=false
 
-      - name: Debug node modules (optional)
-        run: |
-          echo "Node/npm versions:"
-          node -v && npm -v
-          echo "Lista node_modules/.bin:"
-          ls -la node_modules/.bin || true
-
-      - name: Fix node_modules/.bin permissions
-        run: |
-          if [ -d node_modules/.bin ]; then
-            chmod -R u+rx node_modules/.bin || true
-          fi
-
+      # Build project
       - name: Build project
         run: |
-          # Preferisci lo script npm; se fallisce, prova il fallback diretto a vite via node
-          if npm run build; then
-            echo "Build eseguita con successo"
-          else
-            echo "npm run build fallito — tentativo fallback con node node_modules/vite/bin/vite.js"
-            node node_modules/vite/bin/vite.js build
-          fi
+          npm run build || node node_modules/vite/bin/vite.js build
 
-      - name: Verify build output
+      # Verify build output
+      - name: Verify dist folder
         run: |
-          echo "Verifica esistenza dist..."
           if [ ! -d dist ]; then
             echo "::error::Directory 'dist' non trovata. La build non ha prodotto output."
-            echo "Lista file repo (ultimo stato):"
-            ls -la
-            echo "Contenuto della cartella di build (se esiste):"
-            ls -la dist || true
             exit 1
           fi
-          echo "Contenuto dist:"
+          echo "Build completata, contenuto di dist:"
           ls -la dist
 
       # Upload artifact per GitHub Pages
@@ -90,19 +68,20 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      # Controlla che GitHub Pages sia abilitato
       - name: Check GitHub Pages enabled
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "Controllo se GitHub Pages è abilitato..."
-          resp=$(curl -s -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $GITHUB_TOKEN" "https://api.github.com/repos/${{ github.repository }}/pages" || true)
+          resp=$(curl -s -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            "https://api.github.com/repos/${{ github.repository }}/pages" || true)
           if echo "$resp" | grep -q \"Not Found\"; then
-            echo "::error::GitHub Pages non abilitato per questo repository. Abilitalo in: https://github.com/${{ github.repository }}/settings/pages"
-            echo "Risposta API:"
-            echo "$resp"
+            echo "::error::GitHub Pages non abilitato. Abilitalo in https://github.com/${{ github.repository }}/settings/pages"
             exit 1
           fi
-          echo "GitHub Pages sembra abilitato."
+          echo "GitHub Pages abilitato."
 
+      # Deploy su GitHub Pages
       - id: deployment
         uses: actions/deploy-pages@v3
