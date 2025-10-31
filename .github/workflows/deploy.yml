@@ -23,7 +23,10 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-      - run: npm ci
+      - name: Pulizia e reinstallazione dipendenze (workaround)
+        run: |
+          rm -rf node_modules package-lock.json || true
+          npm ci --no-optional
       - run: npm run build
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
