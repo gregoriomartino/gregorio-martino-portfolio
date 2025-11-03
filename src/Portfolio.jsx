@@ -43,44 +43,11 @@ export default function Portfolio() {
 
       <main className="max-w-4xl mx-auto p-6 flex-grow">
         <Profile t={t} />
-        <TrisGame darkMode={darkMode} season={season} />
+    
 
-        {/* 📊 Statistiche visite */}
-        {stats && (
-          <section className="mt-6 p-4 border rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100">
-            <h2 className="font-bold mb-2">📊 Statistiche visite (Live)</h2>
-            <p>Total Visits: {stats.totalVisits}</p>
-            <p>Unique Visitors: {stats.uniqueVisitors}</p>
-            <h3 className="mt-2 font-semibold">Ultime 20 visite:</h3>
-            <ul className="list-disc list-inside text-sm">
-              {stats.lastVisits.map((v, i) => <li key={i}>{v}</li>)}
-            </ul>
-          </section>
-        )}
       </main>
 
       <Footer t={t} darkMode={darkMode} />
     </div>
   )
 }
-
-/*************  ✨ Windsurf Command 🌟  *************/
-function getSeason() {
-  const month = new Date().getMonth() + 1
-  const seasons = {
-    spring: [3, 4, 5],
-    summer: [6, 7, 8],
-    autumn: [9, 10, 11],
-    winter: [12, 1, 2]
-  }
-
-  for (const [seasonName, months] of Object.entries(seasons)) {
-    if (months.includes(month)) return seasonName
-  }
-
-  if (month >= 3 && month <= 5) return 'spring'
-  if (month >= 6 && month <= 8) return 'summer'
-  if (month >= 9 && month <= 11) return 'autumn'
-  return 'winter'
-}
-/*******  168f31a0-ff91-4070-bb1d-155f669b39b9  *******/

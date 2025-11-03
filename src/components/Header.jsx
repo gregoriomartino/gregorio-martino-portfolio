@@ -1,7 +1,7 @@
 import { Sun, Moon } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 
-export default function Header({ darkMode, setDarkMode, language, setLanguage, t }) {
+export default function Header({ darkMode, setDarkMode, language, setLanguage, t, onShowGames, onShowVisits }) {
   return (
     <header className="text-center py-10 relative">
       <h1 className="text-4xl font-bold mb-2">Gregorio Martino</h1>
@@ -20,6 +20,16 @@ export default function Header({ darkMode, setDarkMode, language, setLanguage, t
         <a href={`${import.meta.env.BASE_URL}cv_gregorio_martino.pdf`} download>
           <Button>{t.downloadCV}</Button>
         </a>
+      </div>
+
+      {/* Nuovi button per Giochi e Visite */}
+      <div className="mt-4 space-x-3">
+        <Button variant="secondary" onClick={onShowGames}>
+          {t.games}
+        </Button>
+        <Button variant="secondary" onClick={onShowVisits}>
+          {t.visits}
+        </Button>
       </div>
 
       <button
