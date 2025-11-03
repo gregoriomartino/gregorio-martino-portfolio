@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Profile from './components/Profile'
 import TrisGame from './components/TrisGame'
-import VisitsPage from './components/VisitsPage' // nuova pagina per le statistiche
+import VisitsPage from './components/VisitsPage'
 import translations from './translation'
 
 export default function Portfolio() {
@@ -12,31 +12,31 @@ export default function Portfolio() {
   const [language, setLanguage] = useState('it')
   const t = translations[language]
 
-  const [stats, setStats] = useState(null) // Stato per le statistiche
+  const [stats, setStats] = useState(null)
 
-  // 🔹 Track visit all'avvio della pagina
+  // Track visit all'avvio
   useEffect(() => {
     fetch('http://localhost:8080/api/track', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ path: window.location.pathname, referrer: document.referrer })
-    }).catch(err => console.warn('track error', err));
-  }, []);
+    }).catch(err => console.warn('track error', err))
+  }, [])
 
-  // 🔹 Fetch stats live ogni 5 secondi
+  // Fetch stats live
   useEffect(() => {
     const fetchStats = () => {
       fetch('http://localhost:8080/api/stats')
         .then(res => res.json())
         .then(data => setStats(data))
-        .catch(err => console.warn('stats error', err));
+        .catch(err => console.warn('stats error', err))
     }
 
-    fetchStats() // primo fetch subito
-    const interval = setInterval(fetchStats, 5000) // ogni 5 secondi
+    fetchStats()
+    const interval = setInterval(fetchStats, 5000)
 
-    return () => clearInterval(interval) // cleanup all'unmount
-  }, []);
+    return () => clearInterval(interval)
+  }, [])
 
   return (
     <Router>
