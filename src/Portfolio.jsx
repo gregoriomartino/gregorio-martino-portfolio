@@ -11,7 +11,7 @@ export default function Portfolio() {
   const t = translations[language]
 
   const [stats, setStats] = useState(null) // Stato per le statistiche
-  const season = getSeason()
+  
 
   // 🔹 Track visit all'avvio della pagina
   useEffect(() => {
