@@ -7,7 +7,7 @@ export default function ChatbotWidget() {
     { type: 'bot', text: 'Ciao! 👋 Come posso aiutarti? Seleziona un’opzione qui sotto.' }
   ]);
 
-  const [step, setStep] = useState('start'); // flusso guidato
+  const [history, setHistory] = useState(['start']); // stack degli step
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -18,73 +18,64 @@ export default function ChatbotWidget() {
     scrollToBottom();
   }, [messages]);
 
-  const optionsStart = ['Progetti', 'Competenze', 'Contatti', 'Esperienze'];
+  const getCurrentStep = () => history[history.length - 1];
+
+  // Dizionario dei messaggi e opzioni per ogni step
+  const steps = {
+    start: {
+      message: 'Seleziona un’opzione:',
+      options: ['Progetti', 'Competenze', 'Contatti', 'Esperienze']
+    },
+    projects: {
+      message: 'Ecco alcuni progetti su cui ho lavorato:\n• E-commerce Platform\n• AI Chat Interface\nVuoi tornare al menu principale?',
+      options: ['Torna al menu principale']
+    },
+    skills: {
+      message: 'Le mie competenze principali sono:\n• Frontend: React, TypeScript\n• Backend: Java, Node.js, Python\n• Database: Oracle, MongoDB, PostgreSQL\nVuoi tornare al menu principale?',
+      options: ['Torna al menu principale']
+    },
+    contact: {
+      message: 'Puoi contattarmi tramite:\n📧 Email: martinogregorio2@gmail.com\n💼 LinkedIn: linkedin.com/in/gregorio-martino-5a42a3171/\nVuoi tornare al menu principale?',
+      options: ['Torna al menu principale']
+    },
+    experience: {
+      message: 'Ho 5+ anni di esperienza nello sviluppo, prevalentemente backend ma anche frontend.\nVuoi tornare al menu principale?',
+      options: ['Torna al menu principale']
+    }
+  };
 
   const handleUserChoice = (choice) => {
+    const currentStep = getCurrentStep();
+
     // Aggiungi messaggio dell'utente
     setMessages(prev => [...prev, { type: 'user', text: choice }]);
 
-    let botResponse = '';
-    let nextStep = step;
+    let nextStep = currentStep;
 
-    switch(choice) {
-      case 'Progetti':
-        botResponse = 'Ecco alcuni progetti su cui ho lavorato:\n• E-commerce Platform\n• AI Chat Interface\nVuoi saperne di più su un progetto specifico?';
-        nextStep = 'projects';
-        break;
-      case 'Competenze':
-        botResponse = 'Le mie competenze principali sono:\n• Frontend: React, TypeScript\n• Backend: Java, Node.js, Python\n• Database: Oracle, MongoDB, PostgreSQL';
-        nextStep = 'skills';
-        break;
-      case 'Contatti':
-        botResponse = 'Puoi contattarmi tramite:\n📧 Email: martinogregorio2@gmail.com\n💼 LinkedIn: linkedin.com/in/gregorio-martino-5a42a3171/';
-        nextStep = 'contact';
-        break;
-      case 'Esperienze':
-        botResponse = 'Ho 5+ anni di esperienza nello sviluppo, prevalentemente backend ma anche frontend.';
-        nextStep = 'experience';
-        break;
-      default:
-        botResponse = 'Seleziona un’opzione tra i pulsanti disponibili.';
+    if (choice === 'Torna al menu principale') {
+      nextStep = 'start';
+      setHistory(prev => [...prev, nextStep]);
+    } else {
+      nextStep = choice.toLowerCase();
+      if (!steps[nextStep]) nextStep = currentStep; // fallback
+      setHistory(prev => [...prev, nextStep]);
     }
 
     // Aggiungi risposta del bot
-    setMessages(prev => [...prev, { type: 'bot', text: botResponse }]);
-    setStep(nextStep);
+    setMessages(prev => [...prev, { type: 'bot', text: steps[nextStep].message }]);
   };
 
-  // Genera pulsanti in base allo step
   const renderOptions = () => {
-    switch(step) {
-      case 'start':
-        return optionsStart.map(opt => (
-          <button
-            key={opt}
-            onClick={() => handleUserChoice(opt)}
-            className="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-full"
-          >
-            {opt}
-          </button>
-        ));
-      case 'projects':
-        return (
-          <button
-            onClick={() => handleUserChoice('start')}
-            className="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-full"
-          >
-            Torna indietro
-          </button>
-        );
-      default:
-        return (
-          <button
-            onClick={() => setStep('start')}
-            className="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-full"
-          >
-            Torna al menu principale
-          </button>
-        );
-    }
+    const currentStep = getCurrentStep();
+    return steps[currentStep].options.map((opt, idx) => (
+      <button
+        key={idx}
+        onClick={() => handleUserChoice(opt)}
+        className="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-full"
+      >
+        {opt}
+      </button>
+    ));
   };
 
   return (
