@@ -7,7 +7,6 @@ export default function Footer({ t, darkMode, season, stats }) {
   return (
     <footer className="footer">
       <div className="footer-container">
-
         {/* Colonna sinistra: info + mini visits */}
         <div className="footer-left">
           <div className="footer-info">
@@ -26,7 +25,6 @@ export default function Footer({ t, darkMode, season, stats }) {
             </div>
           </div>
 
-          {/* Mini visits box */}
           <div className="visits-mini-container">
             <VisitsPage stats={stats} darkMode={true} mini />
           </div>
@@ -36,10 +34,8 @@ export default function Footer({ t, darkMode, season, stats }) {
         <div className="footer-chat">
           <ChatBot darkMode={darkMode} season={season} />
         </div>
-
       </div>
 
-      {/* Bottom copyright */}
       <div className="footer-bottom">
         <p>© {new Date().getFullYear()} Gregorio Martino. {t.rights}</p>
       </div>
