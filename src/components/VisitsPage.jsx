@@ -10,7 +10,8 @@ export default function VisitsPage({ stats, darkMode, mini = false }) {
   })
   const [uniqueVisits, setUniqueVisits] = useState([])
 
-  // Funzione per animare i numeri
+  const geoCache = React.useRef({})
+
   const animateValue = (start, end, key) => {
     const duration = 1
     const steps = 50
@@ -24,7 +25,33 @@ export default function VisitsPage({ stats, darkMode, mini = false }) {
     setTimeout(() => clearInterval(anim), duration * 1000)
   }
 
-  // Effetto per aggiornare le statistiche
+  // Convert country code in emoji bandiera 🇮🇹
+  const countryCodeToFlag = (code) => {
+    if (!code) return ''
+    return code
+      .toUpperCase()
+      .replace(/./g, char =>
+        String.fromCodePoint(127397 + char.charCodeAt())
+      )
+  }
+
+  const fetchGeo = async (ip) => {
+    if (!ip || ip === '-') return { geo: 'N/A', flag: '' }
+    if (geoCache.current[ip]) return geoCache.current[ip]
+
+    try {
+      const res = await fetch(`https://ipapi.co/${ip}/json/`)
+      if (!res.ok) return { geo: 'N/A', flag: '' }
+      const data = await res.json()
+      const geo = data.city ? `${data.city}, ${data.country_name}` : 'N/A'
+      const flag = countryCodeToFlag(data.country_code)
+      geoCache.current[ip] = { geo, flag }
+      return { geo, flag }
+    } catch (err) {
+      return { geo: 'N/A', flag: '' }
+    }
+  }
+
   useEffect(() => {
     if (!stats) return
 
@@ -32,55 +59,49 @@ export default function VisitsPage({ stats, darkMode, mini = false }) {
     animateValue(animatedStats.visitsToday, stats.visitsToday, 'visitsToday')
     animateValue(animatedStats.uniqueVisitors, stats.uniqueVisitors, 'uniqueVisitors')
 
-    // Parsing visite uniche
     const seenIps = new Set()
     const uniques = []
-    for (const entry of stats.lastVisits || []) {
-      const parts = entry.split('|').map(p => p.trim())
-      const timestamp = parts[0]
-      const ip = parts[1] || '-'
-      const path = parts[3] || '-'
-      if (!seenIps.has(ip)) {
-        seenIps.add(ip)
-        // Qui puoi aggiungere geolocalizzazione se disponibile
-        uniques.push({ ip, path, timestamp, geo: 'N/A' })
+
+    const loadGeo = async () => {
+      for (const entry of stats.lastVisits || []) {
+        const parts = entry.split('|').map(p => p.trim())
+        const timestamp = parts[0]
+        const ip = parts[1] || '-'
+        const path = parts[3] || '-'
+
+        if (!seenIps.has(ip)) {
+          seenIps.add(ip)
+          const { geo, flag } = await fetchGeo(ip)
+          uniques.push({ ip, path, timestamp, geo, flag })
+        }
       }
+      setUniqueVisits(uniques)
     }
-    setUniqueVisits(uniques)
+
+    loadGeo()
   }, [stats])
 
-  // Auto-refresh mini box ogni 12 ore
-  useEffect(() => {
-    if (!mini) return
-    const interval = setInterval(() => {
-      window.location.reload() // oppure fetch per aggiornare solo stats
-    }, 12 * 60 * 60 * 1000) // 12 ore
-    return () => clearInterval(interval)
-  }, [mini])
-
-  // Mini box
   if (mini) {
     return (
-      <div className={`visits-mini ${darkMode ? 'dark' : ''}`}>
+      <div className={`visits-mini ${darkMode ? 'dark' : ''} bg-black text-green-500 p-2 rounded text-xs`}>
         {!stats ? (
           <p>Caricamento...</p>
         ) : (
-          <div className="visits-mini-stats">
+          <>
             <p>Total: {animatedStats.totalVisits}</p>
             <p>Oggi: {animatedStats.visitsToday}</p>
             <p>Unici: {animatedStats.uniqueVisitors}</p>
             {uniqueVisits[0] && (
               <p className="mini-visit-ip">
-                IP: {uniqueVisits[0].ip} - Geo: {uniqueVisits[0].geo}
+                IP: {uniqueVisits[0].ip} - Geo: {uniqueVisits[0].geo} {uniqueVisits[0].flag}
               </p>
             )}
-          </div>
+          </>
         )}
       </div>
     )
   }
 
-  // Versione completa
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -107,8 +128,8 @@ export default function VisitsPage({ stats, darkMode, mini = false }) {
                   transition={{ delay: idx * 0.1 }}
                 >
                   <span className="font-semibold">{v.path}</span>
-                  <span className="visit-meta">
-                    ({v.ip} · {v.geo} · {new Date(v.timestamp).toLocaleTimeString()})
+                  <span className="visit-meta text-xs">
+                    ({v.ip} · {v.geo} {v.flag} · {new Date(v.timestamp).toLocaleTimeString()})
                   </span>
                 </motion.li>
               ))}
