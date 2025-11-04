@@ -2,4 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
-body { font-family: 'Inter', sans-serif; transition: background-color 0.3s ease, color 0.3s ease; }
+/* ---------------- Body base ---------------- */
+body {
+  font-family: 'Courier New', monospace; /* monospace professionale */
+  background-color: #000; /* sfondo nero */
+  color: #0f0; /* testo verde */
+  transition: background-color 0.3s ease, color 0.3s ease;
+  line-height: 1.6;
+}
+
+/* Link */
+a {
+  color: #0f0;
+  text-decoration: none;
+  transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  color: #0f0;
+  font-family: 'Courier New', monospace;
+}
+
+/* Buttons Tailwind override per coerenza */
+button {
+  font-family: 'Courier New', monospace;
+  border-color: #0f0;
+  color: #0f0;
+  background-color: transparent;
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  background-color: #0f0;
+  color: #000;
+}
+
+/* Se vuoi, puoi aggiungere altre classi globali per componenti personalizzati */

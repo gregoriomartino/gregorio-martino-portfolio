@@ -1,18 +1,10 @@
-import { Button } from '@/components/ui/Button'
 import '../Profile.css'
 
-export default function Profile({ t, darkMode }) {
+export default function Profile({ t }) {
   return (
-    <section className="profile">
-      <div className="profile-container">
-        <h2 className="profile-title">{t.profileTitle}</h2>
-        <p className="profile-description">{t.profileDescription}</p>
-
-        <div className="profile-actions">
-          <Button className="button">{t.contactMe}</Button>
-          <Button className="button secondary">{t.downloadCV}</Button>
-        </div>
-      </div>
+    <section className="profile-section">
+      <h2 className="profile-title glow">{t.profile}</h2>
+      <p className="profile-text">{t.profileText}</p>
     </section>
   )
 }

@@ -1,0 +1,37 @@
+.visits-container {
+  background-color: #000;
+  color: #0f0;
+  font-family: monospace;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  border-radius: 2rem;
+  box-shadow: 0 0 20px #0f0, inset 0 0 10px #0f0;
+}
+
+.visits-container h2 {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 5px #0f0, 0 0 15px #0f0;
+}
+
+.visits-list li {
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 3px #0f0;
+}
+
+.unique-visits li {
+  margin-left: 1rem;
+  font-size: 0.9rem;
+}
+
+.font-semibold {
+  text-shadow: 0 0 5px #0f0, 0 0 10px #0f0;
+}
+
+.visit-meta {
+  color: #0f0;
+  opacity: 0.7;
+  font-size: 0.8rem;
+  text-shadow: 0 0 2px #0f0;
+}
