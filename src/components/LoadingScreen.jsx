@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import './LoadingScreen.css'
 
 export default function LoadingScreen({ onFinish }) {
   const canvasRef = useRef(null)
@@ -10,7 +11,6 @@ export default function LoadingScreen({ onFinish }) {
   const [progress, setProgress] = useState(0)
 
   useEffect(() => {
-    // --- Canvas Matrix ---
     const canvas = canvasRef.current
     const ctx = canvas.getContext('2d')
     let width = canvas.width = window.innerWidth
@@ -27,33 +27,7 @@ export default function LoadingScreen({ onFinish }) {
     }
     window.addEventListener('resize', handleResize)
 
-    // Matrix rain con intensità variabile
-    /* const drawMatrix = () => {
-      ctx.fillStyle = 'rgba(0,0,0,0.05)'
-      ctx.fillRect(0, 0, width, height)
-      
-      drops.forEach((y, i) => {
-        // Variazione colore per profondità
-        const brightness = Math.floor(Math.random() * 100 + 155)
-        ctx.fillStyle = `rgb(0,${brightness},0)`
-        ctx.font = `${fontSize}px monospace`
-        ctx.fillText(Math.random() > 0.5 ? '1' : '0', i * fontSize, y * fontSize)
-        
-        // Glow effect sulle lettere più vicine
-        if (Math.random() > 0.98) {
-          ctx.shadowBlur = 10
-          ctx.shadowColor = '#0f0'
-        } else {
-          ctx.shadowBlur = 0
-        }
-        
-        drops[i] = y * fontSize > height && Math.random() > 0.975 ? 0 : y + 1
-      })
-      requestAnimationFrame(drawMatrix)
-    }
-    drawMatrix() */
-
-    // --- Ruote animate senza GSAP ---
+    // --- Ruote animate ---
     let angle = 0
     const rotateWheels = () => {
       angle += 0.1
@@ -78,49 +52,43 @@ export default function LoadingScreen({ onFinish }) {
     }
     rotateWheels()
 
-    // --- Bici  ---
+    // --- Oscillazione bici ---
     let dy = 1
     let yPos = 0
     const moveBike = () => {
       yPos += dy
       if (yPos > 3 || yPos < -3) dy *= -1
-      bikeRef.current.setAttribute('transform', `translate(0,${yPos})`)
+      bikeRef.current.style.setProperty('--y-pos', `${yPos}px`)
+      if (!bikeRef.current.classList.contains('bike-exit')) {
+        bikeRef.current.setAttribute('transform', `translate(0,${yPos})`)
+      }
       requestAnimationFrame(moveBike)
     }
     moveBike()
 
-    // --- Progress OTTIMIZZATO: 1.5 secondi totali ---
+    // --- Progress ---
     let progressValue = 0
     const totalDuration = 1500
     const intervalTime = 50
     const incrementPerInterval = (100 / totalDuration) * intervalTime
-    
+
     const progressInterval = setInterval(() => {
       progressValue += incrementPerInterval
-      
       if (progressValue >= 100) {
         progressValue = 100
         setProgress(100)
-        labelRef.current.textContent = 'SYSTEM READY'
+        progressBarRef.current.style.setProperty('--progress', '100%')
+        labelRef.current.textContent = 'Benvenuto!'
         labelRef.current.classList.add('ready-state')
         clearInterval(progressInterval)
-        
+
         setTimeout(() => {
-          // bici esce verso destra con scia
-          let xPos = 0
-          let opacity = 1
-          const moveOut = () => {
-            xPos += 25
-            opacity -= 0.02
-            bikeRef.current.setAttribute('transform', `translate(${xPos},${yPos})`)
-            bikeRef.current.style.opacity = opacity
-            if (xPos < width + 100) requestAnimationFrame(moveOut)
-            else onFinish()
-          }
-          moveOut()
+          bikeRef.current.classList.add('bike-exit')
+          setTimeout(() => onFinish(), 1000)
         }, 500)
       } else {
         setProgress(progressValue)
+        progressBarRef.current.style.setProperty('--progress', `${progressValue}%`)
         labelRef.current.textContent = `LOADING ${Math.floor(progressValue)}%`
       }
     }, intervalTime)
@@ -132,21 +100,13 @@ export default function LoadingScreen({ onFinish }) {
   }, [onFinish])
 
   return (
-    <div className="fixed inset-0 z-50 bg-black">
-      <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full" />
-      
-      {/* Scanlines effect */}
-      <div className="absolute inset-0 pointer-events-none opacity-10" 
-           style={{
-             backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, #0f0 2px, #0f0 4px)',
-             animation: 'scanline 8s linear infinite'
-           }} />
-      
-      <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-        {/* Bici con effetto glow */}
+    <div className="loading-screen">
+      <canvas ref={canvasRef} className="canvas-full" />
+      <div className="scanlines" />
+
+      <div className="centered-content">
         <div className="relative mb-8">
-          <svg ref={bikeRef} className="w-1/3 max-w-xs drop-shadow-[0_0_15px_rgba(0,255,0,0.7)]" viewBox="0 0 300 160"
-               style={{ filter: 'drop-shadow(0 0 10px #0f0) drop-shadow(0 0 20px #0f0)', transition: 'opacity 0.3s' }}>
+          <svg ref={bikeRef} className="bike-svg" viewBox="0 0 300 160">
             <g className="bike-group">
               {/* Telaio */}
               <line x1="60" y1="110" x2="130" y2="70" stroke="#0f0" strokeWidth="2" />
@@ -159,14 +119,14 @@ export default function LoadingScreen({ onFinish }) {
               <line x1="115" y1="90" x2="110" y2="75" stroke="#0f0" strokeWidth="2" />
               <rect x="105" y="70" width="15" height="4" rx="2" fill="#0f0" />
               <line x1="115" y1="90" x2="115" y2="100" stroke="#0f0" strokeWidth="2" />
-              
-              {/* Ruote con cerchi */}
+
+              {/* Ruote */}
               <circle cx="60" cy="110" r="20" stroke="#0f0" strokeWidth="2" fill="none" opacity="0.3" />
               <circle cx="200" cy="110" r="20" stroke="#0f0" strokeWidth="2" fill="none" opacity="0.3" />
               <g ref={backWheelRef} transform="translate(60,110)" />
               <g ref={frontWheelRef} transform="translate(200,110)" />
-              
-              {/* Omino con laptop */}
+
+              {/* Omino */}
               <g className="rider">
                 <line x1="110" y1="75" x2="105" y2="95" stroke="#0f0" strokeWidth="2" />
                 <line x1="110" y1="75" x2="115" y2="95" stroke="#0f0" strokeWidth="2" />
@@ -175,90 +135,32 @@ export default function LoadingScreen({ onFinish }) {
                 <line x1="110" y1="58" x2="135" y2="65" stroke="#0f0" strokeWidth="2" />
                 <line x1="110" y1="60" x2="145" y2="60" stroke="#0f0" strokeWidth="2" />
                 <rect x="145" y="45" width="28" height="20" rx="2" fill="#0f0" stroke="#000" />
-                {/* Schermo laptop con dettagli */}
                 <rect x="148" y="48" width="22" height="14" rx="1" fill="#000" />
-                <text x="152" y="58" fontSize="6" fill="#0f0" fontFamily="monospace">{'<>'}</text>
               </g>
             </g>
           </svg>
         </div>
-        
-        {/* Progress bar container */}
-        <div className="w-2/3 max-w-md mb-6">
-          <div className="relative h-3 bg-black border-2 border-green-500 rounded-sm overflow-hidden"
-               style={{ boxShadow: '0 0 10px rgba(0,255,0,0.3), inset 0 0 10px rgba(0,0,0,0.5)' }}>
-            {/* Progress fill con animazione */}
-            <div 
-              ref={progressBarRef}
-              className="h-full bg-gradient-to-r from-green-600 via-green-400 to-green-500 transition-all duration-200 relative"
-              style={{ 
-                width: `${progress}%`,
-                boxShadow: '0 0 15px rgba(0,255,0,0.8)'
-              }}
-            >
-              {/* Scanning effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-30"
-                   style={{ animation: 'shimmer 1s infinite' }} />
+
+        <div className="progress-container">
+          <div className="progress-bar-bg">
+            <div ref={progressBarRef} className="progress-bar-fill">
+              <div className="progress-bar-shimmer" />
             </div>
-            
-            {/* Grid overlay */}
-            <div className="absolute inset-0 pointer-events-none" 
-                 style={{
-                   backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(0,255,0,0.1) 10px, rgba(0,255,0,0.1) 11px)'
-                 }} />
+            <div className="progress-bar-grid" />
           </div>
-          
-          {/* Percentage e dettagli */}
-          <div className="flex justify-between mt-2 text-xs font-mono text-green-400">
+          <div className="progress-texts">
             <span className="opacity-70">INIT...</span>
             <span className="font-bold">{Math.floor(progress)}%</span>
             <span className="opacity-70">SYS.OK</span>
           </div>
         </div>
-        
-        {/* Label principale con effetti */}
-        <div 
-          ref={labelRef} 
-          className="text-2xl font-mono font-bold text-green-400 tracking-wider transition-all duration-300"
-          style={{ 
-            textShadow: '0 0 10px #0f0, 0 0 20px #0f0, 0 0 30px #0f0',
-            letterSpacing: '0.3em'
-          }}
-        />
-        
-        {/* Binary code stream decorativo */}
-        <div className="mt-4 text-xs font-mono text-green-600 opacity-50 overflow-hidden h-4">
-          <div style={{ animation: 'scroll 2s linear infinite' }}>
-            {Array.from({ length: 50 }, () => Math.random() > 0.5 ? '1' : '0').join(' ')}
-          </div>
+
+        <div ref={labelRef} className="label" />
+
+        <div className="binary-stream">
+          <div>{Array.from({ length: 50 }, () => Math.random() > 0.5 ? '1' : '0').join(' ')}</div>
         </div>
       </div>
-      
-      <style jsx>{`
-        @keyframes scanline {
-          0% { transform: translateY(0); }
-          100% { transform: translateY(100%); }
-        }
-        
-        @keyframes shimmer {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(100%); }
-        }
-        
-        @keyframes scroll {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        
-        .ready-state {
-          animation: pulse 0.5s ease-in-out 3;
-        }
-        
-        @keyframes pulse {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50% { opacity: 0.7; transform: scale(1.1); }
-        }
-      `}</style>
     </div>
   )
 }

@@ -1,0 +1,61 @@
+/* ---------------- Animazioni ---------------- */
+@keyframes scanline {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(100%); }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.1); }
+}
+
+@keyframes bike-move {
+  0% { transform: translateX(0) translateY(var(--y-pos, 0)); }
+  100% { transform: translateX(120vw) translateY(var(--y-pos, 0)); }
+}
+
+@keyframes bike-fade {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ---------------- Contenitori ---------------- */
+.loading-screen { position: fixed; inset: 0; z-index: 50; background-color: black; }
+.canvas-full { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+.scanlines { position: absolute; inset: 0; pointer-events: none; opacity: 0.1;
+  background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, #0f0 2px, #0f0 4px);
+  animation: scanline 8s linear infinite;
+}
+.centered-content { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; }
+
+/* ---------------- Bici ---------------- */
+.bike-svg { width: 33%; max-width: 16rem; filter: drop-shadow(0 0 10px #0f0) drop-shadow(0 0 20px #0f0); transition: opacity 0.3s; }
+.bike-svg:not(.bike-exit) { transform: translateY(var(--y-pos, 0)); }
+.bike-exit { animation: bike-move 1s linear forwards, bike-fade 1s linear forwards; }
+
+/* ---------------- Progress Bar ---------------- */
+.progress-container { width: 66%; max-width: 24rem; margin-bottom: 1.5rem; }
+.progress-bar-bg { position: relative; height: 0.75rem; background-color: black; border: 2px solid #00ff00; border-radius: 0.125rem; overflow: hidden; box-shadow: 0 0 10px rgba(0,255,0,0.3), inset 0 0 10px rgba(0,0,0,0.5); }
+.progress-bar-fill { height: 100%; width: var(--progress, 0%); background: linear-gradient(to right, #16a34a, #4ade80, #22c55e); transition: width 0.2s; position: relative; box-shadow: 0 0 15px rgba(0,255,0,0.8); }
+.progress-bar-shimmer { position: absolute; inset: 0; background: linear-gradient(to right, transparent, white, transparent); opacity: 0.3; animation: shimmer 1s infinite; }
+.progress-bar-grid { position: absolute; inset: 0; pointer-events: none; background-image: repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(0,255,0,0.1) 10px, rgba(0,255,0,0.1) 11px); }
+.progress-texts { display: flex; justify-content: space-between; margin-top: 0.5rem; font-family: monospace; font-size: 0.75rem; color: #22c55e; }
+.progress-texts span.opacity-70 { opacity: 0.7; }
+
+/* ---------------- Label ---------------- */
+.label { font-size: 1.5rem; font-family: monospace; font-weight: bold; color: #22c55e; letter-spacing: 0.3em; text-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 30px #0f0; transition: all 0.3s; }
+.ready-state { animation: pulse 0.5s ease-in-out 3; }
+
+/* ---------------- Binary stream ---------------- */
+.binary-stream { margin-top: 1rem; font-size: 0.75rem; font-family: monospace; color: #4ade80; opacity: 0.5; overflow: hidden; height: 1rem; }
+.binary-stream div { animation: scroll 2s linear infinite; }
