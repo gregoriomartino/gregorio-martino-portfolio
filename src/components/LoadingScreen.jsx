@@ -63,7 +63,7 @@ export default function LoadingScreen({ onFinish }) {
     }
     rotateWheels()
 
-    // --- Bici su e giù ---
+    // --- Bici  ---
     let dy = 1
     let yPos = 0
     const moveBike = () => {
