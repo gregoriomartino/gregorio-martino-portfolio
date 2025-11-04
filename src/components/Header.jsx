@@ -4,21 +4,21 @@ import '../Header.css'
 
 export default function Header({ language, setLanguage, t, stats }) {
   return (
-    <header className="header relative bg-black text-green-500 p-4 md:p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-      
+    <header className="header relative bg-black text-green-500 p-4 md:p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-6">
+
       {/* Mini visits box */}
-      <div className="visits-mini-container md:absolute md:top-4 md:left-4">
+      <div className="visits-mini-container md:absolute md:top-4 md:left-4 w-full md:w-auto">
         <VisitsPage stats={stats} darkMode={true} mini />
       </div>
 
       {/* Titolo e ruolo */}
-      <div className="flex flex-col items-start">
+      <div className="flex flex-col items-start md:items-start mt-16 md:mt-0">
         <h1 className="header-title text-2xl md:text-3xl font-bold">{t.name || 'Gregorio Martino'}</h1>
         <p className="header-role text-sm md:text-base">{t.role}</p>
       </div>
 
       {/* Bottoni social e CV */}
-      <div className="header-social flex flex-wrap gap-2 mt-2 md:mt-0">
+      <div className="header-social flex flex-wrap gap-2 md:gap-4 mt-4 md:mt-0">
         <a href="https://www.linkedin.com/in/gregorio-martino-5a42a3171/" target="_blank" rel="noopener noreferrer">
           <Button>{t.linkedin}</Button>
         </a>
@@ -34,12 +34,14 @@ export default function Header({ language, setLanguage, t, stats }) {
       </div>
 
       {/* Selettore lingua */}
-      <div className="language-selector flex gap-1 mt-2 md:mt-0">
+      <div className="language-selector flex gap-1 mt-4 md:mt-0">
         {['it', 'en', 'es'].map((lang) => (
           <button
             key={lang}
             onClick={() => setLanguage(lang)}
-            className={`lang-btn px-2 py-1 rounded text-sm ${language === lang ? 'bg-gray-700 text-white' : 'bg-gray-800 text-gray-400'}`}
+            className={`px-2 py-1 rounded text-sm ${
+              language === lang ? 'bg-green-700 text-white' : 'bg-green-900 text-green-400'
+            }`}
           >
             {lang.toUpperCase()}
           </button>
