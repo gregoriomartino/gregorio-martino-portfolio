@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/Button'
-import VisitsPage from './VisitsPage'
 import '../Header.css'
 
 export default function Header({ language, setLanguage, t, stats }) {

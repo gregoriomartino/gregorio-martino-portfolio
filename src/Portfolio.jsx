@@ -55,7 +55,7 @@ function PortfolioInner() {
         language={language}
         setLanguage={setLanguage}
         t={t}
-        stats={stats}
+        
       />
 
       <main className="flex-grow max-w-5xl w-full mx-auto px-4 py-8 grid gap-8">
@@ -87,7 +87,9 @@ function PortfolioInner() {
         </Routes>
       </main>
 
-      <Footer t={t} />
+      <Footer t={t}
+      stats={stats}
+       />
     </div>
   )
 }

@@ -7,23 +7,9 @@ export default function Footer({ t, darkMode, season, stats }) {
   return (
     <footer className="footer">
       <div className="footer-container">
-        {/* Colonna sinistra: info + mini visits */}
+        {/*ini visits */}
         <div className="footer-left">
-          <div className="footer-info">
-            <h3 className="footer-name">Gregorio Martino</h3>
-            <p className="footer-role">{t.role}</p>
-
-            <div className="footer-contact">
-              <div className="contact-item">
-                <Mail size={16} />
-                <a href="mailto:martinogregorio2@gmail.com">martinogregorio2@gmail.com</a>
-              </div>
-              <div className="contact-item">
-                <MapPin size={16} />
-                <span>{t.location}</span>
-              </div>
-            </div>
-          </div>
+        
 
           <div className="visits-mini-container">
             <VisitsPage stats={stats} darkMode={true} mini />
