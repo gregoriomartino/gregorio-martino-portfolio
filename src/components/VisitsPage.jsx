@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import '../VisitsPage.css'
 
-export default function VisitsPage({ stats, darkMode }) {
+export default function VisitsPage({ stats, darkMode, mini = false }) {
   const [animatedStats, setAnimatedStats] = useState({
     totalVisits: 0,
     visitsToday: 0,
@@ -49,12 +49,30 @@ export default function VisitsPage({ stats, darkMode }) {
 
   const uniqueVisits = parseUniqueVisits(stats?.lastVisits)
 
+  // Se mini=true, mostriamo solo le tre statistiche principali in piccolo
+  if (mini) {
+    return (
+      <div className={`visits-mini ${darkMode ? 'dark' : ''}`}>
+        {!stats ? (
+          <p>Caricamento...</p>
+        ) : (
+          <div className="visits-mini-stats">
+            <p>Total: {animatedStats.totalVisits}</p>
+            <p>Oggi: {animatedStats.visitsToday}</p>
+            <p>Unici: {animatedStats.uniqueVisitors}</p>
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  // Versione completa
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className={`visits-container`}
+      className={`visits-container ${darkMode ? 'dark' : ''}`}
     >
       <h2>Stato Visite</h2>
       {!stats ? (

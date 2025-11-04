@@ -5,7 +5,12 @@ import '../Header.css'
 
 export default function Header({ darkMode, setDarkMode, language, setLanguage, t, stats }) {
   return (
-    <header className="header">
+    <header className="header relative">
+      {/* Mini visits box in alto a sinistra */}
+      <div className="visits-mini absolute top-4 left-4">
+        <VisitsPage stats={stats} darkMode={darkMode} mini />
+      </div>
+
       <h1 className="header-title glow">Gregorio Martino</h1>
       <p className="header-role">{t.role}</p>
 
@@ -43,9 +48,6 @@ export default function Header({ darkMode, setDarkMode, language, setLanguage, t
           </button>
         ))}
       </div>
-
-      {/* VisitsPage sempre visibile */}
-      <VisitsPage stats={stats} darkMode={darkMode} />
     </header>
   )
 }
