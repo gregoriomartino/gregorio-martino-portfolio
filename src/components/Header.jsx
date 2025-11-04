@@ -45,7 +45,7 @@ export default function Header({ darkMode, setDarkMode, language, setLanguage, t
           <button
             key={lang}
             onClick={() => setLanguage(lang)}
-            className={`lang-btn px-2 py-1 rounded text-sm ${language === lang ? 'bg-gray-700 text-white' : darkMode ? 'bg-gray-800 text-gray-400' : 'bg-gray-200 text-gray-700'}`}
+            className={`lang-btn px-2 py-1 rounded text-sm ${language === lang ? 'bg-black-700 text-white' : darkMode ? 'bg-black-800 text-black-400' : 'bg-black-200 text-black-700'}`}
           >
             {lang.toUpperCase()}
           </button>
