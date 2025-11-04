@@ -1,7 +1,7 @@
 import { Sun, Moon } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import VisitsPage from './VisitsPage'
-import '../Header.css'
+import './Header.css'
 
 export default function Header({ darkMode, setDarkMode, language, setLanguage, t, stats }) {
   return (
@@ -9,7 +9,6 @@ export default function Header({ darkMode, setDarkMode, language, setLanguage, t
       <h1 className="header-title glow">Gregorio Martino</h1>
       <p className="header-role">{t.role}</p>
 
-      {/* Bottoni social e CV */}
       <div className="header-social">
         <a href="https://www.linkedin.com/in/gregorio-martino-5a42a3171/" target="_blank" rel="noopener noreferrer">
           <Button className="neon-button glow">{t.linkedin}</Button>
@@ -25,17 +24,14 @@ export default function Header({ darkMode, setDarkMode, language, setLanguage, t
         </a>
       </div>
 
-      {/* Bottone giochi */}
       <div className="header-actions">
         <Button className="neon-button glow">🎮 {t.games}</Button>
       </div>
 
-      {/* Toggle Dark/Light */}
       <button onClick={() => setDarkMode(!darkMode)} className="dark-toggle neon-button-circle glow">
         {darkMode ? <Sun size={20} /> : <Moon size={20} />}
       </button>
 
-      {/* Selettore lingua */}
       <div className="language-selector">
         {['it', 'en', 'es'].map((lang) => (
           <button
