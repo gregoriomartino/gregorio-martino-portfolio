@@ -66,6 +66,7 @@ function PortfolioInner() {
         t={t}
         onShowGames={handleShowGames}
         onShowVisits={handleShowVisits}
+        stats={stats}
       />
 
       <main className="flex-grow max-w-5xl mx-auto px-6 py-12 grid gap-12">
