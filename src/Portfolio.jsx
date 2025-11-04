@@ -7,7 +7,6 @@ import TrisGame from './components/TrisGame'
 import VisitsPage from './components/VisitsPage'
 import LoadingScreen from './components/LoadingScreen'
 import translations from './translation'
-import './App.css'
 
 function PortfolioInner() {
   const [darkMode, setDarkMode] = useState(false)
