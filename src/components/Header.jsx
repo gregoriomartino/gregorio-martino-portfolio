@@ -6,10 +6,7 @@ export default function Header({ language, setLanguage, t, stats }) {
   return (
     <header className="header relative bg-black text-green-500 p-4 md:p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-6">
 
-      {/* Mini visits box */}
-      <div className="visits-mini-container md:absolute md:top-4 md:left-4 w-full md:w-auto">
-        <VisitsPage stats={stats} darkMode={true} mini />
-      </div>
+      
 
       {/* Titolo e ruolo */}
       <div className="flex flex-col items-start md:items-start mt-16 md:mt-0">
