@@ -96,7 +96,7 @@ import './App.css'
       <Footer t={t} darkMode={darkMode} />
     </div>
   )
-}
+
 
 export default function Portfolio() {
   return (
