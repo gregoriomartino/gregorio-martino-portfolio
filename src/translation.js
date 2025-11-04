@@ -6,7 +6,7 @@ const translations = {
     gitlab: 'GitLab',
     downloadCV: 'Scarica CV',
     profile: 'Ciao',
-    profileText: 'Mi occupo di sviluppo software, costruendo soluzioni scalabili e trasformando codice legacy in sistemi moderni e puliti. Credo nei progetti che evolvono, si adattano e migliorano nel tempo. Lontano dallo schermo, mi trovi spesso su un sentiero: il ciclismo enduro mi allena alla costanza e alla gestione degli imprevisti  qualità preziose anche nello sviluppo software. Ti va una pausa? Prova a battermi a tris. 😉',
+    profileText: 'Mi occupo di sviluppo software, costruendo soluzioni scalabili e trasformando codice legacy in sistemi moderni e puliti. Credo nei progetti che evolvono, si adattano e migliorano nel tempo. Lontano dallo schermo, mi trovi spesso su un sentiero: il ciclismo enduro mi allena alla costanza e alla gestione degli imprevisti  qualità preziose anche nello sviluppo software. 😉',
     location: 'San Giovanni Rotondo, Italia',
     rights: 'Tutti i diritti riservati.'
   },
