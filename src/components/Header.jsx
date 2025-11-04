@@ -19,29 +19,29 @@ export default function Header({
       {/* Bottoni social e CV */}
       <div className="header-social">
         <a href="https://www.linkedin.com/in/gregorio-martino-5a42a3171/" target="_blank" rel="noopener noreferrer">
-          <Button className="neon-button glow">{t.linkedin}</Button>
+          <Button className="button">{t.linkedin}</Button>
         </a>
         <a href="https://github.com/gregoriomartino" target="_blank" rel="noopener noreferrer">
-          <Button className="neon-button glow">{t.github}</Button>
+          <Button className="button">{t.github}</Button>
         </a>
         <a href="https://gitlab.com/martinogregorio2-group" target="_blank" rel="noopener noreferrer">
-          <Button className="neon-button glow">{t.gitlab}</Button>
+          <Button className="button">{t.gitlab}</Button>
         </a>
         <a href={`${import.meta.env.BASE_URL}cv_gregorio_martino.pdf`} download>
-          <Button className="neon-button glow">{t.downloadCV}</Button>
+          <Button className="button">{t.downloadCV}</Button>
         </a>
       </div>
 
       {/* Azioni principali */}
       <div className="header-actions">
-        <Button className="neon-button glow" onClick={onShowGames}>🎮 {t.games}</Button>
-        <Button className="neon-button secondary glow" onClick={onShowVisits}>📊 {t.visits}</Button>
+        <Button className="button" onClick={onShowGames}>🎮 {t.games}</Button>
+        <Button className="button secondary" onClick={onShowVisits}>📊 {t.visits}</Button>
       </div>
 
       {/* Toggle Dark/Light */}
       <button
         onClick={() => setDarkMode(!darkMode)}
-        className="dark-toggle neon-button-circle glow"
+        className="dark-toggle"
       >
         {darkMode ? <Sun size={20} /> : <Moon size={20} />}
       </button>
@@ -52,7 +52,7 @@ export default function Header({
           <button
             key={lang}
             onClick={() => setLanguage(lang)}
-            className={`lang-btn glow ${language === lang ? 'active' : ''}`}
+            className={`lang-btn ${language === lang ? 'active' : ''}`}
           >
             {lang.toUpperCase()}
           </button>
