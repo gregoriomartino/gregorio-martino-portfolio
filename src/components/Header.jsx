@@ -1,4 +1,3 @@
-import React from 'react'
 import { Sun, Moon } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import VisitsPage from './VisitsPage'
@@ -6,16 +5,18 @@ import '../Header.css'
 
 export default function Header({ darkMode, setDarkMode, language, setLanguage, t, stats }) {
   return (
-    <header className="header relative p-6">
+    <header className={`header relative ${darkMode ? 'dark' : ''}`}>
       {/* Mini visits box in alto a sinistra */}
       <div className="visits-mini-container absolute top-4 left-4">
         <VisitsPage stats={stats} darkMode={darkMode} mini />
       </div>
 
+      {/* Titolo e ruolo */}
       <h1 className="header-title">{t.name || 'Gregorio Martino'}</h1>
       <p className="header-role">{t.role}</p>
 
-      <div className="header-social mt-4 flex gap-2 flex-wrap">
+      {/* Bottoni social e CV */}
+      <div className="header-social">
         <a href="https://www.linkedin.com/in/gregorio-martino-5a42a3171/" target="_blank" rel="noopener noreferrer">
           <Button>{t.linkedin}</Button>
         </a>
@@ -30,20 +31,21 @@ export default function Header({ darkMode, setDarkMode, language, setLanguage, t
         </a>
       </div>
 
-      <div className="header-actions mt-4">
-        <Button onClick={() => alert('Vai ai giochi!')}>🎮 {t.games}</Button>
-      </div>
-
-      <button onClick={() => setDarkMode(!darkMode)} className="dark-toggle absolute top-4 right-4 p-2 border rounded">
+      {/* Pulsante Dark/Light */}
+      <button
+        onClick={() => setDarkMode(!darkMode)}
+        className="dark-toggle rounded-full border px-2 py-2 absolute top-4 right-6"
+      >
         {darkMode ? <Sun size={20} /> : <Moon size={20} />}
       </button>
 
+      {/* Selettore lingua */}
       <div className="language-selector absolute top-4 right-20 flex gap-1">
-        {['it', 'en', 'es'].map(lang => (
+        {['it', 'en', 'es'].map((lang) => (
           <button
             key={lang}
             onClick={() => setLanguage(lang)}
-            className={`lang-btn px-2 py-1 rounded ${language === lang ? 'bg-gray-400 text-white' : ''}`}
+            className={`lang-btn px-2 py-1 rounded text-sm ${language === lang ? 'bg-gray-700 text-white' : darkMode ? 'bg-gray-800 text-gray-400' : 'bg-gray-200 text-gray-700'}`}
           >
             {lang.toUpperCase()}
           </button>
