@@ -28,7 +28,7 @@ export default function LoadingScreen({ onFinish }) {
     window.addEventListener('resize', handleResize)
 
     // Matrix rain con intensità variabile
-    const drawMatrix = () => {
+    /* const drawMatrix = () => {
       ctx.fillStyle = 'rgba(0,0,0,0.05)'
       ctx.fillRect(0, 0, width, height)
       
@@ -51,7 +51,7 @@ export default function LoadingScreen({ onFinish }) {
       })
       requestAnimationFrame(drawMatrix)
     }
-    drawMatrix()
+    drawMatrix() */
 
     // --- Ruote animate senza GSAP ---
     let angle = 0
