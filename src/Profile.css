@@ -1,7 +1,47 @@
-/* ---------------- Animazione glow ---------------- */
-@keyframes pulse-glow {
-  0%, 100% { text-shadow: 0 0 5px #0f0, 0 0 10px #0f0; }
-  50% { text-shadow: 0 0 15px #0f0, 0 0 25px #0f0; }
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------------- Body base ---------------- */
+body {
+  font-family: 'Courier New', monospace;
+  background-color: #000; /* sfondo nero */
+  color: #0f0;           /* testo verde */
+  transition: background-color 0.3s ease, color 0.3s ease;
+  line-height: 1.6;
+}
+
+/* Link */
+a {
+  color: #0f0;
+  text-decoration: none;
+  transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  color: #0f0;
+  font-family: 'Courier New', monospace;
+  text-shadow: none;
+}
+
+/* Buttons Tailwind override per coerenza */
+button {
+  font-family: 'Courier New', monospace;
+  border-color: #0f0;
+  color: #0f0;
+  background-color: transparent;
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  background-color: #0f0;
+  color: #000;
 }
 
 /* ---------------- Profile Section ---------------- */
@@ -9,22 +49,60 @@
   padding: 2rem 1rem;
   font-family: monospace;
   color: #0f0;
-  background-color: #000; /* opzionale, se vuoi uniforme a Header */
+  background-color: #000;
 }
 
-/* Titolo neon */
+/* Titolo semplice */
 .profile-title {
   font-size: 1.8rem;
   font-weight: bold;
   margin-bottom: 0.8rem;
-  animation: pulse-glow 2s infinite;
+  color: #0f0;
+  text-shadow: none;
+  animation: none;
 }
 
-/* Testo neon soft */
+/* Testo semplice */
 .profile-text {
   font-size: 1rem;
   line-height: 1.6;
   color: #0f0;
-  opacity: 0.8;
-  text-shadow: 0 0 3px #0f0;
+  opacity: 1;
+  text-shadow: none;
+}
+
+/* ---------------- Visits Mini Box ---------------- */
+.visits-mini {
+  font-family: 'Courier New', monospace;
+  color: #0f0;
+  background-color: #000;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid #0f0;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1.2;
+}
+
+/* Visite principali in mini box */
+.visits-mini p {
+  margin: 0.2rem 0;
+}
+
+/* Visite complete */
+.visits-container {
+  font-family: 'Courier New', monospace;
+  color: #0f0;
+  background-color: #000;
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+}
+
+.visits-list, .unique-visits {
+  list-style: none;
+  padding-left: 0;
+}
+
+.visit-meta {
+  font-size: 0.8rem;
+  color: #0a0;
 }
