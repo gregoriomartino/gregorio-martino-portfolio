@@ -1,8 +1,10 @@
+import './Profile.css'
+
 export default function Profile({ t }) {
   return (
-    <section>
-      <h2 className="text-2xl font-semibold mb-3">{t.profile}</h2>
-      <p className="leading-relaxed">{t.profileText}</p>
+    <section className="profile-section">
+      <h2 className="profile-title glow">{t.profile}</h2>
+      <p className="profile-text">{t.profileText}</p>
     </section>
   )
 }
