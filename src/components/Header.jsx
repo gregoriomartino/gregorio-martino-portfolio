@@ -1,15 +1,12 @@
 import { Sun, Moon } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import VisitsPage from './VisitsPage'
-import { useState } from 'react'
 import '../Header.css'
 
 export default function Header({ darkMode, setDarkMode, language, setLanguage, t, stats }) {
-  const [showVisits, setShowVisits] = useState(false)
-
   return (
     <header className="header">
-      <h1 className="header-title">Gregorio Martino</h1>
+      <h1 className="header-title glow">Gregorio Martino</h1>
       <p className="header-role">{t.role}</p>
 
       {/* Bottoni social e CV */}
@@ -28,10 +25,9 @@ export default function Header({ darkMode, setDarkMode, language, setLanguage, t
         </a>
       </div>
 
-      {/* Azioni principali */}
+      {/* Bottone giochi */}
       <div className="header-actions">
-        <Button className="neon-button glow" onClick={() => setShowVisits(false)}>🎮 {t.games}</Button>
-        <Button className="neon-button secondary glow" onClick={() => setShowVisits(!showVisits)}>📊 {t.visits}</Button>
+        <Button className="neon-button glow">🎮 {t.games}</Button>
       </div>
 
       {/* Toggle Dark/Light */}
@@ -52,8 +48,8 @@ export default function Header({ darkMode, setDarkMode, language, setLanguage, t
         ))}
       </div>
 
-      {/* VisitsPage integrata */}
-      {showVisits && <VisitsPage stats={stats} darkMode={darkMode} />}
+      {/* VisitsPage sempre visibile */}
+      <VisitsPage stats={stats} darkMode={darkMode} />
     </header>
   )
 }
