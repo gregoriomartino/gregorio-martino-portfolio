@@ -27,13 +27,21 @@ export default function Header({ darkMode, setDarkMode, language, setLanguage, t
         </a>
       </div>
 
-      {/* Bottoni per Giochi e Visite */}
-      <div className="mt-4 space-x-3">
-        <Button variant="outline" onClick={onShowGames}>
-          {t.games}
+
+      <div className="mt-6 flex flex-wrap justify-center gap-4">
+        <Button
+          variant="default"
+          className="rounded-full px-6 py-3 shadow-md hover:shadow-lg transition-all"
+          onClick={onShowGames}
+        >
+          🎮 {t.games}
         </Button>
-        <Button variant="outline" onClick={onShowVisits}>
-          {t.visits}
+        <Button
+          variant="secondary"
+          className="rounded-full px-6 py-3 shadow-md hover:shadow-lg transition-all"
+          onClick={onShowVisits}
+        >
+          📊 {t.visits}
         </Button>
       </div>
 
