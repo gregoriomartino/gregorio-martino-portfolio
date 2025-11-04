@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom'
+import { HashRouter as Router, Routes, Route, useNavigate } from 'react-router-dom'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Profile from './components/Profile'
@@ -15,12 +15,15 @@ function PortfolioInner() {
 
   const navigate = useNavigate()
 
-  // Track visita all'avvio
+  // Traccia la visita all'avvio
   useEffect(() => {
     fetch('http://localhost:8080/api/track', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ path: window.location.pathname, referrer: document.referrer })
+      body: JSON.stringify({
+        path: window.location.hash || '/',
+        referrer: document.referrer,
+      }),
     }).catch(err => console.warn('track error', err))
   }, [])
 
@@ -42,8 +45,13 @@ function PortfolioInner() {
   const handleShowVisits = () => navigate('/visits')
 
   return (
-    <div className={`${darkMode ? 'bg-gray-900 text-gray-100' : 'bg-gradient-to-b from-white via-gray-50 to-white text-gray-900'} min-h-screen flex flex-col transition-colors duration-500 font-sans`}>
-      
+    <div
+      className={`${
+        darkMode
+          ? 'bg-gray-900 text-gray-100'
+          : 'bg-gradient-to-b from-white via-gray-50 to-white text-gray-900'
+      } min-h-screen flex flex-col transition-colors duration-500 font-sans`}
+    >
       <Header
         darkMode={darkMode}
         setDarkMode={setDarkMode}
@@ -94,8 +102,8 @@ function PortfolioInner() {
 
 export default function Portfolio() {
   return (
-    // 👇 Qui aggiungi il basename per il path di GitHub Pages
-    <Router basename="/gregorio-martino-portfolio">
+    // ✅ HashRouter per compatibilità completa su GitHub Pages
+    <Router basename="/">
       <PortfolioInner />
     </Router>
   )
