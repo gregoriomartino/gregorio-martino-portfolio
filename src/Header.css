@@ -3,6 +3,7 @@
   position: relative;
   text-align: center;
   padding: 2rem 0;
+  background: transparent;
 }
 
 /* Titolo e ruolo */
@@ -10,21 +11,12 @@
   font-size: 2.5rem;
   font-weight: bold;
   margin-bottom: 0.5rem;
-  color: #0f0;
+  color: #0f0; /* verde standard */
 }
 
 .header-role {
   font-size: 1.2rem;
   color: #0f0;
-}
-
-/* Glow effetto neon */
-.glow {
-  text-shadow: 0 0 5px #0f0, 0 0 10px #0f0, 0 0 20px #0f0;
-}
-
-.glow-text {
-  text-shadow: 0 0 3px #0f0, 0 0 6px #0f0;
 }
 
 /* Social e bottoni */
@@ -48,7 +40,7 @@
 }
 
 .neon-button:hover {
-  box-shadow: 0 0 5px #0f0, 0 0 10px #0f0, 0 0 20px #0f0;
+  background: rgba(0, 255, 0, 0.1);
 }
 
 /* Toggle cerchio */
@@ -100,8 +92,16 @@
   font-size: 0.75rem;
   font-family: monospace;
   color: #0f0;
-  text-shadow: 0 0 3px #0f0, 0 0 6px #0f0;
   display: flex;
   flex-direction: column;
   gap: 1px;
+}
+
+/* Testo semplice senza glow */
+.header-title,
+.header-role,
+.neon-button,
+.lang-btn,
+.visits-mini {
+  text-shadow: none;
 }
