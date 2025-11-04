@@ -1,0 +1,110 @@
+/* ---------------- Animazioni ---------------- */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 5px #0f0, 0 0 10px #0f0, inset 0 0 5px #0f0; }
+  50% { box-shadow: 0 0 15px #0f0, 0 0 30px #0f0, inset 0 0 10px #0f0; }
+}
+
+/* ---------------- Header base ---------------- */
+.header {
+  position: relative;
+  text-align: center;
+  padding: 2.5rem 1rem;
+  background-color: #000;
+  color: #0f0;
+  font-family: monospace;
+}
+
+.header-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #0f0;
+  text-shadow: 0 0 5px #0f0, 0 0 10px #0f0, 0 0 20px #0f0;
+  margin-bottom: 0.5rem;
+  animation: pulse-glow 2s infinite;
+}
+
+.header-role {
+  font-size: 1.2rem;
+  color: #0f0;
+  opacity: 0.7;
+  text-shadow: 0 0 5px #0f0;
+}
+
+/* ---------------- Neon Buttons ---------------- */
+.neon-button {
+  border: 2px solid #0f0;
+  color: #0f0;
+  background-color: transparent;
+  padding: 0.5rem 1rem;
+  font-family: monospace;
+  font-weight: bold;
+  text-shadow: 0 0 5px #0f0, 0 0 10px #0f0;
+  transition: all 0.2s;
+}
+
+.neon-button:hover {
+  color: #fff;
+}
+
+.neon-button.secondary {
+  background-color: #0f0;
+  color: #000;
+}
+
+/* Glow animation */
+.glow {
+  animation: pulse-glow 2s infinite;
+}
+
+/* ---------------- Toggle Dark/Light ---------------- */
+.dark-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  padding: 0.4rem;
+  border-radius: 50%;
+  border: 2px solid #0f0;
+  background: transparent;
+  color: #0f0;
+  transition: all 0.2s;
+}
+
+/* ---------------- Language selector ---------------- */
+.language-selector {
+  position: absolute;
+  top: 1rem;
+  right: 5rem;
+  display: flex;
+  gap: 0.3rem;
+}
+
+.lang-btn {
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.25rem;
+  font-family: monospace;
+  font-weight: bold;
+  color: #0f0;
+  border: 1px solid #0f0;
+  background: transparent;
+  text-shadow: 0 0 5px #0f0;
+  transition: all 0.2s;
+}
+
+.lang-btn:hover {
+  background: #0f0;
+  color: #000;
+}
+
+.lang-btn.active {
+  background: #0f0;
+  color: #000;
+}
+
+/* ---------------- Responsive ---------------- */
+@media (max-width: 640px) {
+  .header-title { font-size: 2rem; }
+  .header-role { font-size: 1rem; }
+  .header-actions { flex-direction: column; gap: 0.5rem; }
+  .language-selector { top: 0.5rem; right: 3rem; }
+  .dark-toggle { top: 0.5rem; right: 1rem; }
+}

@@ -1,73 +1,58 @@
 import { Sun, Moon } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
+import '../Header.css'
 
-export default function Header({ darkMode, setDarkMode, language, setLanguage, t, onShowGames, onShowVisits }) {
+export default function Header({
+  darkMode,
+  setDarkMode,
+  language,
+  setLanguage,
+  t,
+  onShowGames,
+  onShowVisits
+}) {
   return (
-    <header className="text-center py-10 relative">
-      <h1 className={`text-4xl font-bold mb-2 transition-colors ${darkMode ? 'text-gray-100' : 'text-slate-900'}`}>
-        Gregorio Martino
-      </h1>
-      <p className={`text-lg transition-colors ${darkMode ? 'text-gray-400' : 'text-slate-500'}`}>
-        {t.role}
-      </p>
+    <header className="header">
+      <h1 className="header-title">Gregorio Martino</h1>
+      <p className="header-role">{t.role}</p>
 
       {/* Bottoni social e CV */}
-      <div className="mt-4 space-x-3">
+      <div className="header-social">
         <a href="https://www.linkedin.com/in/gregorio-martino-5a42a3171/" target="_blank" rel="noopener noreferrer">
-          <Button variant="outline">{t.linkedin}</Button>
+          <Button className="neon-button glow">{t.linkedin}</Button>
         </a>
         <a href="https://github.com/gregoriomartino" target="_blank" rel="noopener noreferrer">
-          <Button variant="outline">{t.github}</Button>
+          <Button className="neon-button glow">{t.github}</Button>
         </a>
         <a href="https://gitlab.com/martinogregorio2-group" target="_blank" rel="noopener noreferrer">
-          <Button variant="outline">{t.gitlab}</Button>
+          <Button className="neon-button glow">{t.gitlab}</Button>
         </a>
         <a href={`${import.meta.env.BASE_URL}cv_gregorio_martino.pdf`} download>
-          <Button>{t.downloadCV}</Button>
+          <Button className="neon-button glow">{t.downloadCV}</Button>
         </a>
       </div>
 
-
-      <div className="mt-6 flex flex-wrap justify-center gap-4">
-        <Button
-          variant="default"
-          className="rounded-full px-6 py-3 shadow-md hover:shadow-lg transition-all"
-          onClick={onShowGames}
-        >
-          🎮 {t.games}
-        </Button>
-        <Button
-          variant="secondary"
-          className="rounded-full px-6 py-3 shadow-md hover:shadow-lg transition-all"
-          onClick={onShowVisits}
-        >
-          📊 {t.visits}
-        </Button>
+      {/* Azioni principali */}
+      <div className="header-actions">
+        <Button className="neon-button glow" onClick={onShowGames}>🎮 {t.games}</Button>
+        <Button className="neon-button secondary glow" onClick={onShowVisits}>📊 {t.visits}</Button>
       </div>
 
       {/* Toggle Dark/Light */}
       <button
         onClick={() => setDarkMode(!darkMode)}
-        className="absolute top-4 right-6 p-2 rounded-full border border-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors"
+        className="dark-toggle neon-button-circle glow"
       >
         {darkMode ? <Sun size={20} /> : <Moon size={20} />}
       </button>
 
       {/* Selettore lingua */}
-      <div className="absolute top-4 right-20 flex gap-1">
-        {['it','en','es'].map((lang) => (
+      <div className="language-selector">
+        {['it', 'en', 'es'].map((lang) => (
           <button
             key={lang}
             onClick={() => setLanguage(lang)}
-            className={`px-3 py-1 text-sm rounded-md transition-colors ${
-              language === lang
-                ? darkMode
-                  ? 'bg-slate-700 text-white'
-                  : 'bg-slate-800 text-white'
-                : darkMode
-                  ? 'bg-slate-800 text-slate-400 hover:bg-slate-700'
-                  : 'bg-slate-200 text-slate-600 hover:bg-slate-300'
-            }`}
+            className={`lang-btn glow ${language === lang ? 'active' : ''}`}
           >
             {lang.toUpperCase()}
           </button>
