@@ -7,11 +7,41 @@ import TrisGame from './components/TrisGame'
 import VisitsPage from './components/VisitsPage'
 import translations from './translation'
 
+// Loader component
+function LoadingScreen({ onFinish }) {
+  const [progress, setProgress] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProgress(prev => {
+        if (prev >= 100) {
+          clearInterval(interval)
+          onFinish()
+          return 100
+        }
+        return prev + 5
+      })
+    }, 100)
+    return () => clearInterval(interval)
+  }, [onFinish])
+
+  return (
+    <div className="fixed inset-0 flex flex-col items-center justify-center bg-slate-900 text-white z-50">
+      <h1 className="text-3xl font-bold mb-4">Benvenuto su Gregorio Martino Portfolio</h1>
+      <div className="w-64 h-4 bg-slate-700 rounded overflow-hidden">
+        <div className="h-full bg-green-500 transition-all" style={{ width: `${progress}%` }}></div>
+      </div>
+      <p className="mt-2">{progress}%</p>
+    </div>
+  )
+}
+
 function PortfolioInner() {
   const [darkMode, setDarkMode] = useState(false)
   const [language, setLanguage] = useState('it')
   const t = translations[language]
   const [stats, setStats] = useState(null)
+  const [loading, setLoading] = useState(true) // <-- stato loader
 
   const navigate = useNavigate()
 
@@ -44,6 +74,11 @@ function PortfolioInner() {
   const handleShowGames = () => navigate('/games')
   const handleShowVisits = () => navigate('/visits')
 
+  // Se loading=true mostra loader
+  if (loading) {
+    return <LoadingScreen onFinish={() => setLoading(false)} />
+  }
+
   return (
     <div
       className={`${
@@ -62,7 +97,6 @@ function PortfolioInner() {
         onShowVisits={handleShowVisits}
       />
 
-      {/* Main content */}
       <main className="flex-grow max-w-5xl mx-auto px-6 py-12 grid gap-12">
         <Routes>
           <Route
@@ -99,7 +133,6 @@ function PortfolioInner() {
 
 export default function Portfolio() {
   return (
-    // ✅ HashRouter per compatibilità completa su GitHub Pages
     <Router basename="/">
       <PortfolioInner />
     </Router>
