@@ -35,7 +35,7 @@ export default function VisitsPage({ stats, darkMode }) {
         <ul className="space-y-3 text-lg font-medium">
           <li><strong>Visite totali:</strong> {animatedStats.totalVisits}</li>
           <li><strong>Visite oggi:</strong> {animatedStats.visitsToday}</li>
-          <li><strong>Utenti unici:</strong> {animatedStats.uniqueUsers}</li>
+          <li><strong>Utenti  unici:</strong> {animatedStats.uniqueUsers}</li>
           <li>
             <strong>Ultime pagine visitate:</strong>
             <ul className="list-disc ml-5 mt-1 space-y-1">
