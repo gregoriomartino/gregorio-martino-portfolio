@@ -38,7 +38,7 @@ function PortfolioInner() {
     }
 
     fetchStats()
-    const interval = setInterval(fetchStats, 5000)
+    const interval = setInterval(fetchStats, 12 * 60 * 60 * 1000)
     return () => clearInterval(interval)
   }, [])
 
