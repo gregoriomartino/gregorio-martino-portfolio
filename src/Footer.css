@@ -1,16 +1,14 @@
-/* Footer base */
 .footer {
   background-color: #000;
   color: #0f0;
   font-family: monospace;
-  padding: 1.5rem 1rem;
+  padding: 2rem 1rem;
 }
 
-/* Container interno */
 .footer-container {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
 @media (min-width: 768px) {
@@ -21,7 +19,6 @@
   }
 }
 
-/* Colonna sinistra: info + mini visits */
 .footer-left {
   display: flex;
   flex-direction: column;
@@ -31,12 +28,11 @@
 @media (min-width: 768px) {
   .footer-left {
     flex-direction: row;
-    align-items: flex-start;
     gap: 3rem;
+    align-items: flex-start;
   }
 }
 
-/* Info contatto */
 .footer-info {
   display: flex;
   flex-direction: column;
@@ -66,7 +62,7 @@
 
 /* Mini visits box */
 .visits-mini-container {
-  max-width: 250px;
+  max-width: 200px;
 }
 
 .visits-mini {
@@ -77,10 +73,6 @@
   font-size: 0.875rem;
 }
 
-.visits-mini p {
-  margin: 0.25rem 0;
-}
-
 /* ChatBot */
 .footer-chat {
   flex-shrink: 0;
@@ -89,7 +81,7 @@
 
 /* Bottom copyright */
 .footer-bottom {
-  margin-top: 1.5rem;
+  margin-top: 2rem;
   text-align: center;
   font-size: 0.875rem;
 }
@@ -97,12 +89,5 @@
 @media (min-width: 768px) {
   .footer-bottom {
     text-align: left;
-  }
-}
-
-/* Responsive tweaks */
-@media (max-width: 640px) {
-  .visits-mini-container {
-    width: 100%;
   }
 }
