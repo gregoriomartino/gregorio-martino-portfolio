@@ -29,10 +29,10 @@ export default function Header({ darkMode, setDarkMode, language, setLanguage, t
 
       {/* Bottoni per Giochi e Visite */}
       <div className="mt-4 space-x-3">
-        <Button variant="secondary" onClick={onShowGames}>
+        <Button variant="outline" onClick={onShowGames}>
           {t.games}
         </Button>
-        <Button variant="secondary" onClick={onShowVisits}>
+        <Button variant="outline" onClick={onShowVisits}>
           {t.visits}
         </Button>
       </div>
