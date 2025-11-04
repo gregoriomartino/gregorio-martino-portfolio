@@ -4,9 +4,14 @@ import { Button } from '@/components/ui/Button'
 export default function Header({ darkMode, setDarkMode, language, setLanguage, t, onShowGames, onShowVisits }) {
   return (
     <header className="text-center py-10 relative">
-      <h1 className="text-4xl font-bold mb-2">Gregorio Martino</h1>
-      <p className="text-lg text-slate-500">{t.role}</p>
+      <h1 className={`text-4xl font-bold mb-2 transition-colors ${darkMode ? 'text-gray-100' : 'text-slate-900'}`}>
+        Gregorio Martino
+      </h1>
+      <p className={`text-lg transition-colors ${darkMode ? 'text-gray-400' : 'text-slate-500'}`}>
+        {t.role}
+      </p>
 
+      {/* Bottoni social e CV */}
       <div className="mt-4 space-x-3">
         <a href="https://www.linkedin.com/in/gregorio-martino-5a42a3171/" target="_blank" rel="noopener noreferrer">
           <Button variant="outline">{t.linkedin}</Button>
@@ -22,7 +27,7 @@ export default function Header({ darkMode, setDarkMode, language, setLanguage, t
         </a>
       </div>
 
-      {/* Nuovi button per Giochi e Visite */}
+      {/* Bottoni per Giochi e Visite */}
       <div className="mt-4 space-x-3">
         <Button variant="secondary" onClick={onShowGames}>
           {t.games}
@@ -32,15 +37,17 @@ export default function Header({ darkMode, setDarkMode, language, setLanguage, t
         </Button>
       </div>
 
+      {/* Toggle Dark/Light */}
       <button
         onClick={() => setDarkMode(!darkMode)}
-        className="absolute top-4 right-6 p-2 rounded-full border border-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800"
+        className="absolute top-4 right-6 p-2 rounded-full border border-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors"
       >
         {darkMode ? <Sun size={20} /> : <Moon size={20} />}
       </button>
 
+      {/* Selettore lingua */}
       <div className="absolute top-4 right-20 flex gap-1">
-        {['it', 'en', 'es'].map((lang) => (
+        {['it','en','es'].map((lang) => (
           <button
             key={lang}
             onClick={() => setLanguage(lang)}

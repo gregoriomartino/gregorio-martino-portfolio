@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function TrisGame() {
   const [board, setBoard] = useState(Array(9).fill(null));
@@ -25,15 +26,13 @@ export default function TrisGame() {
 
   const minimax = (squares, isMaximizing) => {
     const result = calculateWinner(squares);
-    if (result) {
-      return result.winner === 'O' ? 10 : -10;
-    }
+    if (result) return result.winner === 'O' ? 10 : -10;
     if (!squares.includes(null)) return 0;
 
     if (isMaximizing) {
       let bestScore = -Infinity;
       for (let i = 0; i < 9; i++) {
-        if (squares[i] === null) {
+        if (!squares[i]) {
           squares[i] = 'O';
           const score = minimax(squares, false);
           squares[i] = null;
@@ -44,7 +43,7 @@ export default function TrisGame() {
     } else {
       let bestScore = Infinity;
       for (let i = 0; i < 9; i++) {
-        if (squares[i] === null) {
+        if (!squares[i]) {
           squares[i] = 'X';
           const score = minimax(squares, true);
           squares[i] = null;
@@ -58,9 +57,8 @@ export default function TrisGame() {
   const getBestMove = (squares) => {
     let bestScore = -Infinity;
     let bestMove = null;
-
     for (let i = 0; i < 9; i++) {
-      if (squares[i] === null) {
+      if (!squares[i]) {
         squares[i] = 'O';
         const score = minimax(squares, false);
         squares[i] = null;
@@ -106,13 +104,8 @@ export default function TrisGame() {
         setIsAiThinking(false);
 
         const aiResult = calculateWinner(newBoard);
-        if (aiResult) {
-          setWinner(aiResult.winner);
-          setScores(prev => ({ ...prev, gregorio: prev.gregorio + 1 }));
-        } else if (!newBoard.includes(null)) {
-          setWinner('draw');
-          setScores(prev => ({ ...prev, draws: prev.draws + 1 }));
-        }
+        if (aiResult) setWinner(aiResult.winner);
+        else if (!newBoard.includes(null)) setWinner('draw');
       }
     }, 600);
   };
@@ -134,11 +127,9 @@ export default function TrisGame() {
 
   return (
     <div className="max-w-md w-full mx-auto p-6">
-      <h1 className="text-3xl font-bold text-center mb-6 text-slate-800">
-        Tris vs Gregorio 🚴
-      </h1>
+      <h1 className="text-3xl font-bold text-center mb-6 text-slate-800">Tris vs Gregorio 🚴</h1>
 
-      <div className="bg-slate-100 rounded-lg p-4 mb-6">
+      <div className="bg-slate-100 dark:bg-gray-800 rounded-lg p-4 mb-6 transition-colors">
         <div className="grid grid-cols-3 gap-4 text-center">
           <div>
             <div className="text-2xl font-bold text-blue-600">{scores.player}</div>
@@ -157,11 +148,16 @@ export default function TrisGame() {
 
       <div className="text-center mb-6">
         {winner ? (
-          <div className="space-y-2">
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.4 }}
+            className="space-y-2"
+          >
             <p className="text-2xl font-bold text-slate-800">
               {winner === 'draw' ? '🤝 Pareggio!' : winner === 'X' ? '🎉 Hai vinto!' : '🚴 Ha vinto Gregorio!'}
             </p>
-          </div>
+          </motion.div>
         ) : (
           <p className="text-lg text-slate-600">
             {isAiThinking ? '🤔 Gregorio sta pensando...' : isXNext ? '✨ Il tuo turno' : '⏳ Turno di Gregorio'}
@@ -173,32 +169,46 @@ export default function TrisGame() {
         {board.map((cell, idx) => {
           const isWinningCell = winningLine?.includes(idx);
           const isLastMoveCell = lastMove === idx;
-          
+
           return (
-            <button
+            <motion.button
               key={idx}
               onClick={() => handleClick(idx)}
-              disabled={cell !== null || winner || !isXNext || isAiThinking}
-              className={`
-                aspect-square border-2 flex items-center justify-center text-5xl
-                transition-all duration-300 rounded-lg
-                ${isWinningCell ? 'bg-green-200 border-green-400 scale-105' : 'bg-white border-slate-300'}
+              disabled={cell || winner || !isXNext || isAiThinking}
+              whileHover={!cell && !winner && isXNext && !isAiThinking ? { scale: 1.05 } : {}}
+              className={`aspect-square border-2 flex items-center justify-center text-5xl
+                rounded-lg transition-all duration-300
+                ${isWinningCell ? 'bg-green-200 border-green-400' : 'bg-white dark:bg-gray-700 border-slate-300'}
                 ${isLastMoveCell && !isWinningCell ? 'ring-2 ring-blue-400' : ''}
-                ${!cell && !winner && isXNext && !isAiThinking ? 'hover:bg-blue-50 hover:border-blue-300 cursor-pointer' : ''}
-                ${cell || winner || !isXNext || isAiThinking ? 'cursor-not-allowed' : ''}
+                ${cell || winner || !isXNext || isAiThinking ? 'cursor-not-allowed' : 'cursor-pointer'}
               `}
             >
-              {cell === 'X' && (
-                <span className="text-blue-600 font-bold animate-[scale-in_0.3s_ease-out]">
-                  X
-                </span>
-              )}
-              {cell === 'O' && (
-                <span className="animate-[scale-in_0.3s_ease-out]">
-                  🚴
-                </span>
-              )}
-            </button>
+              <AnimatePresence>
+                {cell === 'X' && (
+                  <motion.span
+                    key="X"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="text-blue-600 font-bold"
+                  >
+                    X
+                  </motion.span>
+                )}
+                {cell === 'O' && (
+                  <motion.span
+                    key="O"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    🚴
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </motion.button>
           );
         })}
       </div>
@@ -219,19 +229,6 @@ export default function TrisGame() {
           Reset punteggio
         </button>
       </div>
-
-      <style jsx>{`
-        @keyframes scale-in {
-          from {
-            transform: scale(0);
-            opacity: 0;
-          }
-          to {
-            transform: scale(1);
-            opacity: 1;
-          }
-        }
-      `}</style>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Profile from './components/Profile'
@@ -11,8 +11,10 @@ export default function Portfolio() {
   const [darkMode, setDarkMode] = useState(false)
   const [language, setLanguage] = useState('it')
   const t = translations[language]
-
   const [stats, setStats] = useState(null)
+
+  // Router navigation helper
+  const navigate = useNavigate?.() || (() => {})
 
   // Track visit all'avvio
   useEffect(() => {
@@ -34,29 +36,61 @@ export default function Portfolio() {
 
     fetchStats()
     const interval = setInterval(fetchStats, 5000)
-
     return () => clearInterval(interval)
   }, [])
 
+  // Funzioni per Header buttons
+  const handleShowGames = () => navigate('/games')
+  const handleShowVisits = () => navigate('/visits')
+
   return (
     <Router>
-      <div className={`${darkMode ? 'bg-slate-900 text-slate-100' : 'bg-slate-50 text-slate-800'} min-h-screen transition-colors flex flex-col`}>
+      <div className={`${darkMode ? 'bg-gray-900 text-gray-100' : 'bg-gradient-to-b from-white via-gray-50 to-white text-gray-900'} min-h-screen flex flex-col transition-colors duration-500 font-sans`}>
+        
         <Header
           darkMode={darkMode}
           setDarkMode={setDarkMode}
           language={language}
           setLanguage={setLanguage}
           t={t}
+          onShowGames={handleShowGames}
+          onShowVisits={handleShowVisits}
         />
 
-        <main className="max-w-4xl mx-auto p-6 flex-grow">
+        {/* Spazio per header */}
+        <div className="h-40 md:h-32"></div>
+
+        {/* Main content con card animate */}
+        <main className="flex-grow max-w-5xl mx-auto px-6 py-12 grid gap-12">
           <Routes>
-            <Route path="/" element={<Profile t={t} />} />
-            <Route path="/games" element={<TrisGame />} />
-            <Route path="/visits" element={<VisitsPage stats={stats} />} />
+            <Route
+              path="/"
+              element={
+                <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8 transform transition-transform duration-300 hover:-translate-y-2 hover:scale-105">
+                  <Profile t={t} />
+                </div>
+              }
+            />
+            <Route
+              path="/games"
+              element={
+                <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8 transform transition-transform duration-300 hover:-translate-y-2 hover:scale-105">
+                  <TrisGame darkMode={darkMode} />
+                </div>
+              }
+            />
+            <Route
+              path="/visits"
+              element={
+                <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8 transform transition-transform duration-300 hover:-translate-y-2 hover:scale-105">
+                  <VisitsPage stats={stats} darkMode={darkMode} />
+                </div>
+              }
+            />
           </Routes>
         </main>
 
+        {/* Footer minimal ma elegante */}
         <Footer t={t} darkMode={darkMode} />
       </div>
     </Router>
