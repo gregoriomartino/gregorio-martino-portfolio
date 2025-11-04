@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import '../VisitsPage.css'
 
-export default function VisitsPage({ stats, darkMode, mini = false }) {
+export default function VisitsPage({ stats, mini = false }) {
   const [animatedStats, setAnimatedStats] = useState({
     totalVisits: 0,
     visitsToday: 0,
@@ -10,8 +10,7 @@ export default function VisitsPage({ stats, darkMode, mini = false }) {
   })
   const [uniqueVisits, setUniqueVisits] = useState([])
 
-  const geoCache = React.useRef({})
-
+  // Animazione numeri
   const animateValue = (start, end, key) => {
     const duration = 1
     const steps = 50
@@ -25,33 +24,21 @@ export default function VisitsPage({ stats, darkMode, mini = false }) {
     setTimeout(() => clearInterval(anim), duration * 1000)
   }
 
-  // Convert country code in emoji bandiera 🇮🇹
-  const countryCodeToFlag = (code) => {
-    if (!code) return ''
-    return code
-      .toUpperCase()
-      .replace(/./g, char =>
-        String.fromCodePoint(127397 + char.charCodeAt())
-      )
-  }
-
+  // Fetch geolocalizzazione IP
   const fetchGeo = async (ip) => {
-    if (!ip || ip === '-') return { geo: 'N/A', flag: '' }
-    if (geoCache.current[ip]) return geoCache.current[ip]
-
     try {
-      const res = await fetch(`https://ipapi.co/${ip}/json/`)
-      if (!res.ok) return { geo: 'N/A', flag: '' }
+      const res = await fetch(`http://ip-api.com/json/${ip}`)
       const data = await res.json()
-      const geo = data.city ? `${data.city}, ${data.country_name}` : 'N/A'
-      const flag = countryCodeToFlag(data.country_code)
-      geoCache.current[ip] = { geo, flag }
-      return { geo, flag }
+      if (data.status === 'success') {
+        return `${data.city || '-'}, ${data.country || '-'}`
+      }
     } catch (err) {
-      return { geo: 'N/A', flag: '' }
+      console.warn('Geo fetch error', err)
     }
+    return 'N/A'
   }
 
+  // Aggiorna statistiche e ultime visite
   useEffect(() => {
     if (!stats) return
 
@@ -62,7 +49,7 @@ export default function VisitsPage({ stats, darkMode, mini = false }) {
     const seenIps = new Set()
     const uniques = []
 
-    const loadGeo = async () => {
+    const fetchAllGeo = async () => {
       for (const entry of stats.lastVisits || []) {
         const parts = entry.split('|').map(p => p.trim())
         const timestamp = parts[0]
@@ -71,43 +58,54 @@ export default function VisitsPage({ stats, darkMode, mini = false }) {
 
         if (!seenIps.has(ip)) {
           seenIps.add(ip)
-          const { geo, flag } = await fetchGeo(ip)
-          uniques.push({ ip, path, timestamp, geo, flag })
+          const geo = await fetchGeo(ip)
+          uniques.push({ ip, path, timestamp, geo })
         }
       }
       setUniqueVisits(uniques)
     }
 
-    loadGeo()
+    fetchAllGeo()
   }, [stats])
 
+  // Auto-refresh mini box ogni 12 ore
+  useEffect(() => {
+    if (!mini) return
+    const interval = setInterval(() => {
+      window.location.reload()
+    }, 12 * 60 * 60 * 1000)
+    return () => clearInterval(interval)
+  }, [mini])
+
+  // Mini box
   if (mini) {
     return (
-      <div className={`visits-mini ${darkMode ? 'dark' : ''} bg-black text-green-500 p-2 rounded text-xs`}>
+      <div className="visits-mini">
         {!stats ? (
           <p>Caricamento...</p>
         ) : (
-          <>
+          <div className="visits-mini-stats">
             <p>Total: {animatedStats.totalVisits}</p>
             <p>Oggi: {animatedStats.visitsToday}</p>
             <p>Unici: {animatedStats.uniqueVisitors}</p>
             {uniqueVisits[0] && (
               <p className="mini-visit-ip">
-                IP: {uniqueVisits[0].ip} - Geo: {uniqueVisits[0].geo} {uniqueVisits[0].flag}
+                IP: {uniqueVisits[0].ip} - Geo: {uniqueVisits[0].geo}
               </p>
             )}
-          </>
+          </div>
         )}
       </div>
     )
   }
 
+  // Versione completa
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className={`visits-container ${darkMode ? 'dark' : ''}`}
+      className="visits-container"
     >
       <h2>Stato Visite</h2>
       {!stats ? (
@@ -128,8 +126,8 @@ export default function VisitsPage({ stats, darkMode, mini = false }) {
                   transition={{ delay: idx * 0.1 }}
                 >
                   <span className="font-semibold">{v.path}</span>
-                  <span className="visit-meta text-xs">
-                    ({v.ip} · {v.geo} {v.flag} · {new Date(v.timestamp).toLocaleTimeString()})
+                  <span className="visit-meta">
+                    ({v.ip} · {v.geo} · {new Date(v.timestamp).toLocaleTimeString()})
                   </span>
                 </motion.li>
               ))}

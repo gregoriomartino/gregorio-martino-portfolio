@@ -9,7 +9,6 @@ import LoadingScreen from './components/LoadingScreen'
 import translations from './translation'
 
 function PortfolioInner() {
-  const [darkMode, setDarkMode] = useState(true) // tema nero
   const [language, setLanguage] = useState('it')
   const [stats, setStats] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -42,6 +41,7 @@ function PortfolioInner() {
     return () => clearInterval(interval)
   }, [])
 
+  // Navigazione giochi/visite
   const handleShowGames = () => navigate('/games')
   const handleShowVisits = () => navigate('/visits')
 
@@ -50,24 +50,20 @@ function PortfolioInner() {
   }
 
   return (
-    <div className={`bg-black text-green-500 min-h-screen flex flex-col transition-colors duration-500 font-sans overflow-x-hidden`}>
+    <div className="bg-black text-green-500 min-h-screen flex flex-col font-sans">
       <Header
-        darkMode={darkMode}
-        setDarkMode={setDarkMode}
         language={language}
         setLanguage={setLanguage}
         t={t}
-        onShowGames={handleShowGames}
-        onShowVisits={handleShowVisits}
         stats={stats}
       />
 
-      <main className="flex-grow w-full max-w-5xl mx-auto px-4 md:px-6 py-8 grid gap-8">
+      <main className="flex-grow max-w-5xl w-full mx-auto px-4 py-8 grid gap-8">
         <Routes>
           <Route
             path="/"
             element={
-              <div className="bg-black rounded-3xl shadow-lg p-6 md:p-8 transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105 w-full">
+              <div className="bg-gray-900 rounded-3xl shadow-2xl p-6 md:p-8 transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105">
                 <Profile t={t} />
               </div>
             }
@@ -75,23 +71,23 @@ function PortfolioInner() {
           <Route
             path="/games"
             element={
-              <div className="bg-black rounded-3xl shadow-lg p-6 md:p-8 transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105 w-full">
-                <TrisGame darkMode={darkMode} />
+              <div className="bg-gray-900 rounded-3xl shadow-2xl p-6 md:p-8 transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105">
+                <TrisGame />
               </div>
             }
           />
           <Route
             path="/visits"
             element={
-              <div className="bg-black rounded-3xl shadow-lg p-6 md:p-8 transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105 w-full">
-                <VisitsPage stats={stats} darkMode={darkMode} />
+              <div className="bg-gray-900 rounded-3xl shadow-2xl p-6 md:p-8 transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105">
+                <VisitsPage stats={stats} darkMode={true} />
               </div>
             }
           />
         </Routes>
       </main>
 
-      <Footer t={t} darkMode={darkMode} />
+      <Footer t={t} />
     </div>
   )
 }

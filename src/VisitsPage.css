@@ -1,46 +1,40 @@
-.visits-mini {
-  background: rgba(0, 255, 0, 0.05);
-  border: 1px solid #0f0;
-  border-radius: 0.5rem;
-  padding: 0.3rem 0.6rem;
-  font-size: 0.75rem;
-  font-family: monospace;
+.visits-container {
+  background-color: #111;
   color: #0f0;
+  padding: 1rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 0 10px rgba(0,255,0,0.2);
 }
 
-.visits-mini.dark {
-  background: rgba(0, 255, 0, 0.1);
-  border-color: #0f0;
+.visits-mini {
+  background-color: #111;
+  color: #0f0;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  font-size: 0.875rem;
+  box-shadow: 0 0 5px rgba(0,255,0,0.2);
 }
 
 .visits-mini-stats p {
-  margin: 0;
+  margin: 0.25rem 0;
 }
 
-.visits-container {
-  background: rgba(0, 255, 0, 0.05);
-  border: 1px solid #0f0;
-  border-radius: 1rem;
-  padding: 1rem;
-  font-family: monospace;
-  color: #0f0;
-}
-
-.visits-container.dark {
-  background: rgba(0, 255, 0, 0.1);
-  border-color: #0f0;
-}
-
-.visits-list,
 .unique-visits {
   list-style: none;
   padding-left: 0;
   margin: 0.5rem 0 0 0;
-  font-size: 0.9rem;
 }
 
 .visit-meta {
-  font-size: 0.8rem;
-  color: rgba(0, 255, 0, 0.7);
-  margin-left: 0.2rem;
+  font-size: 0.75rem;
+  color: #0f0;
+  opacity: 0.7;
+  margin-left: 0.25rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .visits-container, .visits-mini {
+    padding: 0.75rem 1rem;
+  }
 }

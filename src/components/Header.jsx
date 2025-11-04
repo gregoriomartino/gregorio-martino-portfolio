@@ -1,57 +1,45 @@
-import { Sun, Moon } from 'lucide-react'
+import { Button } from '@/components/ui/Button'
 import VisitsPage from './VisitsPage'
 import '../Header.css'
 
-export default function Header({ darkMode, setDarkMode, language, setLanguage, t, stats }) {
+export default function Header({ language, setLanguage, t, stats }) {
   return (
-    <header className={`header relative bg-black text-green-500 w-full px-4 md:px-6 py-4 flex flex-col md:flex-row items-start md:items-center justify-between`}>
+    <header className="header relative bg-black text-green-500 p-4 md:p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
       
-      {/* Mini visits box in alto a sinistra */}
-      <div className="absolute top-4 left-4 w-36 md:w-48 z-10">
-        <VisitsPage stats={stats} darkMode={darkMode} mini showGeo />
+      {/* Mini visits box */}
+      <div className="visits-mini-container md:absolute md:top-4 md:left-4">
+        <VisitsPage stats={stats} darkMode={true} mini />
       </div>
 
       {/* Titolo e ruolo */}
-      <div className="flex flex-col md:flex-row items-start md:items-center gap-1 md:gap-4 mt-12 md:mt-0">
-        <h1 className="text-lg md:text-2xl font-bold">{t.name || 'Gregorio Martino'}</h1>
-        <p className="text-sm md:text-base">{t.role}</p>
+      <div className="flex flex-col items-start">
+        <h1 className="header-title text-2xl md:text-3xl font-bold">{t.name || 'Gregorio Martino'}</h1>
+        <p className="header-role text-sm md:text-base">{t.role}</p>
       </div>
 
       {/* Bottoni social e CV */}
-      <div className="flex flex-wrap gap-2 mt-4 md:mt-0">
+      <div className="header-social flex flex-wrap gap-2 mt-2 md:mt-0">
         <a href="https://www.linkedin.com/in/gregorio-martino-5a42a3171/" target="_blank" rel="noopener noreferrer">
-          <button className="px-2 py-1 text-sm md:text-base border border-green-500 rounded">{t.linkedin}</button>
+          <Button>{t.linkedin}</Button>
         </a>
         <a href="https://github.com/gregoriomartino" target="_blank" rel="noopener noreferrer">
-          <button className="px-2 py-1 text-sm md:text-base border border-green-500 rounded">{t.github}</button>
+          <Button>{t.github}</Button>
         </a>
         <a href="https://gitlab.com/martinogregorio2-group" target="_blank" rel="noopener noreferrer">
-          <button className="px-2 py-1 text-sm md:text-base border border-green-500 rounded">{t.gitlab}</button>
+          <Button>{t.gitlab}</Button>
         </a>
         <a href={`${import.meta.env.BASE_URL}cv_gregorio_martino.pdf`} download>
-          <button className="px-2 py-1 text-sm md:text-base border border-green-500 rounded">{t.downloadCV}</button>
+          <Button>{t.downloadCV}</Button>
         </a>
       </div>
 
-      {/* Dark/Light toggle */}
-      <button
-        onClick={() => setDarkMode(!darkMode)}
-        className="absolute top-4 right-4 p-2 rounded-full border border-green-500"
-      >
-        {darkMode ? <Sun size={20} /> : <Moon size={20} />}
-      </button>
-
       {/* Selettore lingua */}
-      <div className="absolute top-4 right-20 flex gap-1">
+      <div className="language-selector flex gap-1 mt-2 md:mt-0">
         {['it', 'en', 'es'].map((lang) => (
           <button
             key={lang}
             onClick={() => setLanguage(lang)}
-            className={`px-2 py-1 text-xs md:text-sm rounded ${
-              language === lang
-                ? 'bg-green-500 text-black'
-                : 'border border-green-500 text-green-500'
-            }`}
+            className={`lang-btn px-2 py-1 rounded text-sm ${language === lang ? 'bg-gray-700 text-white' : 'bg-gray-800 text-gray-400'}`}
           >
             {lang.toUpperCase()}
           </button>

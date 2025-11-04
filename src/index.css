@@ -4,21 +4,23 @@
 
 /* ---------------- Body base ---------------- */
 body {
-  font-family: 'Courier New', monospace; /* monospace professionale */
-  background-color: #000;                 /* sfondo nero */
-  color: #0f0;                            /* testo verde */
+  font-family: 'Courier New', monospace;
+  background-color: #000;  /* sfondo nero */
+  color: #0f0;             /* testo verde */
   line-height: 1.6;
+  margin: 0;
+  padding: 0;
 }
 
 /* Link */
 a {
-  color: #0f0;       /* verde puro */
+  color: #0f0;
   text-decoration: none;
 }
 
 a:hover {
-  color: #0f0;       /* resta verde al passaggio del mouse */
-  text-decoration: underline; /* opzionale */
+  color: #0f0;
+  text-decoration: underline;
 }
 
 /* Headings */
@@ -27,49 +29,44 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Courier New', monospace;
 }
 
-/* Buttons */
+/* Pulsanti globali */
 button {
   font-family: 'Courier New', monospace;
-  border: 1px solid #0f0;   /* bordo verde discreto */
-  color: #0f0;               /* testo verde */
-  background-color: transparent; 
-  cursor: pointer;
+  border: 1px solid #0f0;
+  color: #0f0;
+  background-color: transparent;
+  transition: all 0.2s ease;
 }
 
 button:hover {
-  background-color: transparent;  /* niente bagliore */
-  color: #0f0;                    /* resta verde */
-  border-color: #0f0;             /* bordo verde invariato */
+  background-color: #0f0;
+  color: #000;
 }
 
-/* Inputs e textareas (coerenza con il tema) */
-input, textarea {
-  font-family: 'Courier New', monospace;
-  color: #0f0;
-  background-color: #000;
-  border: 1px solid #0f0;
-  outline: none;
+/* Container principale */
+main {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
 }
 
-input::placeholder, textarea::placeholder {
+/* Footer */
+footer {
+  width: 100%;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  background-color: #111;
   color: #0f0;
-  opacity: 0.7;
 }
 
-/* Sezioni e container */
-section, div {
-  color: #0f0;
-  background-color: transparent;
-}
-
-/* Liste */
-ul, ol {
-  color: #0f0;
-  padding-left: 1.2rem;
-}
-
-/* Tabella semplice */
-table {
-  color: #0f0;
-  border-collapse: collapse;
+/* Responsive text */
+@media (max-width: 768px) {
+  h1.header-title {
+    font-size: 1.5rem;
+  }
+  .header-role {
+    font-size: 0.875rem;
+  }
 }
