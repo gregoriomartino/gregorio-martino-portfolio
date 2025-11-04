@@ -7,12 +7,12 @@ export default function Header({ darkMode, setDarkMode, language, setLanguage, t
   return (
     <header className="header relative">
       {/* Mini visits box in alto a sinistra */}
-      <div className="visits-mini absolute top-4 left-4">
+      <div className="visits-mini-container absolute top-4 left-4">
         <VisitsPage stats={stats} darkMode={darkMode} mini />
       </div>
 
       <h1 className="header-title glow">Gregorio Martino</h1>
-      <p className="header-role">{t.role}</p>
+      <p className="header-role glow-text">{t.role}</p>
 
       <div className="header-social">
         <a href="https://www.linkedin.com/in/gregorio-martino-5a42a3171/" target="_blank" rel="noopener noreferrer">
@@ -33,10 +33,12 @@ export default function Header({ darkMode, setDarkMode, language, setLanguage, t
         <Button className="neon-button glow">🎮 {t.games}</Button>
       </div>
 
+      {/* Toggle Dark/Light */}
       <button onClick={() => setDarkMode(!darkMode)} className="dark-toggle neon-button-circle glow">
         {darkMode ? <Sun size={20} /> : <Moon size={20} />}
       </button>
 
+      {/* Selettore lingua */}
       <div className="language-selector">
         {['it', 'en', 'es'].map((lang) => (
           <button

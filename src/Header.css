@@ -1,11 +1,8 @@
-/* ---------------- Header base ---------------- */
+/* Contenitore Header */
 .header {
   position: relative;
   text-align: center;
-  padding: 2.5rem 1rem;
-  background-color: #000;
-  color: #0f0;
-  font-family: monospace;
+  padding: 2rem 0;
 }
 
 /* Titolo e ruolo */
@@ -13,14 +10,24 @@
   font-size: 2.5rem;
   font-weight: bold;
   margin-bottom: 0.5rem;
+  color: #0f0;
 }
 
 .header-role {
   font-size: 1.2rem;
-  opacity: 0.8;
+  color: #0f0;
 }
 
-/* Social / CV buttons */
+/* Glow effetto neon */
+.glow {
+  text-shadow: 0 0 5px #0f0, 0 0 10px #0f0, 0 0 20px #0f0;
+}
+
+.glow-text {
+  text-shadow: 0 0 3px #0f0, 0 0 6px #0f0;
+}
+
+/* Social e bottoni */
 .header-social {
   margin-top: 1rem;
   display: flex;
@@ -29,89 +36,72 @@
   flex-wrap: wrap;
 }
 
-/* Azioni principali */
-.header-actions {
-  margin-top: 1.5rem;
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-/* ---------------- Buttons ---------------- */
-.button {
+.neon-button {
+  background: transparent;
   border: 1px solid #0f0;
   color: #0f0;
-  background-color: transparent;
-  padding: 0.4rem 1rem;
+  padding: 0.5rem 1rem;
   font-family: monospace;
   font-weight: bold;
-  transition: all 0.2s;
+  border-radius: 0.5rem;
+  transition: 0.2s;
 }
 
-.button:hover {
-  background-color: #0f0;
-  color: #000;
+.neon-button:hover {
+  box-shadow: 0 0 5px #0f0, 0 0 10px #0f0, 0 0 20px #0f0;
 }
 
-.button.secondary {
-  background-color: #0f0;
-  color: #000;
-}
-
-/* ---------------- Toggle Dark/Light ---------------- */
+/* Toggle cerchio */
 .dark-toggle {
   position: absolute;
   top: 1rem;
-  right: 1.5rem;
-  padding: 0.4rem;
+  right: 1rem;
   border-radius: 50%;
   border: 1px solid #0f0;
+  padding: 0.4rem;
   background: transparent;
-  color: #0f0;
-  transition: all 0.2s;
 }
 
-.dark-toggle:hover {
-  background-color: #0f0;
-  color: #000;
-}
-
-/* ---------------- Language selector ---------------- */
+/* Selettore lingua */
 .language-selector {
   position: absolute;
   top: 1rem;
-  right: 5rem;
+  right: 4rem;
   display: flex;
-  gap: 0.3rem;
+  gap: 0.25rem;
 }
 
 .lang-btn {
-  padding: 0.2rem 0.5rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
   border-radius: 0.25rem;
-  font-family: monospace;
-  font-weight: bold;
-  color: #0f0;
   border: 1px solid #0f0;
   background: transparent;
-  transition: all 0.2s;
-}
-
-.lang-btn:hover {
-  background-color: #0f0;
-  color: #000;
+  color: #0f0;
 }
 
 .lang-btn.active {
-  background-color: #0f0;
+  background: #0f0;
   color: #000;
 }
 
-/* ---------------- Responsive ---------------- */
-@media (max-width: 640px) {
-  .header-title { font-size: 2rem; }
-  .header-role { font-size: 1rem; }
-  .header-actions { flex-direction: column; gap: 0.5rem; }
-  .language-selector { top: 0.5rem; right: 3rem; }
-  .dark-toggle { top: 0.5rem; right: 1rem; }
+/* Mini box visite */
+.visits-mini-container {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+}
+
+.visits-mini {
+  background: rgba(0, 255, 0, 0.05);
+  border: 1px solid #0f0;
+  border-radius: 0.5rem;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.75rem;
+  font-family: monospace;
+  color: #0f0;
+  text-shadow: 0 0 3px #0f0, 0 0 6px #0f0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
 }

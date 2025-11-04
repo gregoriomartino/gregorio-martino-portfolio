@@ -11,8 +11,9 @@ export default function VisitsPage({ stats, darkMode, mini = false }) {
 
   useEffect(() => {
     if (!stats) return
-    const duration = 1, steps = 50, interval = (duration * 1000) / steps
+    setAnimatedStats({ totalVisits: 0, visitsToday: 0, uniqueVisitors: 0 })
 
+    const duration = 1, steps = 50, interval = (duration * 1000) / steps
     const animateValue = (start, end, set, key) => {
       let current = start
       const increment = (end - start) / steps
@@ -23,50 +24,42 @@ export default function VisitsPage({ stats, darkMode, mini = false }) {
       setTimeout(() => clearInterval(anim), duration * 1000)
     }
 
-    animateValue(animatedStats.totalVisits, stats.totalVisits, setAnimatedStats, 'totalVisits')
-    animateValue(animatedStats.visitsToday, stats.visitsToday, setAnimatedStats, 'visitsToday')
-    animateValue(animatedStats.uniqueVisitors, stats.uniqueVisitors, setAnimatedStats, 'uniqueVisitors')
+    animateValue(0, stats.totalVisits, setAnimatedStats, 'totalVisits')
+    animateValue(0, stats.visitsToday, setAnimatedStats, 'visitsToday')
+    animateValue(0, stats.uniqueVisitors, setAnimatedStats, 'uniqueVisitors')
   }, [stats])
 
+  if (!stats) return <p>Caricamento...</p>
+
+  if (mini) {
+    return (
+      <div className={`visits-mini ${darkMode ? 'dark' : ''}`}>
+        <p>Total: {animatedStats.totalVisits}</p>
+        <p>Oggi: {animatedStats.visitsToday}</p>
+        <p>Unici: {animatedStats.uniqueVisitors}</p>
+      </div>
+    )
+  }
+
+  // versione completa
   const parseUniqueVisits = (entries = []) => {
     const seenIps = new Set()
     const uniqueVisits = []
-
     for (const entry of entries) {
       const parts = entry.split('|').map(p => p.trim())
       const ip = parts[1] || '-'
       const path = parts[3] || '-'
       const timestamp = parts[0]
-
       if (!seenIps.has(ip)) {
         seenIps.add(ip)
         uniqueVisits.push({ ip, path, timestamp })
       }
     }
-
     return uniqueVisits
   }
 
   const uniqueVisits = parseUniqueVisits(stats?.lastVisits)
 
-  // Se mini=true, mostriamo solo le tre statistiche principali in piccolo
-  if (mini) {
-    return (
-      <div className={`visits-mini ${darkMode ? 'dark' : ''}`}>
-        {!stats ? (
-          <p>Caricamento...</p>
-        ) : (
-          <div className="visits-mini-stats">
-            <p>Total: {animatedStats.totalVisits}</p>
-            <p>Oggi: {animatedStats.visitsToday}</p>
-            <p>Unici: {animatedStats.uniqueVisitors}</p>
-          </div>
-        )}
-      </div>
-    )
-  }
-
-  // Versione completa
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -75,26 +68,22 @@ export default function VisitsPage({ stats, darkMode, mini = false }) {
       className={`visits-container ${darkMode ? 'dark' : ''}`}
     >
       <h2>Stato Visite</h2>
-      {!stats ? (
-        <p className="text-center">Caricamento in corso...</p>
-      ) : (
-        <ul className="visits-list">
-          <li><strong>Visite totali:</strong> {animatedStats.totalVisits}</li>
-          <li><strong>Visite oggi:</strong> {animatedStats.visitsToday}</li>
-          <li><strong>Utenti unici:</strong> {animatedStats.uniqueVisitors}</li>
-          <li>
-            <strong>Ultime pagine visitate (per IP unico):</strong>
-            <ul className="unique-visits">
-              {uniqueVisits.map((v, idx) => (
-                <motion.li key={idx} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: idx * 0.1 }}>
-                  <span className="font-semibold">{v.path}</span>
-                  <span className="visit-meta"> ({v.ip} · {new Date(v.timestamp).toLocaleTimeString()})</span>
-                </motion.li>
-              ))}
-            </ul>
-          </li>
-        </ul>
-      )}
+      <ul className="visits-list">
+        <li><strong>Visite totali:</strong> {animatedStats.totalVisits}</li>
+        <li><strong>Visite oggi:</strong> {animatedStats.visitsToday}</li>
+        <li><strong>Utenti unici:</strong> {animatedStats.uniqueVisitors}</li>
+        <li>
+          <strong>Ultime pagine visitate (per IP unico):</strong>
+          <ul className="unique-visits">
+            {parseUniqueVisits(stats?.lastVisits).map((v, idx) => (
+              <motion.li key={idx} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: idx * 0.1 }}>
+                <span className="font-semibold">{v.path}</span>
+                <span className="visit-meta"> ({v.ip} · {new Date(v.timestamp).toLocaleTimeString()})</span>
+              </motion.li>
+            ))}
+          </ul>
+        </li>
+      </ul>
     </motion.div>
   )
 }
