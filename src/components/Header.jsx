@@ -1,7 +1,7 @@
 import { Sun, Moon } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import VisitsPage from './VisitsPage'
-import './Header.css'
+import '../Header.css'
 
 export default function Header({ darkMode, setDarkMode, language, setLanguage, t, stats }) {
   return (
