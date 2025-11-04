@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import './LoadingScreen.css'
+import '../LoadingScreen.css'
+
 
 export default function LoadingScreen({ onFinish }) {
   const canvasRef = useRef(null)
