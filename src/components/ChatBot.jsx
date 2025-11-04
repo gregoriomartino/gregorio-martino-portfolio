@@ -1,13 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X } from 'lucide-react';
+import { MessageCircle, X, Send } from 'lucide-react';
 
 export default function ChatbotWidget() {
   const [chatOpen, setChatOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { type: 'bot', text: 'Ciao! 👋 Come posso aiutarti? Seleziona un’opzione qui sotto.' }
+    { type: 'bot', text: 'Ciao! 👋 Come posso aiutarti? Seleziona un\'opzione qui sotto o scrivi un messaggio.' }
   ]);
-
-  const [history, setHistory] = useState(['start']); // stack degli step
+  const [step, setStep] = useState('start');
+  const [input, setInput] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -16,100 +17,131 @@ export default function ChatbotWidget() {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, isTyping]);
 
-  const getCurrentStep = () => history[history.length - 1];
-
-  // Dizionario dei messaggi e opzioni per ogni step
   const steps = {
     start: {
-      message: 'Seleziona un’opzione:',
       options: ['Progetti', 'Competenze', 'Contatti', 'Esperienze']
     },
-    projects: {
-      message: 'Ecco alcuni progetti su cui ho lavorato:\n• E-commerce Platform\n• AI Chat Interface\nVuoi tornare al menu principale?',
+    progetti: {
+      message: 'Ecco alcuni progetti:\n• E-commerce Platform\n• AI Chat Interface\n• Portfolio Website',
       options: ['Torna al menu principale']
     },
-    skills: {
-      message: 'Le mie competenze principali sono:\n• Frontend: React, TypeScript\n• Backend: Java, Node.js, Python\n• Database: Oracle, MongoDB, PostgreSQL\nVuoi tornare al menu principale?',
+    competenze: {
+      message: 'Le mie competenze:\n• Frontend: React, TypeScript, Tailwind CSS\n• Backend: Java, Node.js, Python\n• Database: Oracle, MongoDB, PostgreSQL\n• Tools: Git, Docker, AWS',
       options: ['Torna al menu principale']
     },
-    contact: {
-      message: 'Puoi contattarmi tramite:\n📧 Email: martinogregorio2@gmail.com\n💼 LinkedIn: linkedin.com/in/gregorio-martino-5a42a3171/\nVuoi tornare al menu principale?',
+    contatti: {
+      message: 'Contattami:\n📧 martinogregorio2@gmail.com\n💼 LinkedIn: linkedin.com/in/gregorio-martino-5a42a3171/',
       options: ['Torna al menu principale']
     },
-    experience: {
-      message: 'Ho 5+ anni di esperienza nello sviluppo, prevalentemente backend ma anche frontend.\nVuoi tornare al menu principale?',
+    esperienze: {
+      message: 'Ho 5+ anni di esperienza nello sviluppo backend e frontend.\n\nHo lavorato su:\n• Applicazioni enterprise\n• Microservizi scalabili\n• Interfacce utente moderne',
       options: ['Torna al menu principale']
     }
   };
 
-  const handleUserChoice = (choice) => {
-    const currentStep = getCurrentStep();
+  const getBotResponse = (userMsg) => {
+    const msg = userMsg.toLowerCase();
+    if (msg.includes('progetti') || msg.includes('progetto')) return steps.progetti.message;
+    if (msg.includes('competenze') || msg.includes('skill') || msg.includes('tecnologie')) return steps.competenze.message;
+    if (msg.includes('contatti') || msg.includes('email') || msg.includes('contatto')) return steps.contatti.message;
+    if (msg.includes('esperienza') || msg.includes('esperienze') || msg.includes('lavoro')) return steps.esperienze.message;
+    if (msg.includes('ciao') || msg.includes('hey') || msg.includes('salve')) return 'Ciao! 👋 Puoi selezionare un\'opzione o scrivere una domanda.';
+    if (msg.includes('grazie') || msg.includes('thanks')) return 'Prego! 😊 C\'è altro che posso fare per te?';
+    return 'Non ho capito, prova a scrivere una domanda oppure seleziona un\'opzione tra quelle disponibili.';
+  };
 
-    // Aggiungi messaggio dell'utente
+  const simulateTyping = async (message) => {
+    setIsTyping(true);
+    await new Promise(resolve => setTimeout(resolve, 800));
+    setIsTyping(false);
+    setMessages(prev => [...prev, { type: 'bot', text: message }]);
+  };
+
+  const handleSend = async () => {
+    if (!input.trim()) return;
+
+    const userMessage = input.trim();
+    setMessages(prev => [...prev, { type: 'user', text: userMessage }]);
+    setInput('');
+
+    // Risposta del bot con typing indicator
+    const botResponse = getBotResponse(userMessage);
+    await simulateTyping(botResponse);
+  };
+
+  const handleOptionClick = async (choice) => {
     setMessages(prev => [...prev, { type: 'user', text: choice }]);
 
-    let nextStep = currentStep;
-
     if (choice === 'Torna al menu principale') {
-      nextStep = 'start';
-      setHistory(prev => [...prev, nextStep]);
-    } else {
-      nextStep = choice.toLowerCase();
-      if (!steps[nextStep]) nextStep = currentStep; // fallback
-      setHistory(prev => [...prev, nextStep]);
+      setStep('start');
+      return;
     }
 
-    // Aggiungi risposta del bot
-    setMessages(prev => [...prev, { type: 'bot', text: steps[nextStep].message }]);
+    const nextStep = choice.toLowerCase();
+    setStep(nextStep);
+    
+    if (steps[nextStep]?.message) {
+      await simulateTyping(steps[nextStep].message);
+    }
   };
 
   const renderOptions = () => {
-    const currentStep = getCurrentStep();
-    return steps[currentStep].options.map((opt, idx) => (
+    return steps[step]?.options?.map((opt, idx) => (
       <button
         key={idx}
-        onClick={() => handleUserChoice(opt)}
-        className="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-full"
+        onClick={() => handleOptionClick(opt)}
+        className="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-full transition-all duration-200 text-sm font-medium"
       >
         {opt}
       </button>
     ));
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
+  };
+
   return (
     <>
-      {/* Chatbot Button */}
+      {/* Floating Button */}
       {!chatOpen && (
         <button
           onClick={() => setChatOpen(true)}
-          className="fixed bottom-6 right-6 bg-slate-800 p-4 rounded-full shadow-2xl hover:scale-110 transition-transform z-50 border border-slate-700"
+          className="fixed bottom-6 right-6 bg-gradient-to-br from-slate-800 to-slate-700 p-4 rounded-full shadow-2xl hover:scale-110 transition-transform duration-300 z-50 border border-slate-600"
+          aria-label="Apri chat"
         >
-          <MessageCircle className="w-6 h-6 text-slate-100" />
+          <MessageCircle className="w-7 h-7 text-slate-100" />
         </button>
       )}
 
-      {/* Chatbot Window */}
+      {/* Chat Window */}
       {chatOpen && (
-        <div className="fixed bottom-6 right-6 w-96 h-[500px] bg-slate-800 rounded-2xl shadow-2xl flex flex-col z-50 border border-purple-500/30">
-
+        <div className="fixed bottom-6 right-6 w-96 h-[500px] bg-slate-800 rounded-2xl shadow-2xl flex flex-col z-50 border border-purple-500/30 animate-slideIn">
           {/* Header */}
-          <div className="bg-slate-900 p-4 rounded-t-2xl flex justify-between items-center border-b border-slate-700">
+          <div className="bg-gradient-to-r from-slate-900 to-slate-800 p-4 rounded-t-2xl flex justify-between items-center border-b border-slate-700">
             <div className="flex items-center gap-3">
               <img
-                src="foto.png"
+                src="https://via.placeholder.com/40"
                 alt="Profile"
                 className="w-10 h-10 rounded-full object-cover border-2 border-slate-600"
               />
               <div>
                 <h3 className="font-bold text-slate-100">Assistente AI</h3>
-                <p className="text-xs text-slate-400">Online</p>
+                <p className="text-xs text-slate-400 flex items-center">
+                  <span className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+                  Online
+                </p>
               </div>
             </div>
             <button
               onClick={() => setChatOpen(false)}
-              className="hover:bg-slate-700 p-2 rounded-lg transition text-slate-100"
+              className="hover:bg-slate-700 p-2 rounded-lg transition-colors text-slate-100"
+              aria-label="Chiudi chat"
             >
               <X className="w-5 h-5" />
             </button>
@@ -118,7 +150,7 @@ export default function ChatbotWidget() {
           {/* Messages */}
           <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-800">
             {messages.map((msg, idx) => (
-              <div key={idx} className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
+              <div key={idx} className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'} animate-fadeIn`}>
                 <div className={`max-w-[80%] p-3 rounded-2xl whitespace-pre-line ${
                   msg.type === 'user'
                     ? 'bg-slate-700 text-slate-100 rounded-br-none border border-slate-600'
@@ -128,15 +160,110 @@ export default function ChatbotWidget() {
                 </div>
               </div>
             ))}
+            
+            {/* Typing Indicator */}
+            {isTyping && (
+              <div className="flex justify-start animate-fadeIn">
+                <div className="bg-slate-900 border border-slate-700 px-4 py-3 rounded-2xl rounded-bl-none flex gap-1">
+                  <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
+                  <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
+                  <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+                </div>
+              </div>
+            )}
+            
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Options / Buttons */}
-          <div className="p-4 border-t border-slate-700 flex flex-wrap gap-2 justify-center">
-            {renderOptions()}
+          {/* Footer - Options & Input */}
+          <div className="p-4 border-t border-slate-700 bg-slate-800 rounded-b-2xl">
+            {/* Options */}
+            <div className="flex flex-wrap gap-2 justify-center mb-3">
+              {renderOptions()}
+            </div>
+            
+            {/* Input */}
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="Scrivi un messaggio..."
+                className="flex-1 bg-slate-700 text-slate-100 px-4 py-2 rounded-full focus:outline-none focus:ring-2 focus:ring-slate-500 placeholder-slate-400"
+                disabled={isTyping}
+              />
+              <button
+                onClick={handleSend}
+                disabled={!input.trim() || isTyping}
+                className="bg-slate-700 p-2 rounded-full hover:scale-110 transition-transform border border-slate-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                aria-label="Invia messaggio"
+              >
+                <Send className="w-5 h-5 text-slate-100" />
+              </button>
+            </div>
           </div>
         </div>
       )}
+
+      <style jsx>{`
+        @keyframes slideIn {
+          from {
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .animate-slideIn {
+          animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-out;
+        }
+
+        /* Scrollbar personalizzata */
+        .overflow-y-auto::-webkit-scrollbar {
+          width: 6px;
+        }
+
+        .overflow-y-auto::-webkit-scrollbar-track {
+          background: #0f172a;
+          border-radius: 3px;
+        }
+
+        .overflow-y-auto::-webkit-scrollbar-thumb {
+          background: #475569;
+          border-radius: 3px;
+        }
+
+        .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+          background: #64748b;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+          .fixed.bottom-6.right-6.w-96 {
+            width: calc(100vw - 2rem);
+            height: calc(100vh - 2rem);
+          }
+        }
+      `}</style>
     </>
   );
 }
