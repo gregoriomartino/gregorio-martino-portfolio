@@ -1,100 +1,108 @@
+/* ---------------- Footer Base ---------------- */
 .footer {
   background-color: #000;
   color: #0f0;
-  font-family: monospace;
   padding: 2rem 1rem;
+  font-family: monospace;
 }
 
 .footer-container {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   gap: 2rem;
+  align-items: start;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.footer-left {
+.footer-left,
+.footer-center,
+.footer-right {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.footer-info {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
+/* Footer Left: info + mini box */
+.footer-left {
+  position: relative;
 }
 
-.footer-name {
-  font-size: 1.25rem;
+.visits-mini-container {
+  max-width: 220px;
+  position: sticky;
+  top: 1rem;
+}
+
+/* Footer Center: niente da cambiare per ora */
+.footer-center {
+  text-align: center;
+}
+
+/* Footer Right: chat */
+.footer-right {
+  align-items: flex-end;
+}
+
+/* Footer Top info */
+.footer-info .footer-name {
+  font-size: 1.5rem;
   font-weight: bold;
 }
 
-.footer-role {
-  font-size: 0.875rem;
+.footer-info .footer-role {
+  font-size: 1rem;
 }
 
-.footer-contact {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.contact-item {
+/* Footer Contact */
+.footer-contact .contact-item {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-}
-
-/* Mini visits box */
-.visits-mini-container {
-  max-width: 220px;
-}
-
-/* ChatBot */
-.footer-chat {
-  flex-shrink: 0;
-  max-width: 300px;
-}
-
-/* Bottom copyright */
-.footer-bottom {
-  margin-top: 2rem;
-  text-align: center;
   font-size: 0.875rem;
 }
 
-/* ------------------- MEDIA QUERIES ------------------- */
+.footer-contact a {
+  color: #0f0;
+  text-decoration: none;
+}
 
-/* Tablet / Laptop */
-@media (min-width: 768px) {
+.footer-contact a:hover {
+  text-decoration: underline;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-size: 0.75rem;
+  margin-top: 2rem;
+}
+
+/* ---------------- Responsive ---------------- */
+@media (max-width: 1024px) {
   .footer-container {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 2rem;
+    grid-template-columns: 1fr 1fr;
   }
-
-  .footer-left {
-    flex-direction: row;
-    gap: 2rem;
+  .footer-right {
     align-items: flex-start;
-  }
-
-  .footer-bottom {
-    text-align: left;
   }
 }
 
-/* Desktop */
-@media (min-width: 1024px) {
+@media (max-width: 640px) {
   .footer-container {
-    gap: 3rem;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
-
-  .footer-left {
-    gap: 3rem;
+  .footer-left,
+  .footer-center,
+  .footer-right {
+    align-items: center;
+    text-align: center;
   }
-
   .visits-mini-container {
-    max-width: 250px;
+    position: relative;
+    top: auto;
+    max-width: 100%;
   }
 }
