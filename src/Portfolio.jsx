@@ -62,9 +62,6 @@ function PortfolioInner() {
         onShowVisits={handleShowVisits}
       />
 
-      {/* Spazio per header */}
-      <div className="h-40 md:h-32"></div>
-
       {/* Main content */}
       <main className="flex-grow max-w-5xl mx-auto px-6 py-12 grid gap-12">
         <Routes>
