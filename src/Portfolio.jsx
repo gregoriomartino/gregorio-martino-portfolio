@@ -5,12 +5,17 @@ import Footer from './components/Footer'
 import Profile from './components/Profile'
 import TrisGame from './components/TrisGame'
 import VisitsPage from './components/VisitsPage'
-import translations from './translation'
 import LoadingScreen from './components/LoadingScreen'
-import './App.css'  
+import translations from './translation'
+import './App.css'
 
-// Loader component
-
+function PortfolioInner() {
+  const [darkMode, setDarkMode] = useState(false)
+  const [language, setLanguage] = useState('it')
+  const [stats, setStats] = useState(null)
+  const [loading, setLoading] = useState(true) // stato loader
+  const t = translations[language]
+  const navigate = useNavigate()
 
   // Traccia la visita all'avvio
   useEffect(() => {
@@ -96,7 +101,7 @@ import './App.css'
       <Footer t={t} darkMode={darkMode} />
     </div>
   )
-
+}
 
 export default function Portfolio() {
   return (
