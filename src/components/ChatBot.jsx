@@ -126,7 +126,7 @@ export default function ChatbotWidget() {
           <div className="bg-gradient-to-r from-slate-900 to-slate-800 p-4 rounded-t-2xl flex justify-between items-center border-b border-slate-700">
             <div className="flex items-center gap-3">
               <img
-                src="https://via.placeholder.com/40"
+                src="/favicon.ico"
                 alt="Profile"
                 className="w-10 h-10 rounded-full object-cover border-2 border-slate-600"
               />

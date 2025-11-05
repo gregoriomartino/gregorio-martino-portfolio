@@ -4,8 +4,8 @@ import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
-  // Usa '/' per Vercel, '/gregorio-martino-portfolio/' per GitHub Pages
-  base: process.env.VERCEL ? '/' : '/gregorio-martino-portfolio/',
+  // Usa '/' per Vercel, '/gregorio-martino-portfolio/' per GitHub Pages --- process.env.VERCEL ? '/' : '/gregorio-martino-portfolio/',
+  base: '/gregorio-martino-portfolio/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
