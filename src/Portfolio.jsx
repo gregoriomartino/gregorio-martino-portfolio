@@ -15,31 +15,31 @@ function PortfolioInner() {
   const t = translations[language]
   const navigate = useNavigate()
 
-  // Traccia la visita all'avvio
-  useEffect(() => {
-    fetch('http://localhost:8080/api/track', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        path: window.location.hash || '/',
-        referrer: document.referrer,
-      }),
-    }).catch(err => console.warn('track error', err))
-  }, [])
-
-  // Fetch stats live ogni 12 ore
-  useEffect(() => {
-    const fetchStats = () => {
-      fetch('http://localhost:8080/api/stats')
-        .then(res => res.json())
-        .then(data => setStats(data))
-        .catch(err => console.warn('stats error', err))
-    }
-
-    fetchStats()
-    const interval = setInterval(fetchStats, 12 * 60 * 60 * 1000)
-    return () => clearInterval(interval)
-  }, [])
+//   // Traccia la visita all'avvio
+//   useEffect(() => {
+//     fetch('http://localhost:8080/api/track', {
+//       method: 'POST',
+//       headers: { 'Content-Type': 'application/json' },
+//       body: JSON.stringify({
+//         path: window.location.hash || '/',
+//         referrer: document.referrer,
+//       }),
+//     }).catch(err => console.warn('track error', err))
+//   }, [])
+//
+//   // Fetch stats live ogni 12 ore
+//   useEffect(() => {
+//     const fetchStats = () => {
+//       fetch('http://localhost:8080/api/stats')
+//         .then(res => res.json())
+//         .then(data => setStats(data))
+//         .catch(err => console.warn('stats error', err))
+//     }
+//
+//     fetchStats()
+//     const interval = setInterval(fetchStats, 12 * 60 * 60 * 1000)
+//     return () => clearInterval(interval)
+//   }, [])
 
   // Navigazione giochi/visite
   const handleShowGames = () => navigate('/games')
@@ -63,7 +63,7 @@ function PortfolioInner() {
           <Route
             path="/"
             element={
-              <div className="bg-gray-900 rounded-3xl shadow-2xl p-6 md:p-8 transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105">
+              <div>
                 <Profile t={t} />
               </div>
             }

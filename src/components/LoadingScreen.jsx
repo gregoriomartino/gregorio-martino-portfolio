@@ -1,104 +1,111 @@
-import { useEffect, useRef, useState } from 'react'
-import '../LoadingScreen.css'
-
+import { useEffect, useRef, useState } from 'react';
+import '../LoadingScreen.css';
 
 export default function LoadingScreen({ onFinish }) {
-  const canvasRef = useRef(null)
-  const bikeRef = useRef(null)
-  const backWheelRef = useRef(null)
-  const frontWheelRef = useRef(null)
-  const labelRef = useRef(null)
-  const progressBarRef = useRef(null)
-  const [progress, setProgress] = useState(0)
+  const canvasRef = useRef(null);
+  const bikeRef = useRef(null);
+  const backWheelRef = useRef(null);
+  const frontWheelRef = useRef(null);
+  const labelRef = useRef(null);
+  const progressBarRef = useRef(null);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const canvas = canvasRef.current
-    const ctx = canvas.getContext('2d')
-    let width = canvas.width = window.innerWidth
-    let height = canvas.height = window.innerHeight
-    const fontSize = 16
-    let columns = Math.floor(width / fontSize)
-    let drops = Array(columns).fill(1)
+    // --- Canvas Matrix ---
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+    const fontSize = 16;
+    let columns = Math.floor(width / fontSize);
+    let drops = Array(columns).fill(1);
 
     const handleResize = () => {
-      width = canvas.width = window.innerWidth
-      height = canvas.height = window.innerHeight
-      columns = Math.floor(width / fontSize)
-      drops = Array(columns).fill(1)
-    }
-    window.addEventListener('resize', handleResize)
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      columns = Math.floor(width / fontSize);
+      drops = Array(columns).fill(1);
+    };
+    window.addEventListener('resize', handleResize);
 
     // --- Ruote animate ---
-    let angle = 0
+    let angle = 0;
+    const spokes = 8;
+    const wheelRadius = 18;
+
     const rotateWheels = () => {
-      angle += 0.1
-      const r = 18
-      const spokes = 8
+      angle += 0.1;
+
       const setSpokes = (wheel) => {
-        while (wheel.firstChild) wheel.removeChild(wheel.firstChild)
+        if (!wheel) return;
+        while (wheel.firstChild) wheel.removeChild(wheel.firstChild);
+
         for (let i = 0; i < spokes; i++) {
-          const a = ((i * 360) / spokes + angle * 57.2958) * Math.PI / 180
-          const line = document.createElementNS('http://www.w3.org/2000/svg', 'line')
-          line.setAttribute('x1', 0)
-          line.setAttribute('y1', 0)
-          line.setAttribute('x2', r * Math.cos(a))
-          line.setAttribute('y2', r * Math.sin(a))
-          line.setAttribute('stroke', '#0f0')
-          wheel.appendChild(line)
+          const a = ((i * 360) / spokes + angle * 57.2958) * Math.PI / 180;
+          const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          line.setAttribute('x1', 0);
+          line.setAttribute('y1', 0);
+          line.setAttribute('x2', wheelRadius * Math.cos(a));
+          line.setAttribute('y2', wheelRadius * Math.sin(a));
+          line.setAttribute('stroke', '#0f0');
+          wheel.appendChild(line);
         }
-      }
-      setSpokes(backWheelRef.current)
-      setSpokes(frontWheelRef.current)
-      requestAnimationFrame(rotateWheels)
-    }
-    rotateWheels()
+      };
+
+      setSpokes(backWheelRef.current);
+      setSpokes(frontWheelRef.current);
+
+      requestAnimationFrame(rotateWheels);
+    };
+    rotateWheels();
 
     // --- Oscillazione bici ---
-    let dy = 1
-    let yPos = 0
-    const moveBike = () => {
-      yPos += dy
-      if (yPos > 3 || yPos < -3) dy *= -1
-      bikeRef.current.style.setProperty('--y-pos', `${yPos}px`)
-      if (!bikeRef.current.classList.contains('bike-exit')) {
-        bikeRef.current.setAttribute('transform', `translate(0,${yPos})`)
-      }
-      requestAnimationFrame(moveBike)
-    }
-    moveBike()
+    let dy = 1;
+    let yPos = 0;
 
-    // --- Progress ---
-    let progressValue = 0
-    const totalDuration = 1500
-    const intervalTime = 50
-    const incrementPerInterval = (100 / totalDuration) * intervalTime
+    const moveBike = () => {
+      if (!bikeRef.current) return;
+
+      yPos += dy;
+      if (yPos > 3 || yPos < -3) dy *= -1;
+      bikeRef.current.style.setProperty('--y-pos', `${yPos}px`);
+      bikeRef.current.setAttribute('transform', `translate(0,${yPos})`);
+      requestAnimationFrame(moveBike);
+    };
+    moveBike();
+
+    // --- Progress bar ---
+    let progressValue = 0;
+    const totalDuration = 1500;
+    const intervalTime = 50;
+    const incrementPerInterval = (100 / totalDuration) * intervalTime;
 
     const progressInterval = setInterval(() => {
-      progressValue += incrementPerInterval
+      progressValue += incrementPerInterval;
       if (progressValue >= 100) {
-        progressValue = 100
-        setProgress(100)
-        progressBarRef.current.style.setProperty('--progress', '100%')
-        labelRef.current.textContent = 'Benvenuto!'
-        labelRef.current.classList.add('ready-state')
-        clearInterval(progressInterval)
+        progressValue = 100;
+        setProgress(100);
+        if (progressBarRef.current) progressBarRef.current.style.setProperty('--progress', '100%');
+        if (labelRef.current) labelRef.current.textContent = 'Benvenuto!';
+        if (labelRef.current) labelRef.current.classList.add('ready-state');
+        clearInterval(progressInterval);
 
         setTimeout(() => {
-          bikeRef.current.classList.add('bike-exit')
-          setTimeout(() => onFinish(), 1000)
-        }, 500)
+          if (bikeRef.current) bikeRef.current.classList.add('bike-exit');
+          setTimeout(() => onFinish(), 1000);
+        }, 500);
       } else {
-        setProgress(progressValue)
-        progressBarRef.current.style.setProperty('--progress', `${progressValue}%`)
-        labelRef.current.textContent = `LOADING ${Math.floor(progressValue)}%`
+        setProgress(progressValue);
+        if (progressBarRef.current) progressBarRef.current.style.setProperty('--progress', `${progressValue}%`);
+        if (labelRef.current) labelRef.current.textContent = `LOADING ${Math.floor(progressValue)}%`;
       }
-    }, intervalTime)
+    }, intervalTime);
 
     return () => {
-      clearInterval(progressInterval)
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [onFinish])
+      clearInterval(progressInterval);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [onFinish]);
 
   return (
     <div className="loading-screen">
@@ -121,9 +128,11 @@ export default function LoadingScreen({ onFinish }) {
               <rect x="105" y="70" width="15" height="4" rx="2" fill="#0f0" />
               <line x1="115" y1="90" x2="115" y2="100" stroke="#0f0" strokeWidth="2" />
 
-              {/* Ruote */}
+              {/* Ruote statiche */}
               <circle cx="60" cy="110" r="20" stroke="#0f0" strokeWidth="2" fill="none" opacity="0.3" />
               <circle cx="200" cy="110" r="20" stroke="#0f0" strokeWidth="2" fill="none" opacity="0.3" />
+
+              {/* Ruote animate */}
               <g ref={backWheelRef} transform="translate(60,110)" />
               <g ref={frontWheelRef} transform="translate(200,110)" />
 
@@ -163,5 +172,5 @@ export default function LoadingScreen({ onFinish }) {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -20,25 +20,11 @@ export default function ChatbotWidget() {
   }, [messages, isTyping]);
 
   const steps = {
-    start: {
-      options: ['Progetti', 'Competenze', 'Contatti', 'Esperienze']
-    },
-    progetti: {
-      message: 'Ecco alcuni progetti:\n• E-commerce Platform\n• AI Chat Interface\n• Portfolio Website',
-      options: ['Torna al menu principale']
-    },
-    competenze: {
-      message: 'Le mie competenze:\n• Frontend: React, TypeScript, Tailwind CSS\n• Backend: Java, Node.js, Python\n• Database: Oracle, MongoDB, PostgreSQL\n• Tools: Git, Docker, AWS',
-      options: ['Torna al menu principale']
-    },
-    contatti: {
-      message: 'Contattami:\n📧 martinogregorio2@gmail.com\n💼 LinkedIn: linkedin.com/in/gregorio-martino-5a42a3171/',
-      options: ['Torna al menu principale']
-    },
-    esperienze: {
-      message: 'Ho 5+ anni di esperienza nello sviluppo backend e frontend.\n\nHo lavorato su:\n• Applicazioni enterprise\n• Microservizi scalabili\n• Interfacce utente moderne',
-      options: ['Torna al menu principale']
-    }
+    start: { options: ['Progetti', 'Competenze', 'Contatti', 'Esperienze'] },
+    progetti: { message: 'Ecco alcuni progetti:\n• E-commerce Platform\n• AI Chat Interface\n• Portfolio Website', options: ['Torna al menu principale'] },
+    competenze: { message: 'Le mie competenze:\n• Frontend: React, TypeScript, Tailwind CSS\n• Backend: Java, Node.js, Python\n• Database: Oracle, MongoDB, PostgreSQL\n• Tools: Git, Docker, AWS', options: ['Torna al menu principale'] },
+    contatti: { message: 'Contattami:\n📧 martinogregorio2@gmail.com\n💼 LinkedIn: linkedin.com/in/gregorio-martino-5a42a3171/', options: ['Torna al menu principale'] },
+    esperienze: { message: 'Ho 5+ anni di esperienza nello sviluppo backend e frontend.\n• Applicazioni enterprise\n• Microservizi scalabili\n• Interfacce utente moderne', options: ['Torna al menu principale'] }
   };
 
   const getBotResponse = (userMsg) => {
@@ -52,54 +38,46 @@ export default function ChatbotWidget() {
     return 'Non ho capito, prova a scrivere una domanda oppure seleziona un\'opzione tra quelle disponibili.';
   };
 
-  const simulateTyping = async (message) => {
+  const simulateTyping = (message) => {
     setIsTyping(true);
-    await new Promise(resolve => setTimeout(resolve, 800));
-    setIsTyping(false);
-    setMessages(prev => [...prev, { type: 'bot', text: message }]);
+    setTimeout(() => {
+      setIsTyping(false);
+      setMessages(prev => [...prev, { type: 'bot', text: message }]);
+    }, 800);
   };
 
-  const handleSend = async () => {
+  const handleSend = () => {
     if (!input.trim()) return;
-
     const userMessage = input.trim();
     setMessages(prev => [...prev, { type: 'user', text: userMessage }]);
     setInput('');
-
-    // Risposta del bot con typing indicator
-    const botResponse = getBotResponse(userMessage);
-    await simulateTyping(botResponse);
+    simulateTyping(getBotResponse(userMessage));
   };
 
-  const handleOptionClick = async (choice) => {
+  const handleOptionClick = (choice) => {
     setMessages(prev => [...prev, { type: 'user', text: choice }]);
-
     if (choice === 'Torna al menu principale') {
       setStep('start');
       return;
     }
-
     const nextStep = choice.toLowerCase();
     setStep(nextStep);
-    
     if (steps[nextStep]?.message) {
-      await simulateTyping(steps[nextStep].message);
+      simulateTyping(steps[nextStep].message);
     }
   };
 
-  const renderOptions = () => {
-    return steps[step]?.options?.map((opt, idx) => (
-      <button
-        key={idx}
-        onClick={() => handleOptionClick(opt)}
-        className="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-full transition-all duration-200 text-sm font-medium"
-      >
-        {opt}
-      </button>
-    ));
-  };
+  const renderOptions = () => steps[step]?.options?.map((opt, idx) => (
+    <button
+      key={idx}
+      onClick={() => handleOptionClick(opt)}
+      className="bg-black border-none shadow-none px-3 py-1 text-white rounded-md text-sm font-medium hover:text-gray-400 transition-colors"
+    >
+      {opt}
+    </button>
+  ));
 
-  const handleKeyPress = (e) => {
+  const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSend();
@@ -108,31 +86,25 @@ export default function ChatbotWidget() {
 
   return (
     <>
-      {/* Floating Button */}
+      {/* Pulsante apertura chat minimal */}
       {!chatOpen && (
         <button
           onClick={() => setChatOpen(true)}
-          className="fixed bottom-6 right-6 bg-gradient-to-br from-slate-800 to-slate-700 p-4 rounded-full shadow-2xl hover:scale-110 transition-transform duration-300 z-50 border border-slate-600"
+          className="fixed bottom-6 right-6 bg-black p-4 rounded-full shadow-none hover:scale-110 transition-transform duration-300 z-50 border border-gray-700 text-white"
           aria-label="Apri chat"
         >
-          <MessageCircle className="w-7 h-7 text-slate-100" />
+          <MessageCircle className="w-7 h-7" />
         </button>
       )}
 
-      {/* Chat Window */}
       {chatOpen && (
-        <div className="fixed bottom-6 right-6 w-96 h-[500px] bg-slate-800 rounded-2xl shadow-2xl flex flex-col z-50 border border-purple-500/30 animate-slideIn">
+        <div className="fixed bottom-6 right-6 w-96 h-[500px] bg-black rounded-2xl shadow-2xl flex flex-col z-50 border border-gray-800 animate-slideIn">
           {/* Header */}
-          <div className="bg-gradient-to-r from-slate-900 to-slate-800 p-4 rounded-t-2xl flex justify-between items-center border-b border-slate-700">
+          <div className="bg-black p-4 rounded-t-2xl flex justify-between items-center border-b border-gray-800">
             <div className="flex items-center gap-3">
-              <img
-                src="/foto.png"
-                alt="Profile"
-                className="w-10 h-10 rounded-full object-cover border-2 border-slate-600"
-              />
               <div>
-                <h3 className="font-bold text-slate-100">Assistente AI</h3>
-                <p className="text-xs text-slate-400 flex items-center">
+                <h3 className="font-bold text-white">Assistente AI</h3>
+                <p className="text-xs text-gray-400 flex items-center">
                   <span className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
                   Online
                 </p>
@@ -140,7 +112,7 @@ export default function ChatbotWidget() {
             </div>
             <button
               onClick={() => setChatOpen(false)}
-              className="hover:bg-slate-700 p-2 rounded-lg transition-colors text-slate-100"
+              className="hover:bg-gray-900 p-2 rounded-lg transition-colors text-white"
               aria-label="Chiudi chat"
             >
               <X className="w-5 h-5" />
@@ -148,120 +120,79 @@ export default function ChatbotWidget() {
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-800">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-black">
             {messages.map((msg, idx) => (
               <div key={idx} className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'} animate-fadeIn`}>
                 <div className={`max-w-[80%] p-3 rounded-2xl whitespace-pre-line ${
                   msg.type === 'user'
-                    ? 'bg-slate-700 text-slate-100 rounded-br-none border border-slate-600'
-                    : 'bg-slate-900 text-slate-100 rounded-bl-none border border-slate-700'
+                    ? 'bg-black text-white rounded-br-none border border-gray-700'
+                    : 'bg-black text-white rounded-bl-none border border-gray-800'
                 }`}>
                   {msg.text}
                 </div>
               </div>
             ))}
-            
-            {/* Typing Indicator */}
+
             {isTyping && (
               <div className="flex justify-start animate-fadeIn">
-                <div className="bg-slate-900 border border-slate-700 px-4 py-3 rounded-2xl rounded-bl-none flex gap-1">
-                  <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
-                  <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
-                  <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+                <div className="bg-black border border-gray-800 px-4 py-3 rounded-2xl rounded-bl-none flex gap-1">
+                  <span className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
+                  <span className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
+                  <span className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
                 </div>
               </div>
             )}
-            
+
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Footer - Options & Input */}
-          <div className="p-4 border-t border-slate-700 bg-slate-800 rounded-b-2xl">
-            {/* Options */}
+          {/* Footer */}
+          <div className="p-4 border-t border-gray-800 bg-black rounded-b-2xl">
             <div className="flex flex-wrap gap-2 justify-center mb-3">
               {renderOptions()}
             </div>
-            
-            {/* Input */}
+
             <div className="flex gap-2">
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyPress={handleKeyPress}
+                onKeyDown={handleKeyDown}
                 placeholder="Scrivi un messaggio..."
-                className="flex-1 bg-slate-700 text-slate-100 px-4 py-2 rounded-full focus:outline-none focus:ring-2 focus:ring-slate-500 placeholder-slate-400"
+                className="flex-1 bg-black text-white px-4 py-2 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-600 placeholder-gray-500"
                 disabled={isTyping}
               />
               <button
                 onClick={handleSend}
                 disabled={!input.trim() || isTyping}
-                className="bg-slate-700 p-2 rounded-full hover:scale-110 transition-transform border border-slate-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                className="bg-black p-2 rounded-full hover:scale-110 transition-transform border border-gray-700 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                 aria-label="Invia messaggio"
               >
-                <Send className="w-5 h-5 text-slate-100" />
+                <Send className="w-5 h-5 text-white" />
               </button>
             </div>
           </div>
         </div>
       )}
 
-      <style jsx>{`
+      {/* Animazioni */}
+      <style>{`
         @keyframes slideIn {
-          from {
-            opacity: 0;
-            transform: translateY(20px) scale(0.95);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-          }
+          from { opacity: 0; transform: translateY(20px) scale(0.95); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
         }
-
         @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
         }
-
-        .animate-slideIn {
-          animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .animate-fadeIn {
-          animation: fadeIn 0.3s ease-out;
-        }
-
-        /* Scrollbar personalizzata */
-        .overflow-y-auto::-webkit-scrollbar {
-          width: 6px;
-        }
-
-        .overflow-y-auto::-webkit-scrollbar-track {
-          background: #0f172a;
-          border-radius: 3px;
-        }
-
-        .overflow-y-auto::-webkit-scrollbar-thumb {
-          background: #475569;
-          border-radius: 3px;
-        }
-
-        .overflow-y-auto::-webkit-scrollbar-thumb:hover {
-          background: #64748b;
-        }
-
-        /* Responsive */
+        .animate-slideIn { animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .animate-fadeIn { animation: fadeIn 0.3s ease-out; }
+        .overflow-y-auto::-webkit-scrollbar { width: 6px; }
+        .overflow-y-auto::-webkit-scrollbar-track { background: #000; border-radius: 3px; }
+        .overflow-y-auto::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+        .overflow-y-auto::-webkit-scrollbar-thumb:hover { background: #555; }
         @media (max-width: 640px) {
-          .fixed.bottom-6.right-6.w-96 {
-            width: calc(100vw - 2rem);
-            height: calc(100vh - 2rem);
-          }
+          .fixed.bottom-6.right-6.w-96 { width: calc(100vw - 2rem); height: calc(100vh - 2rem); }
         }
       `}</style>
     </>

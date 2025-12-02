@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/Button'
 import '../Header.css'
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 export default function Header({ language, setLanguage, t, stats }) {
   return (
@@ -14,20 +15,48 @@ export default function Header({ language, setLanguage, t, stats }) {
       </div>
 
       {/* Bottoni social e CV */}
-      <div className="header-social flex flex-wrap gap-2 md:gap-4 mt-4 md:mt-0">
-        <a href="https://www.linkedin.com/in/gregorio-martino-5a42a3171/" target="_blank" rel="noopener noreferrer">
-          <Button>{t.linkedin}</Button>
-        </a>
-        <a href="https://github.com/gregoriomartino" target="_blank" rel="noopener noreferrer">
-          <Button>{t.github}</Button>
-        </a>
-        <a href="https://gitlab.com/martinogregorio2-group" target="_blank" rel="noopener noreferrer">
-          <Button>{t.gitlab}</Button>
-        </a>
-        <a href={`${import.meta.env.BASE_URL}cv_gregorio_martino.pdf`} download>
-          <Button>{t.downloadCV}</Button>
-        </a>
-      </div>
+<div className="mt-4 flex flex-wrap justify-center gap-3">
+  <a
+    href="https://www.linkedin.com/in/gregorio-martino-5a42a3171/"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <Button className="flex items-center gap-2 bg-transparent border-none shadow-none p-0">
+      <i className="bi bi-linkedin text-lg"></i>
+      {t.linkedin}
+    </Button>
+  </a>
+
+  <a
+    href="https://github.com/gregoriomartino"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <Button className="flex items-center gap-2 bg-transparent border-none shadow-none p-0">
+      <i className="bi bi-github text-lg"></i>
+      {t.github}
+    </Button>
+  </a>
+
+  <a
+    href="https://gitlab.com/martinogregorio2-group"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <Button className="flex items-center gap-2 bg-transparent border-none shadow-none p-0">
+      <i className="bi bi-gitlab text-lg"></i>
+      {t.gitlab}
+    </Button>
+  </a>
+
+  <a href={`${import.meta.env.BASE_URL}cv_gregorio_martino.pdf`} download>
+    <Button className="flex items-center gap-2 bg-transparent border-none shadow-none p-0">
+      <i className="bi bi-file-earmark-arrow-down text-lg"></i>
+      {t.downloadCV}
+    </Button>
+  </a>
+</div>
+
 
       {/* Selettore lingua */}
       <div className="language-selector flex gap-1 mt-4 md:mt-0">

@@ -1,4 +1,6 @@
-/* Header base */
+/* =========================
+   Header base
+========================= */
 .header {
   width: 100%;
   background-color: #000;
@@ -23,21 +25,25 @@
   opacity: 0.8;
 }
 
-/* Social buttons */
-.header-social {
+/* Social buttons minimal */
+.header-social,
+.language-selector {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
 }
 
-/* Selettore lingua */
-.language-selector {
-  display: flex;
-  gap: 0.25rem;
-}
-
+.header-social button,
+.language-selector button,
 .lang-btn {
-  font-size: 0.875rem;
+  background: none;     /* nessun sfondo */
+  border: none;         /* nessun bordo */
+  border-radius: 0;     /* niente angoli arrotondati */
+  padding: 0;           /* rimuove padding interno */
+  box-shadow: none;     /* rimuove eventuali ombre */
+  color: inherit;       /* eredita il colore del testo dell’header */
+  cursor: pointer;      /* puntatore al passaggio del mouse */
+  font-size: 0.875rem;  /* dimensione testo coerente */
 }
 
 /* Mini visits box */
