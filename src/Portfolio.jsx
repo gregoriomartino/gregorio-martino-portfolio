@@ -8,6 +8,7 @@ import VisitsPage from './components/VisitsPage'
 import LoadingScreen from './components/LoadingScreen'
 import translations from './translation'
 import ChatbotWidget from './components/ChatbotWidget'
+import AsyncJobDemo from './components/AsyncJobDemo'
 
 function PortfolioInner() {
   const [language, setLanguage] = useState('it')
@@ -67,6 +68,24 @@ function PortfolioInner() {
               <div>
                 <Profile t={t} />
                 <ChatbotWidget t={t} />
+
+
+                <details className="mt-4">
+                  <summary className="cursor-pointer select-none text-sm text-[#0f0] underline">
+                    Mini pipeline job asincrono
+                  </summary>
+
+
+                  <div className="mt-3 border border-[#0f0] rounded-lg p-3">
+                    <p>📦 è il job di richiesta che viaggia in avanti (API → Service → Queue → Worker).</p>
+
+                    <p>📨 è la notifica/risposta che torna indietro (Worker → Queue → Service → API).</p>
+                    <AsyncJobDemo t={t} />
+                  </div>
+                </details>
+
+
+
               </div>
             }
           />
