@@ -81,6 +81,24 @@ function PortfolioInner() {
 
                     <p>📨 è la notifica/risposta che torna indietro (Worker → Queue → Service → API).</p>
                     <AsyncJobDemo t={t} />
+                    <p>API / Gateway </p>
+                    <p>
+                      Riceve la richiesta dell’utente (upload video, azione da fare) e la mette in coda.
+                    </p>
+                    <p>
+                      Service / Business logic</p>
+                    <p>
+                      Valida i dati, salva le info a DB e crea il job da mandare in elaborazione asincrona.
+                    </p>
+                    <p>
+                      Queue / Coda job</p>
+                    <p>
+                      Accumula i job in attesa di essere processati, così il sistema non si blocca sotto carico.
+                    </p>
+                    <p>
+                      Worker / Encoder</p>
+                    <p>
+                      Prende un job dalla coda, esegue l’encoding e aggiorna lo stato (successo/errore).</p>
                   </div>
                 </details>
 
