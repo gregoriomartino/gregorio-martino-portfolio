@@ -9,6 +9,7 @@ import LoadingScreen from './components/LoadingScreen'
 import translations from './translation'
 import ChatbotWidget from './components/ChatbotWidget'
 import AsyncJobDemo from './components/AsyncJobDemo'
+import ArchitectureFlow from './components/ArchitectureFlow'
 
 function PortfolioInner() {
   const [language, setLanguage] = useState('it')
@@ -100,6 +101,13 @@ function PortfolioInner() {
                     <p>
                       Prende un job dalla coda, esegue l’encoding e aggiorna lo stato (successo/errore).</p>
                   </div>
+                </details>
+
+                <details className="mt-4">
+                  <summary className="cursor-pointer select-none text-sm text-[#0f0] underline">
+                    Visualizzazione dei flussi architetturali del progetto AES‑2
+                  </summary>
+                  <ArchitectureFlow />
                 </details>
 
 
