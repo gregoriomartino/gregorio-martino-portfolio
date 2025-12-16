@@ -1,7 +1,7 @@
 import { Mail, MapPin } from 'lucide-react'
-import ChatBot from './ChatBot'
 import VisitsPage from './VisitsPage'
 import '../Footer.css'
+import ChatbotWidget from './ChatbotWidget'
 
 export default function Footer({ t, darkMode, season, stats }) {
   return (
@@ -11,14 +11,14 @@ export default function Footer({ t, darkMode, season, stats }) {
         <div className="footer-left">
 
 
-{/*           <div className="visits-mini-container"> */}
-{/*             <VisitsPage stats={stats} darkMode={true} mini /> */}
-{/*           </div> */}
+          {/*           <div className="visits-mini-container"> */}
+          {/*             <VisitsPage stats={stats} darkMode={true} mini /> */}
+          {/*           </div> */}
         </div>
 
         {/* Colonna destra: ChatBot */}
         <div className="footer-chat">
-          <ChatBot darkMode={darkMode} season={season} iconClassName="bg-blue-500 rounded-full p-2 text-white" />
+          <ChatbotWidget t={t} darkMode={darkMode} season={season} iconClassName="bg-blue-500 rounded-full p-2 text-white" />
         </div>
       </div>
 

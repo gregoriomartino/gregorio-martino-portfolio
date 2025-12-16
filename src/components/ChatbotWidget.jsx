@@ -1,15 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send } from 'lucide-react';
 
-export default function ChatbotWidget() {
+export default function ChatbotWidget({ t }) {
   const [chatOpen, setChatOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { type: 'bot', text: 'Ciao! 👋 Come posso aiutarti? Seleziona un\'opzione qui sotto o scrivi un messaggio.' }
+    { type: 'bot', text: t.chatbotWelcome }
   ]);
   const [step, setStep] = useState('start');
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    setMessages([{ type: 'bot', text: t.chatbotWelcome }]);
+  }, [t.chatbotWelcome]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -20,22 +24,59 @@ export default function ChatbotWidget() {
   }, [messages, isTyping]);
 
   const steps = {
-    start: { options: ['Progetti', 'Competenze', 'Contatti', 'Esperienze'] },
-    progetti: { message: 'Ecco alcuni progetti:\n• E-commerce Platform\n• AI Chat Interface\n• Portfolio Website', options: ['Torna al menu principale'] },
-    competenze: { message: 'Le mie competenze:\n• Frontend: React, TypeScript, Tailwind CSS\n• Backend: Java, Node.js, Python\n• Database: Oracle, MongoDB, PostgreSQL\n• Tools: Git, Docker, AWS', options: ['Torna al menu principale'] },
-    contatti: { message: 'Contattami:\n📧 martinogregorio2@gmail.com\n💼 LinkedIn: linkedin.com/in/gregorio-martino-5a42a3171/', options: ['Torna al menu principale'] },
-    esperienze: { message: 'Ho 5+ anni di esperienza nello sviluppo backend e frontend.\n• Applicazioni enterprise\n• Microservizi scalabili\n• Interfacce utente moderne', options: ['Torna al menu principale'] }
+    start: {
+      options: [
+        t.chatbotOptionProjects,
+        t.chatbotOptionSkills,
+        t.chatbotOptionContacts,
+        t.chatbotOptionExperience
+      ],
+    },
+
+    progetti: {
+      message: t.chatbotProjectsText,
+      options: [t.chatbotBackToMenu],
+    },
+
+    competenze: {
+      message: t.chatbotSkillsText,
+      options: [t.chatbotBackToMenu],
+    },
+
+    contatti: {
+      message: t.chatbotContactsText,
+      options: [t.chatbotBackToMenu],
+    },
+
+    esperienze: {
+      message: t.chatbotExperienceText,
+      options: [t.chatbotBackToMenu],
+    },
   };
 
   const getBotResponse = (userMsg) => {
     const msg = userMsg.toLowerCase();
-    if (msg.includes('progetti') || msg.includes('progetto')) return steps.progetti.message;
-    if (msg.includes('competenze') || msg.includes('skill') || msg.includes('tecnologie')) return steps.competenze.message;
-    if (msg.includes('contatti') || msg.includes('email') || msg.includes('contatto')) return steps.contatti.message;
-    if (msg.includes('esperienza') || msg.includes('esperienze') || msg.includes('lavoro')) return steps.esperienze.message;
-    if (msg.includes('ciao') || msg.includes('hey') || msg.includes('salve')) return 'Ciao! 👋 Puoi selezionare un\'opzione o scrivere una domanda.';
-    if (msg.includes('grazie') || msg.includes('thanks')) return 'Prego! 😊 C\'è altro che posso fare per te?';
-    return 'Non ho capito, prova a scrivere una domanda oppure seleziona un\'opzione tra quelle disponibili.';
+
+    if (msg.includes('progetti') || msg.includes('projects') || msg.includes('progetto')) {
+      return steps.progetti.message;
+    }
+    if (msg.includes('competenze') || msg.includes('skills') || msg.includes('skill') || msg.includes('tecnologie')) {
+      return steps.competenze.message;
+    }
+    if (msg.includes('contatti') || msg.includes('contacts') || msg.includes('email') || msg.includes('contatto')) {
+      return steps.contatti.message;
+    }
+    if (msg.includes('esperienza') || msg.includes('experience') || msg.includes('esperienze') || msg.includes('lavoro')) {
+      return steps.esperienze.message;
+    }
+    if (msg.includes('ciao') || msg.includes('hey') || msg.includes('hello') || msg.includes('salve')) {
+      return t.chatbotHelloAnswer;
+    }
+    if (msg.includes('grazie') || msg.includes('thanks') || msg.includes('thank you')) {
+      return t.chatbotThanksAnswer;
+    }
+
+    return t.chatbotFallbackAnswer;
   };
 
   const simulateTyping = (message) => {
@@ -56,26 +97,30 @@ export default function ChatbotWidget() {
 
   const handleOptionClick = (choice) => {
     setMessages(prev => [...prev, { type: 'user', text: choice }]);
-    if (choice === 'Torna al menu principale') {
+
+    if (choice === t.chatbotBackToMenu) {
       setStep('start');
       return;
     }
+
     const nextStep = choice.toLowerCase();
     setStep(nextStep);
+
     if (steps[nextStep]?.message) {
       simulateTyping(steps[nextStep].message);
     }
   };
 
-  const renderOptions = () => steps[step]?.options?.map((opt, idx) => (
-    <button
-      key={idx}
-      onClick={() => handleOptionClick(opt)}
-      className="bg-black border-none shadow-none px-3 py-1 text-white rounded-md text-sm font-medium hover:text-gray-400 transition-colors"
-    >
-      {opt}
-    </button>
-  ));
+  const renderOptions = () =>
+    steps[step]?.options?.map((opt, idx) => (
+      <button
+        key={idx}
+        onClick={() => handleOptionClick(opt)}
+        className="bg-black border-none shadow-none px-3 py-1 text-white rounded-md text-sm font-medium hover:text-gray-400 transition-colors"
+      >
+        {opt}
+      </button>
+    ));
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -103,7 +148,7 @@ export default function ChatbotWidget() {
           <div className="bg-black p-4 rounded-t-2xl flex justify-between items-center border-b border-gray-800">
             <div className="flex items-center gap-3">
               <div>
-                <h3 className="font-bold text-white">Assistente AI</h3>
+                <h3 className="font-bold text-white"> AIno</h3>
                 <p className="text-xs text-gray-400 flex items-center">
                   <span className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
                   Online
@@ -122,12 +167,16 @@ export default function ChatbotWidget() {
           {/* Messages */}
           <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-black">
             {messages.map((msg, idx) => (
-              <div key={idx} className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'} animate-fadeIn`}>
-                <div className={`max-w-[80%] p-3 rounded-2xl whitespace-pre-line ${
-                  msg.type === 'user'
+              <div
+                key={idx}
+                className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'} animate-fadeIn`}
+              >
+                <div
+                  className={`max-w-[80%] p-3 rounded-2xl whitespace-pre-line ${msg.type === 'user'
                     ? 'bg-black text-white rounded-br-none border border-gray-700'
                     : 'bg-black text-white rounded-bl-none border border-gray-800'
-                }`}>
+                    }`}
+                >
                   {msg.text}
                 </div>
               </div>
@@ -136,9 +185,18 @@ export default function ChatbotWidget() {
             {isTyping && (
               <div className="flex justify-start animate-fadeIn">
                 <div className="bg-black border border-gray-800 px-4 py-3 rounded-2xl rounded-bl-none flex gap-1">
-                  <span className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
-                  <span className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
-                  <span className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+                  <span
+                    className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"
+                    style={{ animationDelay: '0ms' }}
+                  ></span>
+                  <span
+                    className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"
+                    style={{ animationDelay: '150ms' }}
+                  ></span>
+                  <span
+                    className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"
+                    style={{ animationDelay: '300ms' }}
+                  ></span>
                 </div>
               </div>
             )}
@@ -156,9 +214,9 @@ export default function ChatbotWidget() {
               <input
                 type="text"
                 value={input}
-                onChange={(e) => setInput(e.target.value)}
+                onChange={e => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Scrivi un messaggio..."
+                placeholder={t.chatbotPlaceholder}
                 className="flex-1 bg-black text-white px-4 py-2 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-600 placeholder-gray-500"
                 disabled={isTyping}
               />
