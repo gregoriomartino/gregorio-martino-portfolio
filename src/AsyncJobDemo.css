@@ -1,4 +1,4 @@
-/* Contenitore principale, coerente col tema terminale */
+/* Contenitore principale, tema terminale */
 .async-demo-root {
   margin: 0;
   padding: 16px 8px;
@@ -7,7 +7,7 @@
   color: #0f0;
 }
 
-/* pipeline compatta, bordo e testo verde */
+/* Pipeline desktop */
 .pipeline {
   position: relative;
   display: flex;
@@ -21,7 +21,7 @@
   background-color: #000;
 }
 
-/* wrapper componenti più stretto */
+/* wrapper componenti */
 .stage-wrapper {
   width: 110px;
   text-align: center;
@@ -43,7 +43,7 @@
   min-height: 32px;
 }
 
-/* box in stile terminal: nero + bordo verde */
+/* box stile terminal */
 .stage {
   width: 100px;
   height: 46px;
@@ -61,7 +61,7 @@
   overflow: hidden;
 }
 
-/* leggero shimmer orizzontale, stile terminal */
+/* shimmer */
 .stage::before {
   content: "";
   position: absolute;
@@ -91,7 +91,7 @@
   font-size: 14px;
 }
 
-/* ----- JOB TOKEN (pacchetti) ----- */
+/* ----- JOB TOKEN ----- */
 .job-token {
   position: absolute;
   border-radius: 3px;
@@ -103,10 +103,8 @@
   line-height: 1;
 }
 
-/* richiesta: pacco verde che va avanti (lineare) */
 .job-token-request {
   top: 72px;
-  /* poco sotto la linea dei box */
   background-color: #003300;
   border: 1px solid #0f0;
   color: #0f0;
@@ -116,7 +114,6 @@
   animation: job-hop-forward-green 4s infinite ease-in-out;
 }
 
-/* risposta: busta ciano che torna indietro (lineare) */
 .job-token-response {
   top: 104px;
   background-color: #001a1a;
@@ -132,7 +129,7 @@
   line-height: 1;
 }
 
-/* ----- shimmer ----- */
+/* shimmer */
 @keyframes shimmer {
   0% {
     transform: translateX(-100%);
@@ -143,68 +140,91 @@
   }
 }
 
-/*
-  Coordinate pensate per 4 box in un contenitore di ~480px:
-  - API    ~ x=0
-  - Service ~120px
-  - Queue   ~240px
-  - Worker  ~360px
-*/
-
-/* pacco verde: API -> Service -> Queue -> Worker -> API (lineare) */
+/* Desktop: 4 box su ~480px */
 @keyframes job-hop-forward-green {
   0% {
     transform: translate(0px, 0px);
   }
 
-  /* API */
   25% {
     transform: translate(120px, 0px);
   }
 
-  /* Service */
   50% {
     transform: translate(240px, 0px);
   }
 
-  /* Queue */
   75% {
     transform: translate(360px, 0px);
   }
 
-  /* Worker */
   100% {
     transform: translate(0px, 0px);
   }
-
-  /* ritorno API */
 }
 
-/* busta blu: Worker -> Queue -> Service -> API -> Worker (lineare) */
 @keyframes job-hop-backward {
   0% {
     transform: translate(360px, 0px);
   }
 
-  /* Worker */
   25% {
     transform: translate(240px, 0px);
   }
 
-  /* Queue */
   50% {
     transform: translate(120px, 0px);
   }
 
-  /* Service */
   75% {
     transform: translate(0px, 0px);
   }
 
-  /* API */
   100% {
     transform: translate(360px, 0px);
   }
+}
 
-  /* ritorno Worker */
+/* ---------- RESPONSIVE MOBILE ---------- */
+@media (max-width: 600px) {
+  .pipeline {
+    flex-direction: column;
+    align-items: center;
+    max-width: 100%;
+    padding: 12px 8px;
+    gap: 8px;
+  }
+
+  .stage-wrapper {
+    width: 100%;
+    max-width: 220px;
+    margin-bottom: 4px;
+  }
+
+  .stage {
+    width: 100%;
+    max-width: 200px;
+    height: 44px;
+  }
+
+  .stage-title {
+    font-size: 10px;
+  }
+
+  .stage-desc {
+    font-size: 9px;
+    min-height: auto;
+  }
+
+  .stage-label {
+    font-size: 11px;
+  }
+
+  /* Token sotto la pipeline, senza animazione (più leggibile su mobile) */
+  .job-token-request,
+  .job-token-response {
+    position: static;
+    margin-top: 4px;
+    animation: none;
+  }
 }
