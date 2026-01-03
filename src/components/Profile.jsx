@@ -19,7 +19,6 @@ export default function Profile({ t }) {
             </div>
           </div>
 
-          {/* Back: avatar + codice aboutMe */}
           <div className="profile-card-face profile-card-back">
             <div className="profile-line-numbers">
               <div>01</div><div>02</div><div>03</div><div>04</div><div>05</div>
@@ -27,10 +26,10 @@ export default function Profile({ t }) {
             </div>
 
             <div className="profile-back-content">
-              {/* SVG dal public */}
+        
               <div className="profile-avatar">
                 <img
-                  src="/foto.svg"   /* nome reale del file in public */
+                  src="public/foto.svg"  
                   alt="Avatar Gregorio"
                   className="profile-avatar-svg"
                 />
