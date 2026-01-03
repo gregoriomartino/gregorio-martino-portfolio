@@ -233,4 +233,41 @@ button:hover {
   overflow: hidden;
 }
 
+/* Layout interno del back: SVG + codice affiancati */
+.profile-back-content {
+  margin-left: 3.25rem;
+  width: calc(100% - 3.25rem);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* Avatar SVG */
+.profile-avatar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-avatar-svg {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 1px solid #0f0;
+  padding: 6px;
+}
+
+/* Codice a destra dello SVG */
+.profile-code {
+  flex: 1 1 auto;
+  margin: 0;
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  color: #0f0;
+  line-height: 1.4;
+  white-space: pre;
+}
+
+
 
