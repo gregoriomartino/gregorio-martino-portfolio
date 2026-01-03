@@ -106,3 +106,122 @@ button:hover {
   font-size: 0.8rem;
   color: #0a0;
 }
+
+/* ---------------- Profile Flip Card (stile terminale) ---------------- */
+
+.profile-card {
+  width: 100%;
+  max-width: 32rem;
+  height: 16rem;
+  margin: 2rem auto 0 auto;
+  perspective: 1000px;
+}
+
+.profile-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s ease;
+  transform-style: preserve-3d;
+}
+
+.profile-card:hover .profile-card-inner {
+  transform: rotateY(180deg);
+}
+
+.profile-card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 0.75rem;
+  border: 1px solid #0f0;
+  background-color: #000;
+  box-shadow: 0 0 12px rgba(0, 255, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.profile-card-back {
+  transform: rotateY(180deg);
+}
+
+/* Decorazione stile terminale */
+.profile-card-face::before {
+  content: '';
+  position: absolute;
+  top: -16px;
+  right: -16px;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #0f0;
+  opacity: 0.25;
+  transform: rotate(45deg);
+}
+
+.profile-card-face::after {
+  content: '++';
+  position: absolute;
+  top: 8px;
+  right: 16px;
+  font-size: 0.9rem;
+  color: #0f0;
+  opacity: 0.6;
+}
+
+/* Line numbers laterali */
+.profile-line-numbers {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3rem;
+  border-right: 1px solid rgba(0, 255, 0, 0.2);
+  background-color: rgba(0, 255, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Courier New', monospace;
+  font-size: 0.75rem;
+  color: rgba(0, 255, 0, 0.35);
+}
+
+.profile-line-numbers div {
+  padding: 0.15rem 0;
+}
+
+/* Contenuto front */
+.profile-face-content {
+  margin-left: 3.25rem;
+  width: calc(100% - 3.25rem);
+  font-family: 'Courier New', monospace;
+  color: #0f0;
+}
+
+.profile-face-content .profile-title {
+  font-size: 1.5rem;
+  margin: 0;
+  color: #0f0;
+}
+
+/* Codice sul back */
+.profile-code {
+  margin: 0 0 0 3.25rem;
+  width: calc(100% - 3.25rem);
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  color: #0f0;
+  line-height: 1.4;
+  white-space: pre;
+}
+
+/* Piccolo glow al passaggio */
+.profile-card:hover .profile-card-face {
+  box-shadow: 0 0 18px rgba(0, 255, 0, 0.4);
+}
+
