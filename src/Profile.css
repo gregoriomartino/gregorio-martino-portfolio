@@ -224,4 +224,13 @@ button:hover {
 .profile-card:hover .profile-card-face {
   box-shadow: 0 0 18px rgba(0, 255, 0, 0.4);
 }
+.profile-face-content .profile-title {
+  font-size: 1rem;          /* più piccolo */
+  line-height: 1.4;
+  margin: 0;
+  color: #0f0;
+  max-height: 100%;         /* usa tutta l'altezza disponibile */
+  overflow: hidden;
+}
+
 
