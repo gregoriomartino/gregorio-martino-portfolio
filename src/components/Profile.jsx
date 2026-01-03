@@ -29,7 +29,7 @@ export default function Profile({ t }) {
         
               <div className="profile-avatar">
 <img
-  src={import.meta.env.BASE_URL + 'foto.svg'}
+  src={import.meta.env.BASE_URL + 'foto.png'}
   alt="Avatar Gregorio"
   className="profile-avatar-svg"
 />
