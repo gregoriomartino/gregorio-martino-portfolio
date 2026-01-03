@@ -28,11 +28,12 @@ export default function Profile({ t }) {
             <div className="profile-back-content">
         
               <div className="profile-avatar">
-                <img
-                  src="public/foto.svg"  
-                  alt="Avatar Gregorio"
-                  className="profile-avatar-svg"
-                />
+<img
+  src={import.meta.env.BASE_URL + 'foto.svg'}
+  alt="Avatar Gregorio"
+  className="profile-avatar-svg"
+/>
+
               </div>
 
               <pre className="profile-code">{`aboutMe = {
