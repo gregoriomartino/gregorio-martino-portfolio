@@ -9,7 +9,7 @@ export default function Profile({ t }) {
           {/* Front: testo profilo (titolo o intro breve) */}
           <div className="profile-card-face">
             <div className="profile-line-numbers">
-               <div>01</div><div>02</div><div>03</div><div>04</div><div>05</div>
+              <div>01</div><div>02</div><div>03</div><div>04</div><div>05</div>
               <div>06</div><div>07</div><div>08</div><div>09</div>
             </div>
             <div className="profile-face-content">
@@ -19,33 +19,33 @@ export default function Profile({ t }) {
             </div>
           </div>
 
-<div className="profile-card-face profile-card-back">
-  <div className="profile-line-numbers">
-    <div>01</div><div>02</div><div>03</div><div>04</div><div>05</div>
-    <div>06</div><div>07</div><div>08</div><div>09</div>
-  </div>
+          {/* Back: avatar + codice aboutMe */}
+          <div className="profile-card-face profile-card-back">
+            <div className="profile-line-numbers">
+              <div>01</div><div>02</div><div>03</div><div>04</div><div>05</div>
+              <div>06</div><div>07</div><div>08</div><div>09</div>
+            </div>
 
-  <div className="profile-back-content">
+            <div className="profile-back-content">
+              {/* SVG dal public */}
+              <div className="profile-avatar">
+                <img
+                  src="/foto.svg"   /* nome reale del file in public */
+                  alt="Avatar Gregorio"
+                  className="profile-avatar-svg"
+                />
+              </div>
 
-    <div className="profile-avatar">
-      <img
-        src="/foto.svg"   // <-- metti qui il nome reale del file in public
-        alt="Avatar Gregorio"
-        className="profile-avatar-svg"
-      />
-    </div>
-
-
-    <pre className="profile-code">{` aboutMe = {
+              <pre className="profile-code">{`aboutMe = {
   name: 'Gregorio',
   title: 'Full-Stack Developer',
   contact: {
     email: 'martinogregorio2@gmail.com'
   }
 };`}</pre>
-  </div>
-</div>
-
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
