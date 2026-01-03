@@ -12,9 +12,9 @@ export default function Profile({ t }) {
               <div>01</div><div>02</div><div>03</div>
             </div>
             <div className="profile-face-content">
-              <h2 className="profile-title">
+              <p className="profile-title">
                 {t.profileText}
-              </h2>
+              </p>
             </div>
           </div>
 
