@@ -1,31 +1,38 @@
-import '../Profile.css'
+import './Profile.css';
 
 export default function Profile({ t }) {
   return (
     <section className="profile-section max-w-4xl mx-auto px-4 md:px-0 py-6">
+      <h2 className="profile-title text-3xl md:text-4xl font-bold text-white mb-4">
+        {t.profile}
+      </h2>
 
+      <p className="profile-text text-lg md:text-xl leading-relaxed text-white mb-8">
+        {t.profileText}
+      </p>
 
-      <div className="card mx-auto">
-  <div className="card-inner">
-    {/* Front: titolo profilo */}
-    <div className="card-face">
-      <div className="line-numbers">
-        <div>01</div><div>02</div><div>03</div>
-      </div>
-      <div className="profile-content">
-        <h2 className="profile-title text-3xl md:text-4xl font-bold text-white mb-4">
-            {t.profileText}
-        </h2>
-      </div>
-    </div>
+      {/* Flip Card stile terminale */}
+      <div className="profile-card">
+        <div className="profile-card-inner">
+          {/* Front: testo profilo (titolo o intro breve) */}
+          <div className="profile-card-face">
+            <div className="profile-line-numbers">
+              <div>01</div><div>02</div><div>03</div>
+            </div>
+            <div className="profile-face-content">
+              <h2 className="profile-title">
+                {t.profileText}
+              </h2>
+            </div>
+          </div>
 
-    {/* Back: codice aboutMe */}
-    <div className="card-face back">
-      <div className="line-numbers">
-        <div>1</div><div>2</div><div>3</div><div>4</div><div>5</div>
-        <div>6</div><div>7</div><div>8</div><div>9</div>
-      </div>
-      <pre className="code-back">{`const aboutMe = {
+          {/* Back: codice aboutMe */}
+          <div className="profile-card-face profile-card-back">
+            <div className="profile-line-numbers">
+              <div>01</div><div>02</div><div>03</div><div>04</div><div>05</div>
+              <div>06</div><div>07</div><div>08</div><div>09</div>
+            </div>
+            <pre className="profile-code">{`const aboutMe = {
   name: 'Gregorio',
   title: 'Full-Stack Developer',
   contact: {
@@ -33,10 +40,9 @@ export default function Profile({ t }) {
     website: 'gregorio.is-a.dev'
   }
 };`}</pre>
-    </div>
-  </div>
-</div>
-
+          </div>
+        </div>
+      </div>
     </section>
-  )
+  );
 }
