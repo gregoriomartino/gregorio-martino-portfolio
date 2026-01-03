@@ -9,7 +9,7 @@ const translations = {
     downloadCV: 'Scarica CV',
     profile: '',
     profileText:
-      '< Progetto sistemi software evoluti trasformando architetture legacy in piattaforme moderne, affidabili e orientate all’intelligenza artificiale. Lavoro con JavaEE, microservizi su Docker e REST API, integrando machine learning e deep learning in contesti enterprise e mission‑critical. Mi muovo tra backend, cloud e hardware (robotica domestica, 3D printing con Arduino e C), con forte attenzione a qualità del design e manutenibilità del codice. Fuori dallo schermo, il ciclismo enduro è il mio laboratorio di equilibrio. Se non sono davanti all’IDE, probabilmente sono su un sentiero a fare enduro con la mia bici. />',
+      'Progetto sistemi software evoluti trasformando architetture legacy in piattaforme moderne, affidabili e orientate all’intelligenza artificiale.Se non sono davanti all’IDE, probabilmente sono su un sentiero a fare enduro con la mia bici.',
     location: 'San Giovanni Rotondo, Italia',
     rights: 'Tutti i diritti riservati.',
     ...chatbotTranslation.it
