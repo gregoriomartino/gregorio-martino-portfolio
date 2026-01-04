@@ -1,5 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send } from 'lucide-react';
+import OpenAI from 'openai';
+import { client } from './weaviate';
+
+const openai = new OpenAI({
+  apiKey: import.meta.env.VITE_OPENAI_API_KEY,
+  dangerouslyAllowBrowser: true
+});
 
 export default function ChatbotWidget({ t }) {
   const [chatOpen, setChatOpen] = useState(false);
@@ -87,12 +94,61 @@ export default function ChatbotWidget({ t }) {
     }, 800);
   };
 
-  const handleSend = () => {
+  // 🔥 NUOVA handleSend: prima prova RAG (OpenAI + Weaviate), se fallisce usa il vecchio bot
+  const handleSend = async () => {
     if (!input.trim()) return;
     const userMessage = input.trim();
+
     setMessages(prev => [...prev, { type: 'user', text: userMessage }]);
     setInput('');
-    simulateTyping(getBotResponse(userMessage));
+    setIsTyping(true);
+
+    try {
+      // 1) Embedding domanda
+      const embedRes = await openai.embeddings.create({
+        model: 'text-embedding-3-small',
+        input: userMessage
+      });
+      const vector = embedRes.data[0].embedding;
+
+      // 2) Query Weaviate
+      const results = await client.graphql
+        .get()
+        .withClassName('PortfolioDoc')
+        .withNearVector({ vector })
+        .withLimit(3)
+        .do();
+
+      const hits = results.data.Get?.PortfolioDoc || [];
+      const context = hits.map(h => h.content).join('\n\n') || 'Nessun contenuto specifico trovato.';
+
+      // 3) ChatGPT con contesto
+      const chatRes = await openai.chat.completions.create({
+        model: 'gpt-4o-mini',
+        messages: [
+          {
+            role: 'system',
+            content: 'Sei il chatbot del portfolio di Gregorio Martino. Rispondi in modo chiaro, breve e in italiano.'
+          },
+          {
+            role: 'user',
+            content: `Contenuti del portfolio:\n${context}\n\nDomanda dell\'utente: ${userMessage}`
+          }
+        ]
+      });
+
+      const botText = chatRes.choices[0].message.content;
+      setMessages(prev => [...prev, { type: 'bot', text: botText }]);
+    } catch (err) {
+      console.error(err);
+      // fallback: vecchia logica keyword-based
+      const fallback = getBotResponse(userMessage);
+      setIsTyping(false);
+      simulateTyping(fallback);
+      return;
+    }
+
+    setIsTyping(false);
   };
 
   const handleOptionClick = (choice) => {
