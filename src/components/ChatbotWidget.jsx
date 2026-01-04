@@ -1,12 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send } from 'lucide-react';
-import OpenAI from 'openai';
-import { client } from './weaviate';
 
-const openai = new OpenAI({
-  apiKey: import.meta.env.VITE_OPENAI_API_KEY,
-  dangerouslyAllowBrowser: true
-});
+// 🔒 Versione STABILE per produzione (GitHub Pages)
+// In futuro, per usare RAG (OpenAI + Weaviate / Ollama), sostituisci SOLO handleSend
+// con la versione "intelligente" e lascia invariato tutto il resto del componente.
 
 export default function ChatbotWidget({ t }) {
   const [chatOpen, setChatOpen] = useState(false);
@@ -94,61 +91,16 @@ export default function ChatbotWidget({ t }) {
     }, 800);
   };
 
-  // 🔥 NUOVA handleSend: prima prova RAG (OpenAI + Weaviate), se fallisce usa il vecchio bot
-  const handleSend = async () => {
+  // 🔁 handleSend STATICO (produzione)
+  // Per usare la versione RAG:
+  // - commenta questa funzione
+  // - incolla qui la handleSend che chiama OpenAI/Weaviate o Ollama
+  const handleSend = () => {
     if (!input.trim()) return;
     const userMessage = input.trim();
-
     setMessages(prev => [...prev, { type: 'user', text: userMessage }]);
     setInput('');
-    setIsTyping(true);
-
-    try {
-      // 1) Embedding domanda
-      const embedRes = await openai.embeddings.create({
-        model: 'text-embedding-3-small',
-        input: userMessage
-      });
-      const vector = embedRes.data[0].embedding;
-
-      // 2) Query Weaviate
-      const results = await client.graphql
-        .get()
-        .withClassName('PortfolioDoc')
-        .withNearVector({ vector })
-        .withLimit(3)
-        .do();
-
-      const hits = results.data.Get?.PortfolioDoc || [];
-      const context = hits.map(h => h.content).join('\n\n') || 'Nessun contenuto specifico trovato.';
-
-      // 3) ChatGPT con contesto
-      const chatRes = await openai.chat.completions.create({
-        model: 'gpt-4o-mini',
-        messages: [
-          {
-            role: 'system',
-            content: 'Sei il chatbot del portfolio di Gregorio Martino. Rispondi in modo chiaro, breve e in italiano.'
-          },
-          {
-            role: 'user',
-            content: `Contenuti del portfolio:\n${context}\n\nDomanda dell\'utente: ${userMessage}`
-          }
-        ]
-      });
-
-      const botText = chatRes.choices[0].message.content;
-      setMessages(prev => [...prev, { type: 'bot', text: botText }]);
-    } catch (err) {
-      console.error(err);
-      // fallback: vecchia logica keyword-based
-      const fallback = getBotResponse(userMessage);
-      setIsTyping(false);
-      simulateTyping(fallback);
-      return;
-    }
-
-    setIsTyping(false);
+    simulateTyping(getBotResponse(userMessage));
   };
 
   const handleOptionClick = (choice) => {
@@ -228,10 +180,11 @@ export default function ChatbotWidget({ t }) {
                 className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'} animate-fadeIn`}
               >
                 <div
-                  className={`max-w-[80%] p-3 rounded-2xl whitespace-pre-line ${msg.type === 'user'
-                    ? 'bg-black text-white rounded-br-none border border-gray-700'
-                    : 'bg-black text-white rounded-bl-none border border-gray-800'
-                    }`}
+                  className={`max-w-[80%] p-3 rounded-2xl whitespace-pre-line ${
+                    msg.type === 'user'
+                      ? 'bg-black text-white rounded-br-none border border-gray-700'
+                      : 'bg-black text-white rounded-bl-none border border-gray-800'
+                  }`}
                 >
                   {msg.text}
                 </div>
